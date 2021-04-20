@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">jetpack-submission1</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="movie">Movie</string>
+    <string name="dummy_title">Dummy Title</string>
+</resources>
