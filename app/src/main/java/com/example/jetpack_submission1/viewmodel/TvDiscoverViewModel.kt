@@ -28,7 +28,7 @@ class TvDiscoverViewModel : ViewModel() {
                         val data = items.getJSONObject(i)
                         val tv = Movie()
                         tv.id = data.getInt("id")
-                        tv.title = data.getString("original_title")
+                        tv.title = data.getString("name")
                         tv.poster = data.getString("poster_path")
                         tv.rating = data.getDouble("vote_average")
                         listTv.add(tv)

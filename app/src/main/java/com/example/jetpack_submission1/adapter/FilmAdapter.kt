@@ -3,11 +3,12 @@ package com.example.jetpack_submission1.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.jetpack_submission1.adapter.viewholder.MovieListViewHolder
+import com.example.jetpack_submission1.adapter.viewholder.FilmViewHolder
 import com.example.jetpack_submission1.databinding.ItemMovieBinding
 import com.example.jetpack_submission1.model.Movie
 
-class MovieListAdapter: RecyclerView.Adapter<MovieListViewHolder>() {
+class FilmAdapter: RecyclerView.Adapter<FilmViewHolder>() {
+
     private val dataList = ArrayList<Movie>()
 
     fun setData(movie: ArrayList<Movie>){
@@ -16,13 +17,13 @@ class MovieListAdapter: RecyclerView.Adapter<MovieListViewHolder>() {
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieListViewHolder {
-        return MovieListViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmViewHolder {
+        return FilmViewHolder(
             ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: MovieListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
         holder.bind(dataList[position])
     }
 

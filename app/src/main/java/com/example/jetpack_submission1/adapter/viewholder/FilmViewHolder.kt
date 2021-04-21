@@ -5,7 +5,7 @@ import com.bumptech.glide.Glide
 import com.example.jetpack_submission1.databinding.ItemMovieBinding
 import com.example.jetpack_submission1.model.Movie
 
-class MovieListViewHolder(private val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
+class FilmViewHolder(private val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(element: Movie){
         binding.tvTitle.text = element.title
         binding.ratingMovie.rating = ((element.rating/2).toFloat())
