@@ -1,17 +1,17 @@
 package com.example.jetpack_submission1.ui.movie
 
-import android.graphics.Movie
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.jetpack_submission1.adapter.MovieListAdapter
 import com.example.jetpack_submission1.databinding.FragmentMovieBinding
-import com.example.jetpack_submission1.model.MovieList
 import com.example.jetpack_submission1.viewmodel.MovieDiscoverViewModel
 
 class MovieFragment : Fragment() {
@@ -42,8 +42,7 @@ class MovieFragment : Fragment() {
     private fun setupRecyclerView(){
         adapter = MovieListAdapter()
         adapter.notifyDataSetChanged()
-
-        binding.rvMovieDiscover.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        binding.rvMovieDiscover.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.rvMovieDiscover.adapter = adapter
 
         getData()
@@ -51,13 +50,12 @@ class MovieFragment : Fragment() {
 
     private fun getData(){
         movieListViewModel.setData()
-        movieListViewModel.getUser().observe(viewLifecycleOwner, {MovieList ->
+        movieListViewModel.getData().observe(viewLifecycleOwner, { MovieList ->
             if (MovieList !== null){
                 adapter.setData(MovieList)
             }
         })
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

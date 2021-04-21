@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jetpack_submission1.adapter.viewholder.MovieListViewHolder
 import com.example.jetpack_submission1.databinding.ItemMovieBinding
-import com.example.jetpack_submission1.model.MovieList
+import com.example.jetpack_submission1.model.Movie
 
 class MovieListAdapter: RecyclerView.Adapter<MovieListViewHolder>() {
-    private val dataList = ArrayList<MovieList>()
+    private val dataList = ArrayList<Movie>()
 
-    fun setData(movie: ArrayList<MovieList>){
+    fun setData(movie: ArrayList<Movie>){
         dataList.clear()
         dataList.addAll(movie)
         notifyDataSetChanged()

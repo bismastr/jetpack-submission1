@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class MovieList (
+class Movie (
     var id: Int = 0,
     var poster: String? = null,
     var title: String? = null,
