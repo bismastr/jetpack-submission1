@@ -1,15 +1,23 @@
 package com.example.jetpack_submission1.ui.tvshow
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.jetpack_submission1.adapter.FilmAdapter
+import com.example.jetpack_submission1.adapter.TrendingAdapter
 import com.example.jetpack_submission1.databinding.FragmentTvshowBinding
+import com.example.jetpack_submission1.model.Movie
+import com.example.jetpack_submission1.ui.detail.DetailTvActivity
+import com.example.jetpack_submission1.utils.IdlingResources
 import com.example.jetpack_submission1.viewmodel.TvDiscoverViewModel
+import com.example.jetpack_submission1.viewmodel.TvTrendingViewModel
 
 class TvShowFragment : Fragment() {
     private var _binding: FragmentTvshowBinding? = null
@@ -17,8 +25,10 @@ class TvShowFragment : Fragment() {
     //viewModel
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var tvDiscoverViewModel: TvDiscoverViewModel
+    private lateinit var tvTrendingViewModel: TvTrendingViewModel
     //adapter
-    private lateinit var adapter: FilmAdapter
+    private lateinit var adapterDiscover: FilmAdapter
+    private lateinit var adapterTrending: TrendingAdapter
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -30,6 +40,7 @@ class TvShowFragment : Fragment() {
         //viewModel
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         tvDiscoverViewModel = ViewModelProvider(this).get(TvDiscoverViewModel::class.java)
+        tvTrendingViewModel = ViewModelProvider(this).get(TvTrendingViewModel::class.java)
         return view
     }
 
@@ -39,18 +50,52 @@ class TvShowFragment : Fragment() {
     }
     //setupRecyclerView
     private fun setupRecyclerView(){
-        adapter = FilmAdapter()
-        adapter.notifyDataSetChanged()
+        adapterDiscover = FilmAdapter()
+        adapterTrending = TrendingAdapter()
+        adapterDiscover.notifyDataSetChanged()
         binding.rvTvDiscover.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        binding.rvTvDiscover.adapter = adapter
-        tvDiscoverViewModel.setData()
+        binding.rvTrendingTvShow.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        binding.rvTrendingTvShow.adapter = adapterTrending
+        binding.rvTvDiscover.adapter = adapterDiscover
+        onItemClick()
+        getDataTrending()
         getData()
     }
+    //onitemclick
+    private fun onItemClick() {
+        adapterDiscover.setOnItemCLickCallback(object : FilmAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: Movie) {
+                val intentDetailActivity = Intent(activity, DetailTvActivity::class.java)
+                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FILM, data)
+                startActivity(intentDetailActivity)
+            }
+
+        })
+        adapterTrending.setOnItemCLickCallback(object : TrendingAdapter.OnItemClickCallback {
+            override fun onItemClick(data: Movie) {
+                val intentDetailActivity = Intent(activity, DetailTvActivity::class.java)
+                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FILM, data)
+                startActivity(intentDetailActivity)
+            }
+
+        })
+    }
     //getData
+    private fun getDataTrending() {
+        IdlingResources.increment()
+        tvTrendingViewModel.setData()
+        tvTrendingViewModel.getData().observe(viewLifecycleOwner, { TrendingList ->
+            if (TrendingList !== null) {
+                adapterTrending.setData(TrendingList)
+            }
+        })
+        IdlingResources.decrement()
+    }
     private fun getData(){
+        tvDiscoverViewModel.setData()
         tvDiscoverViewModel.getData().observe(viewLifecycleOwner, { MovieList ->
             if (MovieList !== null){
-                adapter.setData(MovieList)
+                adapterDiscover.setData(MovieList)
             }
         })
     }

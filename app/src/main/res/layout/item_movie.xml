@@ -27,10 +27,12 @@
         android:id="@+id/tv_title"
         android:layout_width="165dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
         android:gravity="center_horizontal"
         android:maxLines="1"
         android:text="@string/dummy_title"
         android:textAlignment="center"
+        android:textColor="@color/primaryTextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
@@ -41,6 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:foregroundGravity="center"
+        android:theme="@style/RatingBar"
         android:numStars="5"
         android:rating="4.7"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,6 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="8.3"
+        android:textColor="@color/primaryTextColor"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/rating_movie"
         app:layout_constraintTop_toBottomOf="@+id/tv_title" />

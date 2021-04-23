@@ -61,9 +61,10 @@ class MovieFragment : Fragment() {
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.rvMovieDiscover.adapter = adapterDiscover
         binding.rvTrendingMovie.adapter = adapterTrending
-        onItemClick()
         getDataTrending()
         getData()
+        onItemClick()
+
     }
 
     //onItemClick
@@ -100,14 +101,13 @@ class MovieFragment : Fragment() {
 
     //getDataTrending
     private fun getDataTrending() {
-        IdlingResources.increment()
         movieTrendingViewModel.setData()
         movieTrendingViewModel.getData().observe(viewLifecycleOwner, { TrendingList ->
             if (TrendingList !== null) {
                 adapterTrending.setData(TrendingList)
             }
         })
-        IdlingResources.decrement()
+
     }
 
     override fun onDestroyView() {

@@ -2,6 +2,7 @@ package com.example.jetpack_submission1.ui.detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.jetpack_submission1.R
@@ -14,7 +15,8 @@ class DetailActivity : AppCompatActivity() {
     companion object{
         const val EXTRA_FILM = "extra_film"
     }
-    private val detailData = ArrayList<Detail>()
+
+    private lateinit var movieId: String
     private lateinit var movieDetailViewModel: MovieDetailViewModel
     private lateinit var binding: ActivityDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,21 +25,23 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
         movieDetailViewModel = ViewModelProvider(this).get(MovieDetailViewModel::class.java)
         val dataIntent = intent.getParcelableExtra<Movie>(EXTRA_FILM) as Movie
-        val movieId = dataIntent.id.toString()
-        movieDetailViewModel.setData(movieId)
+        movieId = dataIntent.id.toString()
+        Log.d("ID", movieId)
         getData()
     }
-    private fun setData(detail: Detail ){
-        binding.tvOverview.text = detail.overview
-        binding.tvTitle.text = detail.title
-        binding.tvRating.text = detail.rating.toString()
 
+    private fun setData(detail: Detail ){
+        binding.tvOverviewMovie.text = detail.overview
+        binding.tvTitleMovie.text = detail.title
+        binding.tvRatingMovie.text = detail.rating.toString()
+        binding.ratingbarMovie.rating = (detail.rating/2).toFloat()
         Glide.with(this)
             .load("https://image.tmdb.org/t/p/w500"+detail.poster)
-            .into(binding.imgPoster)
+            .into(binding.imgPosterMovie)
     }
 
     private fun getData(){
+        movieDetailViewModel.setData(movieId)
         movieDetailViewModel.getData().observe(this,{DetailData ->
             if(DetailData != null){
                 setData(DetailData)

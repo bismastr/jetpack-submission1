@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.movie.MovieFragment">
+    tools:context=".ui.movie.MovieFragment"
+    android:background="@color/primaryColor">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,15 +13,24 @@
         android:orientation="vertical">
         <!--Trending-->
         <TextView
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
             android:id="@+id/tv_whats_trending"
+            style="@style/TextContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="What's Trending" />
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/what_s_trending" />
 
         <TextView
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Find hottest TV Show trend" />
+            android:fontFamily="@font/roboto_light"
+            android:text="Take a look what people see"
+            android:textColor="#A3FFFFFF" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_trending_movie"
@@ -31,14 +41,23 @@
             tools:listitem="@layout/item_trending" />
         <!--Discover-->
         <TextView
+            style="@style/TextContent"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Discover" />
+            android:fontFamily="@font/roboto_bold"
+            android:text="Discover"/>
 
         <TextView
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Let's find your favorite movie" />
+            android:fontFamily="@font/roboto_light"
+            android:text="Let's find your favorite movie"
+            android:textColor="#A3FFFFFF" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_movie_discover"

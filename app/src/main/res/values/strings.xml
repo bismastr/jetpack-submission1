@@ -8,4 +8,10 @@
     <string name="title_tv_show">TV Show</string>
     <string name="title_movie">Movie</string>
     <string name="dummy_overview">During the 1980s, a failed stand-up comedian is driven insane and turns to a life of crime and chaos in Gotham City while becoming an infamous psychopathic crime figure.</string>
+    <string name="what_s_trending">What\'s Trending</string>
+    <string name="dummy_rating">8.3</string>
+    <string name="overview">Overview</string>
+    <string name="episode">Episode</string>
+    <string name="dummy_number">8</string>
+    <string name="seasons">Seasons</string>
 </resources>

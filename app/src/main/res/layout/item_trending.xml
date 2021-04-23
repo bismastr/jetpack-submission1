@@ -9,7 +9,7 @@
         android:layout_width="350dp"
         android:layout_height="180dp"
         android:layout_margin="8dp"
-        app:cardCornerRadius="30dp"
+        app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,7 +18,9 @@
         <ImageView
             android:id="@+id/img_trending"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -29,20 +31,36 @@
                 android:id="@+id/tv_title_trending"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="124dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="116dp"
+                android:fontFamily="@font/roboto_bold"
                 android:gravity="bottom"
                 android:text="@string/dummy_title"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_baseline_star_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title_trending" />
 
             <TextView
                 android:id="@+id/tv_rating_trending"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/roboto_light"
                 android:text="8.3"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/primaryTextColor"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title_trending" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

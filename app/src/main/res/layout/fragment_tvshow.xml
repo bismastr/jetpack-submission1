@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
+    android:background="@color/primaryColor"
     tools:context=".ui.tvshow.TvShowFragment">
 
     <LinearLayout
@@ -13,29 +14,49 @@
         android:orientation="vertical">
         <!--Trending-->
         <TextView
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="24dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="What's Trending" />
+            style="@style/TextContent"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/what_s_trending" />
 
         <TextView
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Find hottest TV Show trend" />
+            android:text="Take a look what peopl see"
+            android:textColor="#A3FFFFFF"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_trending_tvShow"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            tools:listitem="@layout/item_trending"/>
         <!--Discover-->
         <TextView
+            style="@style/TextContent"
+            android:fontFamily="@font/roboto_bold"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Discover" />
 
         <TextView
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="#A3FFFFFF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Let's find your favorite movie" />
+            android:text="Let's find your favorite TV Series" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_tv_discover"
