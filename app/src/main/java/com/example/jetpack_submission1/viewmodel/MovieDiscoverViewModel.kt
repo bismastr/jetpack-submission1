@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.jetpack_submission1.model.Movie
+import com.example.jetpack_submission1.utils.IdlingResources
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
@@ -14,8 +15,8 @@ import java.lang.Exception
 class MovieDiscoverViewModel: ViewModel() {
 
     val movieData = MutableLiveData<ArrayList<Movie>>()
-
     fun setData(){
+        IdlingResources.increment()
         val client = AsyncHttpClient()
         val url = "https://api.themoviedb.org/3/discover/movie/?api_key=423b6f0f60e161184f1ecddb00f45512"
         client.get(url, object: AsyncHttpResponseHandler(){
@@ -41,6 +42,7 @@ class MovieDiscoverViewModel: ViewModel() {
                         listMovie.add(movie)
                     }
                     movieData.postValue(listMovie)
+                    IdlingResources.decrement()
                 } catch (e: Exception){
                     Log.d("Exception", e.message.toString())
                 }
@@ -56,6 +58,7 @@ class MovieDiscoverViewModel: ViewModel() {
             }
 
         })
+
     }
 
     fun getData(): LiveData<ArrayList<Movie>>{

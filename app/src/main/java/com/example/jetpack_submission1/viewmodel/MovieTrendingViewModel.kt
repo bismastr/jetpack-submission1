@@ -3,6 +3,7 @@ package com.example.jetpack_submission1.viewmodel
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.jetpack_submission1.model.Movie
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
@@ -10,7 +11,7 @@ import cz.msebera.android.httpclient.Header
 import org.json.JSONObject
 import java.lang.Exception
 
-class MovieTrendingViewModel {
+class MovieTrendingViewModel: ViewModel() {
     val movieData = MutableLiveData<ArrayList<Movie>>()
 
     fun setData() {

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_tvshow"
-        android:name="com.example.jetpack_submission1.ui.home.TvShowFragment"
+        android:name="com.example.jetpack_submission1.ui.tvshow.TvShowFragment"
         android:label="@string/title_tv_show"
         tools:layout="@layout/fragment_tvshow" />
 

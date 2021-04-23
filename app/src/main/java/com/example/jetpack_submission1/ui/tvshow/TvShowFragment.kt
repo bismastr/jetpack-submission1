@@ -1,4 +1,4 @@
-package com.example.jetpack_submission1.ui.home
+package com.example.jetpack_submission1.ui.tvshow
 
 import android.os.Bundle
 import android.view.LayoutInflater

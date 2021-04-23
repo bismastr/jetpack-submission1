@@ -10,3 +10,12 @@ class Movie (
     var title: String? = null,
     var rating: Double = 0.0
         ) : Parcelable
+
+class Detail(
+    var id: Int = 0,
+    var title: String? = null,
+    var poster: String? = null,
+    var overview: String? = null,
+    var release_date: String? = null,
+    var rating: Double = 0.0,
+)

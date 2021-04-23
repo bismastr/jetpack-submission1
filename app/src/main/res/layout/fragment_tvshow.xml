@@ -1,16 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    tools:context=".ui.home.TvShowFragment">
+    tools:context=".ui.tvshow.TvShowFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_tv_discover"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/item_movie"
-        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"/>
-</ScrollView>
+        android:orientation="vertical">
+        <!--Trending-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="What's Trending" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Find hottest TV Show trend" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_trending_tvShow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <!--Discover-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Discover" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Let's find your favorite movie" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_tv_discover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            tools:listitem="@layout/item_movie" />
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
