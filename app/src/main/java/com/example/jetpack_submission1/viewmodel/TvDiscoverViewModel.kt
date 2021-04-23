@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.jetpack_submission1.model.Movie
+import com.example.jetpack_submission1.utils.IdlingResources
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
@@ -15,16 +16,22 @@ class TvDiscoverViewModel : ViewModel() {
 
     fun setData() {
         val client = AsyncHttpClient()
-        val url = "https://api.themoviedb.org/3/discover/tv?api_key=423b6f0f60e161184f1ecddb00f45512&language=en-US&sort_by=popularity.desc&page=1&include_null_first_air_dates=false&with_watch_monetization_types=flatrate"
+        val url =
+            "https://api.themoviedb.org/3/discover/tv?api_key=423b6f0f60e161184f1ecddb00f45512&language=en-US&sort_by=popularity.desc&page=1&include_null_first_air_dates=false&with_watch_monetization_types=flatrate"
         client.get(url, object : AsyncHttpResponseHandler() {
-            override fun onSuccess(statusCode: Int, headers: Array<out Header>?, responseBody: ByteArray) {
+            override fun onSuccess(
+                statusCode: Int,
+                headers: Array<out Header>?,
+                responseBody: ByteArray
+            ) {
                 try {
+                    IdlingResources.increment()
                     val listTv = ArrayList<Movie>()
                     val result = String(responseBody)
                     val responseObject = JSONObject(result)
                     val items = responseObject.getJSONArray("results")
 
-                    for(i in 0 until items.length()){
+                    for (i in 0 until items.length()) {
                         val data = items.getJSONObject(i)
                         val tv = Movie()
                         tv.id = data.getInt("id")
@@ -34,12 +41,18 @@ class TvDiscoverViewModel : ViewModel() {
                         listTv.add(tv)
                     }
                     tvData.postValue(listTv)
-                }catch (e: Exception){
+                } catch (e: Exception) {
                     Log.d("Exception", e.message.toString())
                 }
+                IdlingResources.decrement()
             }
 
-            override fun onFailure(statusCode: Int, headers: Array<out Header>?, responseBody: ByteArray, error: Throwable) {
+            override fun onFailure(
+                statusCode: Int,
+                headers: Array<out Header>?,
+                responseBody: ByteArray,
+                error: Throwable
+            ) {
                 Log.d("onFailure", error.message.toString())
             }
 

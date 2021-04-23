@@ -5,19 +5,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.jetpack_submission1.model.Movie
+import com.example.jetpack_submission1.utils.IdlingResources
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
 import org.json.JSONObject
-import java.lang.Exception
 
-class TvTrendingViewModel: ViewModel() {
+class TvTrendingViewModel : ViewModel() {
     val tvData = MutableLiveData<ArrayList<Movie>>()
 
     fun setData() {
 
         val client = AsyncHttpClient()
-        val url = "https://api.themoviedb.org/3/trending/tv/week?api_key=423b6f0f60e161184f1ecddb00f45512"
+        val url =
+            "https://api.themoviedb.org/3/trending/tv/week?api_key=423b6f0f60e161184f1ecddb00f45512"
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
                 statusCode: Int,
@@ -25,6 +26,7 @@ class TvTrendingViewModel: ViewModel() {
                 responseBody: ByteArray
             ) {
                 try {
+                    IdlingResources.increment()
                     val listMovie = ArrayList<Movie>()
                     val result = String(responseBody)
                     val responseObject = JSONObject(result)
@@ -43,6 +45,7 @@ class TvTrendingViewModel: ViewModel() {
                 } catch (e: Exception) {
                     Log.d("Exception", e.message.toString())
                 }
+                IdlingResources.decrement()
             }
 
             override fun onFailure(

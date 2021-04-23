@@ -5,14 +5,15 @@ import androidx.test.espresso.idling.CountingIdlingResource
 object IdlingResources {
     private const val RESOURCE = "GLOBAL"
 
-    @JvmField val countingIdlingResources = CountingIdlingResource(RESOURCE)
+    @JvmField
+    val countingIdlingResources = CountingIdlingResource(RESOURCE)
 
-    fun increment(){
+    fun increment() {
         countingIdlingResources.increment()
     }
 
-    fun decrement(){
-        if (!countingIdlingResources.isIdleNow){
+    fun decrement() {
+        if (!countingIdlingResources.isIdleNow) {
             countingIdlingResources.decrement()
         }
     }

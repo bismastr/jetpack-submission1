@@ -22,23 +22,23 @@ import com.example.jetpack_submission1.viewmodel.TvTrendingViewModel
 class TvShowFragment : Fragment() {
     private var _binding: FragmentTvshowBinding? = null
     private val binding get() = _binding!!
+
     //viewModel
-    private lateinit var homeViewModel: HomeViewModel
     private lateinit var tvDiscoverViewModel: TvDiscoverViewModel
     private lateinit var tvTrendingViewModel: TvTrendingViewModel
+
     //adapter
     private lateinit var adapterDiscover: FilmAdapter
     private lateinit var adapterTrending: TrendingAdapter
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTvshowBinding.inflate(inflater, container, false)
         val view = binding.root
         //viewModel
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         tvDiscoverViewModel = ViewModelProvider(this).get(TvDiscoverViewModel::class.java)
         tvTrendingViewModel = ViewModelProvider(this).get(TvTrendingViewModel::class.java)
         return view
@@ -48,19 +48,23 @@ class TvShowFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
     }
+
     //setupRecyclerView
-    private fun setupRecyclerView(){
+    private fun setupRecyclerView() {
         adapterDiscover = FilmAdapter()
         adapterTrending = TrendingAdapter()
         adapterDiscover.notifyDataSetChanged()
-        binding.rvTvDiscover.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        binding.rvTrendingTvShow.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        binding.rvTvDiscover.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        binding.rvTrendingTvShow.layoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.rvTrendingTvShow.adapter = adapterTrending
         binding.rvTvDiscover.adapter = adapterDiscover
         onItemClick()
         getDataTrending()
         getData()
     }
+
     //onitemclick
     private fun onItemClick() {
         adapterDiscover.setOnItemCLickCallback(object : FilmAdapter.OnItemClickCallback {
@@ -80,6 +84,7 @@ class TvShowFragment : Fragment() {
 
         })
     }
+
     //getData
     private fun getDataTrending() {
         IdlingResources.increment()
@@ -91,13 +96,16 @@ class TvShowFragment : Fragment() {
         })
         IdlingResources.decrement()
     }
-    private fun getData(){
+
+    private fun getData() {
+        IdlingResources.increment()
         tvDiscoverViewModel.setData()
         tvDiscoverViewModel.getData().observe(viewLifecycleOwner, { MovieList ->
-            if (MovieList !== null){
+            if (MovieList !== null) {
                 adapterDiscover.setData(MovieList)
             }
         })
+        IdlingResources.decrement()
     }
 
     override fun onDestroyView() {

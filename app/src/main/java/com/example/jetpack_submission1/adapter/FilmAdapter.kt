@@ -8,17 +8,17 @@ import com.example.jetpack_submission1.databinding.ItemMovieBinding
 import com.example.jetpack_submission1.model.Movie
 import com.example.jetpack_submission1.utils.IdlingResources
 
-class FilmAdapter: RecyclerView.Adapter<FilmViewHolder>() {
+class FilmAdapter : RecyclerView.Adapter<FilmViewHolder>() {
     private var onItemCLickCallback: OnItemClickCallback? = null
     private val dataList = ArrayList<Movie>()
 
-    fun setData(movie: ArrayList<Movie>){
+    fun setData(movie: ArrayList<Movie>) {
         dataList.clear()
         dataList.addAll(movie)
         notifyDataSetChanged()
     }
 
-    fun setOnItemCLickCallback(onItemClickCallback: OnItemClickCallback){
+    fun setOnItemCLickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemCLickCallback = onItemClickCallback
     }
 
@@ -32,7 +32,7 @@ class FilmAdapter: RecyclerView.Adapter<FilmViewHolder>() {
         IdlingResources.increment()
         holder.bind(dataList[position])
         IdlingResources.decrement()
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             onItemCLickCallback?.onItemClicked(dataList[position])
         }
     }

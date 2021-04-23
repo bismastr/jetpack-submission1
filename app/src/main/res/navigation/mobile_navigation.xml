@@ -18,8 +18,8 @@
         tools:layout="@layout/fragment_movie" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.jetpack_submission1.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_favorite"
+        android:name="com.example.jetpack_submission1.ui.notifications.FavoriteFragment"
+        android:label="Favorite"
+        tools:layout="@layout/fragment_favorite" />
 </navigation>

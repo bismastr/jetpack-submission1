@@ -24,7 +24,6 @@ class MovieFragment : Fragment() {
     private val binding get() = _binding!!
 
     //viewmodel
-    private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var movieListViewModel: MovieDiscoverViewModel
     private lateinit var movieTrendingViewModel: MovieTrendingViewModel
 
@@ -38,7 +37,6 @@ class MovieFragment : Fragment() {
     ): View {
         _binding = FragmentMovieBinding.inflate(inflater, container, false)
         val view = binding.root
-        dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
         movieListViewModel = ViewModelProvider(this).get(MovieDiscoverViewModel::class.java)
         movieTrendingViewModel = ViewModelProvider(this).get(MovieTrendingViewModel::class.java)
         return view
@@ -101,12 +99,14 @@ class MovieFragment : Fragment() {
 
     //getDataTrending
     private fun getDataTrending() {
+        IdlingResources.increment()
         movieTrendingViewModel.setData()
         movieTrendingViewModel.getData().observe(viewLifecycleOwner, { TrendingList ->
             if (TrendingList !== null) {
                 adapterTrending.setData(TrendingList)
             }
         })
+        IdlingResources.decrement()
 
     }
 

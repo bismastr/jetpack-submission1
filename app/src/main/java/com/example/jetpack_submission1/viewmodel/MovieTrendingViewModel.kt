@@ -9,19 +9,19 @@ import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
 import org.json.JSONObject
-import java.lang.Exception
 
 class MovieTrendingViewModel: ViewModel() {
     val movieData = MutableLiveData<ArrayList<Movie>>()
 
     fun setData() {
         val client = AsyncHttpClient()
-        val url = "https://api.themoviedb.org/3/trending/movie/week?api_key=423b6f0f60e161184f1ecddb00f45512"
+        val url =
+            "https://api.themoviedb.org/3/trending/movie/week?api_key=423b6f0f60e161184f1ecddb00f45512"
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
-                    statusCode: Int,
-                    headers: Array<out Header>,
-                    responseBody: ByteArray
+                statusCode: Int,
+                headers: Array<out Header>,
+                responseBody: ByteArray
             ) {
                 try {
                     val listMovie = ArrayList<Movie>()
@@ -46,10 +46,10 @@ class MovieTrendingViewModel: ViewModel() {
             }
 
             override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    responseBody: ByteArray?,
-                    error: Throwable
+                statusCode: Int,
+                headers: Array<out Header>?,
+                responseBody: ByteArray?,
+                error: Throwable
             ) {
                 Log.d("onFailure", error.message.toString())
             }

@@ -1,22 +1,19 @@
 package com.example.jetpack_submission1.ui.detail
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.ViewModel
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.example.jetpack_submission1.R
-import com.example.jetpack_submission1.databinding.ActivityDetailBinding
 import com.example.jetpack_submission1.databinding.ActivityDetailTvBinding
-import com.example.jetpack_submission1.model.Detail
 import com.example.jetpack_submission1.model.DetailTrending
 import com.example.jetpack_submission1.model.Movie
 import com.example.jetpack_submission1.viewmodel.TvDetailViewModel
 
 class DetailTvActivity : AppCompatActivity() {
-    companion object{
+    companion object {
         const val EXTRA_FILM = "extra_film"
     }
+
     private lateinit var tvDetailViewModel: TvDetailViewModel
     private lateinit var tvId: String
     private lateinit var binding: ActivityDetailTvBinding
@@ -31,22 +28,22 @@ class DetailTvActivity : AppCompatActivity() {
         getData()
     }
 
-    private fun setData(detail: DetailTrending){
+    private fun setData(detail: DetailTrending) {
         binding.tvOverviewTv.text = detail.overview
         binding.tvTitleTv.text = detail.title
         binding.tvEpisode.text = detail.numberEpisdoe.toString()
         binding.tvSeasons.text = detail.numberSeasons.toString()
         binding.tvRatingTv.text = detail.rating.toString()
-        binding.ratingbarTv.rating = (detail.rating/2).toFloat()
+        binding.ratingbarTv.rating = (detail.rating / 2).toFloat()
         Glide.with(this)
-            .load("https://image.tmdb.org/t/p/w500"+detail.poster)
+            .load("https://image.tmdb.org/t/p/w500" + detail.poster)
             .into(binding.imgPosterTv)
     }
 
-    private fun getData(){
+    private fun getData() {
         tvDetailViewModel.setData(tvId)
-        tvDetailViewModel.getData().observe(this,{DetailData ->
-            if(DetailData != null){
+        tvDetailViewModel.getData().observe(this, { DetailData ->
+            if (DetailData != null) {
                 setData(DetailData)
             }
         })

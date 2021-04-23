@@ -1,18 +1,17 @@
 package com.example.jetpack_submission1.ui.detail
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.example.jetpack_submission1.R
 import com.example.jetpack_submission1.databinding.ActivityDetailBinding
 import com.example.jetpack_submission1.model.Detail
 import com.example.jetpack_submission1.model.Movie
 import com.example.jetpack_submission1.viewmodel.MovieDetailViewModel
 
 class DetailActivity : AppCompatActivity() {
-    companion object{
+    companion object {
         const val EXTRA_FILM = "extra_film"
     }
 
@@ -30,20 +29,20 @@ class DetailActivity : AppCompatActivity() {
         getData()
     }
 
-    private fun setData(detail: Detail ){
+    private fun setData(detail: Detail) {
         binding.tvOverviewMovie.text = detail.overview
         binding.tvTitleMovie.text = detail.title
         binding.tvRatingMovie.text = detail.rating.toString()
-        binding.ratingbarMovie.rating = (detail.rating/2).toFloat()
+        binding.ratingbarMovie.rating = (detail.rating / 2).toFloat()
         Glide.with(this)
-            .load("https://image.tmdb.org/t/p/w500"+detail.poster)
+            .load("https://image.tmdb.org/t/p/w500" + detail.poster)
             .into(binding.imgPosterMovie)
     }
 
-    private fun getData(){
+    private fun getData() {
         movieDetailViewModel.setData(movieId)
-        movieDetailViewModel.getData().observe(this,{DetailData ->
-            if(DetailData != null){
+        movieDetailViewModel.getData().observe(this, { DetailData ->
+            if (DetailData != null) {
                 setData(DetailData)
             }
         })
