@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.jetpack_submission1.databinding.ActivityDetailBinding
 import com.example.jetpack_submission1.model.Detail
 import com.example.jetpack_submission1.model.Movie
+import com.example.jetpack_submission1.model.MovieResultsItem
 import com.example.jetpack_submission1.viewmodel.MovieDetailViewModel
 
 class DetailActivity : AppCompatActivity() {
@@ -23,7 +24,7 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         movieDetailViewModel = ViewModelProvider(this).get(MovieDetailViewModel::class.java)
-        val dataIntent = intent.getParcelableExtra<Movie>(EXTRA_FILM) as Movie
+        val dataIntent = intent.getParcelableExtra<MovieResultsItem>(EXTRA_FILM) as MovieResultsItem
         movieId = dataIntent.id.toString()
         Log.d("ID", movieId)
         getData()

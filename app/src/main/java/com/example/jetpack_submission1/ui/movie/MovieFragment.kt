@@ -2,6 +2,7 @@ package com.example.jetpack_submission1.ui.movie
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +15,13 @@ import com.example.jetpack_submission1.adapter.FilmAdapter
 import com.example.jetpack_submission1.adapter.TrendingAdapter
 import com.example.jetpack_submission1.databinding.FragmentMovieBinding
 import com.example.jetpack_submission1.model.Movie
+import com.example.jetpack_submission1.model.MovieResultsItem
 import com.example.jetpack_submission1.ui.detail.DetailActivity
 import com.example.jetpack_submission1.utils.IdlingResources
 import com.example.jetpack_submission1.viewmodel.MovieDiscoverViewModel
 import com.example.jetpack_submission1.viewmodel.MovieTrendingViewModel
+import com.example.jetpack_submission1.viewmodel.RetrofitViewModel
+import com.example.jetpack_submission1.viewmodel.ViewModelFactory
 
 class MovieFragment : Fragment() {
     private var _binding: FragmentMovieBinding? = null
@@ -26,6 +30,8 @@ class MovieFragment : Fragment() {
     //viewmodel
     private lateinit var movieListViewModel: MovieDiscoverViewModel
     private lateinit var movieTrendingViewModel: MovieTrendingViewModel
+    private lateinit var retrofitViewModel: RetrofitViewModel
+    private lateinit var movieViewModel: MovieViewModel
 
     //adapter
     private lateinit var adapterDiscover: FilmAdapter
@@ -39,6 +45,18 @@ class MovieFragment : Fragment() {
         val view = binding.root
         movieListViewModel = ViewModelProvider(this).get(MovieDiscoverViewModel::class.java)
         movieTrendingViewModel = ViewModelProvider(this).get(MovieTrendingViewModel::class.java)
+        retrofitViewModel = ViewModelProvider(this).get(RetrofitViewModel::class.java)
+
+        //Viewmodel retreofit test
+        val factory = ViewModelFactory.getInstance(requireActivity())
+        movieViewModel = ViewModelProvider(this, factory)[MovieViewModel::class.java]
+
+        retrofitViewModel.listMovieResult.observe(viewLifecycleOwner, { DiscoverList ->
+            if (DiscoverList !== null){
+                val dataArray = DiscoverList as ArrayList<MovieResultsItem>
+                Log.d("ARRAY", dataArray.toString())
+            }
+        })
         return view
     }
 
@@ -68,7 +86,7 @@ class MovieFragment : Fragment() {
     //onItemClick
     private fun onItemClick() {
         adapterDiscover.setOnItemCLickCallback(object : FilmAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Movie) {
+            override fun onItemClicked(data: MovieResultsItem) {
                 val intentDetailActivity = Intent(activity, DetailActivity::class.java)
                 intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
                 startActivity(intentDetailActivity)
@@ -86,17 +104,37 @@ class MovieFragment : Fragment() {
     }
 
     //getData
-    private fun getData() {
-        IdlingResources.increment()
-        movieListViewModel.setData()
-        movieListViewModel.getData().observe(viewLifecycleOwner, { MovieList ->
-            if (MovieList !== null) {
-                adapterDiscover.setData(MovieList)
+    //NewRepository
+    private fun getData(){
+        movieViewModel.getMovieDiscover().observe(viewLifecycleOwner, {MovieList ->
+            if(MovieList !== null){
+                val movieArray = MovieList as ArrayList<MovieResultsItem>
+                adapterDiscover.setData(movieArray)
             }
         })
-        IdlingResources.decrement()
     }
+    //Retrofit
+//    private fun getData(){
+//        retrofitViewModel.listMovieResult.observe(viewLifecycleOwner, { MovieList ->
+//            if (MovieList !== null){
+//                val movieArray  = MovieList as ArrayList<MovieResultsItem>
+//                adapterDiscover.setData(movieArray)
+//            }
+//        })
+//    }
+    //Original
+//    private fun getData() {
+//        IdlingResources.increment()
+//        movieListViewModel.setData()
+//        movieListViewModel.getData().observe(viewLifecycleOwner, { MovieList ->
+//            if (MovieList !== null) {
+//                adapterDiscover.setData(MovieList)
+//            }
+//        })
+//        IdlingResources.decrement()
+//    }
 
+    //TODO getdata trending
     //getDataTrending
     private fun getDataTrending() {
         IdlingResources.increment()

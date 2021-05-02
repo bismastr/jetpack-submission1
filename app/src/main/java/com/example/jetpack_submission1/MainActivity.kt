@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.jetpack_submission1.viewmodel.RetrofitViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,5 +23,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_tvshow, R.id.navigation_movie, R.id.navigation_favorite))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+
     }
 }

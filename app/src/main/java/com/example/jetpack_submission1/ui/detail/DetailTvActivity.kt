@@ -7,11 +7,13 @@ import com.bumptech.glide.Glide
 import com.example.jetpack_submission1.databinding.ActivityDetailTvBinding
 import com.example.jetpack_submission1.model.DetailTrending
 import com.example.jetpack_submission1.model.Movie
+import com.example.jetpack_submission1.model.TvResultsItem
 import com.example.jetpack_submission1.viewmodel.TvDetailViewModel
 
 class DetailTvActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_FILM = "extra_film"
+        const val EXTRA_FROM = 0
     }
 
     private lateinit var tvDetailViewModel: TvDetailViewModel
@@ -23,7 +25,7 @@ class DetailTvActivity : AppCompatActivity() {
         binding = ActivityDetailTvBinding.inflate(layoutInflater)
         setContentView(binding.root)
         tvDetailViewModel = ViewModelProvider(this).get(TvDetailViewModel::class.java)
-        val dataIntent = intent.getParcelableExtra<Movie>(EXTRA_FILM) as Movie
+        val dataIntent = intent.getParcelableExtra<TvResultsItem>(EXTRA_FILM) as TvResultsItem
         tvId = dataIntent.id.toString()
         getData()
     }
