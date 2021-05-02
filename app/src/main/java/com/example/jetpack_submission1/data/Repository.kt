@@ -35,7 +35,6 @@ class Repository private constructor(private val remoteDataSource: RemoteDataSou
                         i.voteAverage
                     )
                     movieList.add(movie)
-                    Log.d("DATA 1", movieList.toString())
                 }
                 movieResult.postValue(movieList)
             }
