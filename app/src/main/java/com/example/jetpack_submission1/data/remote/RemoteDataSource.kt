@@ -19,15 +19,16 @@ class RemoteDataSource {
             }
     }
 
-    fun getDiscoverMovie(): MutableLiveData<List<MovieResultsItem>> {
-        val liveData = MutableLiveData<List<MovieResultsItem>>()
+    fun getDiscoverMovie(callback:LoadMovieCallback) {
+        var liveData: ArrayList<MovieResultsItem>
         val client = ApiConfig.getApiServices().getDiscover()
         client.enqueue(object : Callback<Response>{
             override fun onResponse(
                 call: Call<Response>,
                 response: retrofit2.Response<Response>
             ) {
-                liveData.value = response.body()?.results
+                liveData = (response.body()?.results as ArrayList<MovieResultsItem>?)!!
+                callback.onAllMovieReceived(liveData)
             }
 
             override fun onFailure(call: Call<Response>, t: Throwable) {
@@ -35,7 +36,11 @@ class RemoteDataSource {
             }
 
         })
-        return liveData
+       
+    }
+
+    interface LoadMovieCallback {
+        fun onAllMovieReceived(response: List<MovieResultsItem>)
     }
 
 }

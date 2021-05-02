@@ -4,15 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jetpack_submission1.adapter.viewholder.FilmViewHolder
+import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.ItemMovieBinding
 import com.example.jetpack_submission1.model.MovieResultsItem
 import com.example.jetpack_submission1.utils.IdlingResources
 
 class FilmAdapter : RecyclerView.Adapter<FilmViewHolder>() {
     private var onItemCLickCallback: OnItemClickCallback? = null
-    private val dataList = ArrayList<MovieResultsItem>()
+    private val dataList = ArrayList<MovieDiscoverEntity>()
 
-    fun setData(movie: ArrayList<MovieResultsItem>) {
+    fun setData(movie: ArrayList<MovieDiscoverEntity>) {
         dataList.clear()
         dataList.addAll(movie)
         notifyDataSetChanged()
@@ -30,7 +31,7 @@ class FilmAdapter : RecyclerView.Adapter<FilmViewHolder>() {
 
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
         IdlingResources.increment()
-        holder.bindRetroFit(dataList[position])
+        holder.bind(dataList[position])
         IdlingResources.decrement()
         holder.itemView.setOnClickListener {
             onItemCLickCallback?.onItemClicked(dataList[position])
@@ -42,6 +43,6 @@ class FilmAdapter : RecyclerView.Adapter<FilmViewHolder>() {
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: MovieResultsItem)
+        fun onItemClicked(data: MovieDiscoverEntity)
     }
 }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.jetpack_submission1.adapter.FilmAdapter
 import com.example.jetpack_submission1.adapter.TrendingAdapter
+import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.FragmentMovieBinding
 import com.example.jetpack_submission1.model.Movie
 import com.example.jetpack_submission1.model.MovieResultsItem
@@ -85,14 +86,14 @@ class MovieFragment : Fragment() {
 
     //onItemClick
     private fun onItemClick() {
-        adapterDiscover.setOnItemCLickCallback(object : FilmAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: MovieResultsItem) {
-                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
-                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
-                startActivity(intentDetailActivity)
-            }
-
-        })
+//        adapterDiscover.setOnItemCLickCallback(object : FilmAdapter.OnItemClickCallback {
+//            override fun onItemClicked(data: MovieDiscoverEntity) {
+//                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
+//                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
+//                startActivity(intentDetailActivity)
+//            }
+//
+//        })
         adapterTrending.setOnItemCLickCallback(object : TrendingAdapter.OnItemClickCallback {
             override fun onItemClick(data: Movie) {
                 val intentDetailActivity = Intent(activity, DetailActivity::class.java)
@@ -108,11 +109,13 @@ class MovieFragment : Fragment() {
     private fun getData(){
         movieViewModel.getMovieDiscover().observe(viewLifecycleOwner, {MovieList ->
             if(MovieList !== null){
-                val movieArray = MovieList as ArrayList<MovieResultsItem>
+                val movieArray = MovieList as ArrayList<MovieDiscoverEntity>
                 adapterDiscover.setData(movieArray)
+                Log.d("DATA", MovieList.toString())
             }
         })
     }
+
     //Retrofit
 //    private fun getData(){
 //        retrofitViewModel.listMovieResult.observe(viewLifecycleOwner, { MovieList ->
@@ -134,7 +137,6 @@ class MovieFragment : Fragment() {
 //        IdlingResources.decrement()
 //    }
 
-    //TODO getdata trending
     //getDataTrending
     private fun getDataTrending() {
         IdlingResources.increment()

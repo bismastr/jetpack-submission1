@@ -6,5 +6,5 @@ import com.example.jetpack_submission1.model.MovieResultsItem
 
 interface FilmDataSource {
 
-    fun getMovieDiscover(): LiveData<List<MovieResultsItem>>
+    fun getMovieDiscover(): LiveData<List<MovieDiscoverEntity>>
 }
