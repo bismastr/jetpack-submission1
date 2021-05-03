@@ -10,4 +10,10 @@ class MovieViewModel(private val repository: Repository): ViewModel() {
     fun getMovieDiscover(): LiveData<List<MovieDiscoverEntity>>{
         return repository.getMovieDiscover()
     }
+
+    fun getMovieTrending(): LiveData<List<MovieDiscoverEntity>>{
+        return repository.getTrending("movie")
+    }
+
+
 }

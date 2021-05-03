@@ -9,4 +9,8 @@ class TvViewModel(private val repository: Repository): ViewModel() {
     fun getTvDiscover(): LiveData<List<MovieDiscoverEntity>>{
         return repository.getTvDiscover()
     }
+
+    fun getTvTrending(): LiveData<List<MovieDiscoverEntity>>{
+        return repository.getTrending("tv")
+    }
 }

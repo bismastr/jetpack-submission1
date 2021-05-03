@@ -1,23 +1,23 @@
 package com.example.jetpack_submission1.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
+import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
 import com.example.jetpack_submission1.databinding.ActivityDetailTvBinding
-import com.example.jetpack_submission1.model.DetailTrending
-import com.example.jetpack_submission1.model.Movie
-import com.example.jetpack_submission1.model.TvResultsItem
-import com.example.jetpack_submission1.viewmodel.TvDetailViewModel
+import com.example.jetpack_submission1.viewmodel.ViewModelFactory
 
 class DetailTvActivity : AppCompatActivity() {
+
     companion object {
         const val EXTRA_FILM = "extra_film"
-        const val EXTRA_FROM = 0
     }
 
-    private lateinit var tvDetailViewModel: TvDetailViewModel
+    private lateinit var tvViewModel: DetailViewModel
+
     private lateinit var tvId: String
     private lateinit var binding: ActivityDetailTvBinding
 
@@ -25,13 +25,15 @@ class DetailTvActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailTvBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        tvDetailViewModel = ViewModelProvider(this).get(TvDetailViewModel::class.java)
-        val dataIntent = intent.getParcelableExtra<MovieDiscoverEntity>(EXTRA_FILM) as MovieDiscoverEntity
-        tvId = dataIntent.id.toString()
+        //ViewModel
+        val factory = ViewModelFactory.getInstance(this)
+        tvViewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
+        //DataIntent
+        getIntentData()
         getData()
     }
 
-    private fun setData(detail: DetailTrending) {
+    private fun setData(detail: TvDetailEntity) {
         binding.tvOverviewTv.text = detail.overview
         binding.tvTitleTv.text = detail.title
         binding.tvEpisode.text = detail.numberEpisdoe.toString()
@@ -44,11 +46,17 @@ class DetailTvActivity : AppCompatActivity() {
     }
 
     private fun getData() {
-        tvDetailViewModel.setData(tvId)
-        tvDetailViewModel.getData().observe(this, { DetailData ->
+        tvViewModel.getTvDetail(tvId).observe(this, { DetailData ->
             if (DetailData != null) {
                 setData(DetailData)
             }
         })
+    }
+
+    private fun getIntentData() {
+        val dataIntent =
+            intent.getParcelableExtra<MovieDiscoverEntity>(EXTRA_FILM) as MovieDiscoverEntity
+        tvId = dataIntent.id.toString()
+        Log.d("TAG", tvId)
     }
 }

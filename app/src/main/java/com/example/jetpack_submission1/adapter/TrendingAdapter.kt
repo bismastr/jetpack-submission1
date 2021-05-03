@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jetpack_submission1.adapter.viewholder.TrendingViewHolder
+import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.ItemTrendingBinding
-import com.example.jetpack_submission1.model.Movie
 
 class TrendingAdapter : RecyclerView.Adapter<TrendingViewHolder>() {
     private var onItemClickCallback: OnItemClickCallback? = null
-    private val dataList = ArrayList<Movie>()
+    private val dataList = ArrayList<MovieDiscoverEntity>()
 
-    fun setData(movie: ArrayList<Movie>) {
+    fun setData(movie: ArrayList<MovieDiscoverEntity>) {
         dataList.clear()
         dataList.addAll(movie)
         notifyDataSetChanged()
@@ -39,6 +39,6 @@ class TrendingAdapter : RecyclerView.Adapter<TrendingViewHolder>() {
     }
 
     interface OnItemClickCallback {
-        fun onItemClick(data: Movie)
+        fun onItemClick(data: MovieDiscoverEntity)
     }
 }

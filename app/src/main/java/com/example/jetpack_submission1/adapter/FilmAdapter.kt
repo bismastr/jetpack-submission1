@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.jetpack_submission1.adapter.viewholder.FilmViewHolder
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.ItemMovieBinding
-import com.example.jetpack_submission1.model.MovieResultsItem
 import com.example.jetpack_submission1.utils.IdlingResources
 
 class FilmAdapter : RecyclerView.Adapter<FilmViewHolder>() {

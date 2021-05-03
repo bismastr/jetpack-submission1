@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.jetpack_submission1.data.Repository
 import com.example.jetpack_submission1.di.Injection
+import com.example.jetpack_submission1.ui.detail.DetailViewModel
 import com.example.jetpack_submission1.ui.movie.MovieViewModel
 import com.example.jetpack_submission1.ui.tvshow.TvViewModel
 
@@ -24,6 +25,8 @@ class ViewModelFactory private constructor(private val mRepository: Repository):
 
     }
 
+
+
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
@@ -32,6 +35,9 @@ class ViewModelFactory private constructor(private val mRepository: Repository):
             }
             modelClass.isAssignableFrom(TvViewModel::class.java) -> {
                  TvViewModel(mRepository) as T
+            }
+            modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
+                DetailViewModel(mRepository) as T
             }
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)
         }

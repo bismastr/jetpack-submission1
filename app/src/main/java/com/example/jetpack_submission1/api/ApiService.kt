@@ -1,11 +1,14 @@
 package com.example.jetpack_submission1.api
 
 
+import com.example.jetpack_submission1.data.remote.respone.DetailMovieResponse
+import com.example.jetpack_submission1.data.remote.respone.DetailTvResponse
+import com.example.jetpack_submission1.data.remote.respone.TrendingResponse
 import com.example.jetpack_submission1.model.DiscoverTvResponse
 import com.example.jetpack_submission1.model.Response
-import com.example.jetpack_submission1.model.MovieResultsItem
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface ApiService {
     companion object {
@@ -17,4 +20,14 @@ interface ApiService {
 
     @GET("discover/tv?api_key=${KEY}")
     fun getTvDiscover(): Call<DiscoverTvResponse>
+
+    @GET("trending/{media_type}/week?api_key=${KEY}")
+    fun getTrending(@Path("media_type") mediaType: String): Call<TrendingResponse>
+
+    @GET("movie/{movie_id}?api_key=${KEY}")
+    fun getMovieDetail(@Path("movie_id") movieId: String): Call<DetailMovieResponse>
+
+    @GET("tv/{tv_id}?api_key=${KEY}")
+    fun getTvDetail(@Path("tv_id") tvId: String): Call<DetailTvResponse>
+
 }

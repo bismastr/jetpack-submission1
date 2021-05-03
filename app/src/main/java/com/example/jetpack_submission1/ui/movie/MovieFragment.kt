@@ -15,13 +15,8 @@ import com.example.jetpack_submission1.adapter.FilmAdapter
 import com.example.jetpack_submission1.adapter.TrendingAdapter
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.FragmentMovieBinding
-import com.example.jetpack_submission1.model.Movie
-import com.example.jetpack_submission1.model.MovieResultsItem
 import com.example.jetpack_submission1.ui.detail.DetailActivity
 import com.example.jetpack_submission1.utils.IdlingResources
-import com.example.jetpack_submission1.viewmodel.MovieDiscoverViewModel
-import com.example.jetpack_submission1.viewmodel.MovieTrendingViewModel
-import com.example.jetpack_submission1.viewmodel.RetrofitViewModel
 import com.example.jetpack_submission1.viewmodel.ViewModelFactory
 
 class MovieFragment : Fragment() {
@@ -29,9 +24,6 @@ class MovieFragment : Fragment() {
     private val binding get() = _binding!!
 
     //viewmodel
-    private lateinit var movieListViewModel: MovieDiscoverViewModel
-    private lateinit var movieTrendingViewModel: MovieTrendingViewModel
-    private lateinit var retrofitViewModel: RetrofitViewModel
     private lateinit var movieViewModel: MovieViewModel
 
     //adapter
@@ -44,11 +36,7 @@ class MovieFragment : Fragment() {
     ): View {
         _binding = FragmentMovieBinding.inflate(inflater, container, false)
         val view = binding.root
-        movieListViewModel = ViewModelProvider(this).get(MovieDiscoverViewModel::class.java)
-        movieTrendingViewModel = ViewModelProvider(this).get(MovieTrendingViewModel::class.java)
-        retrofitViewModel = ViewModelProvider(this).get(RetrofitViewModel::class.java)
-
-        //Viewmodel retreofit test
+        //Viewmodel
         val factory = ViewModelFactory.getInstance(requireActivity())
         movieViewModel = ViewModelProvider(this, factory)[MovieViewModel::class.java]
 
@@ -89,7 +77,7 @@ class MovieFragment : Fragment() {
 
         })
         adapterTrending.setOnItemCLickCallback(object : TrendingAdapter.OnItemClickCallback {
-            override fun onItemClick(data: Movie) {
+            override fun onItemClick(data: MovieDiscoverEntity) {
                 val intentDetailActivity = Intent(activity, DetailActivity::class.java)
                 intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
                 startActivity(intentDetailActivity)
@@ -99,8 +87,8 @@ class MovieFragment : Fragment() {
     }
 
     //getData
-    //NewRepository
     private fun getData(){
+        IdlingResources.increment()
         movieViewModel.getMovieDiscover().observe(viewLifecycleOwner, {MovieList ->
             if(MovieList !== null){
                 val movieArray = MovieList as ArrayList<MovieDiscoverEntity>
@@ -108,15 +96,16 @@ class MovieFragment : Fragment() {
                 Log.d("DATA", MovieList.toString())
             }
         })
+        IdlingResources.decrement()
     }
 
     //getDataTrending
     private fun getDataTrending() {
         IdlingResources.increment()
-        movieTrendingViewModel.setData()
-        movieTrendingViewModel.getData().observe(viewLifecycleOwner, { TrendingList ->
+        movieViewModel.getMovieTrending().observe(viewLifecycleOwner, { TrendingList ->
             if (TrendingList !== null) {
-                adapterTrending.setData(TrendingList)
+                val trendingArray  = TrendingList as ArrayList<MovieDiscoverEntity>
+                adapterTrending.setData(trendingArray)
             }
         })
         IdlingResources.decrement()

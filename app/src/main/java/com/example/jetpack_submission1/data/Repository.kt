@@ -3,8 +3,13 @@ package com.example.jetpack_submission1.data
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.jetpack_submission1.data.local.entity.MovieDetailEntity
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
+import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
 import com.example.jetpack_submission1.data.remote.RemoteDataSource
+import com.example.jetpack_submission1.data.remote.respone.DetailMovieResponse
+import com.example.jetpack_submission1.data.remote.respone.DetailTvResponse
+import com.example.jetpack_submission1.data.remote.respone.TrendingResultItems
 import com.example.jetpack_submission1.model.MovieResultsItem
 import com.example.jetpack_submission1.model.TvResultsItem
 
@@ -65,4 +70,85 @@ class Repository private constructor(private val remoteDataSource: RemoteDataSou
         })
         return tvResult
     }
+
+    override fun getTrending(mediaType: String): LiveData<List<MovieDiscoverEntity>> {
+        val trendingResult = MutableLiveData<List<MovieDiscoverEntity>>()
+        remoteDataSource.getTrending(object : RemoteDataSource.LoadTrendingCallback{
+            override fun onAllTrendingReceived(response: List<TrendingResultItems>) {
+                val tvList = ArrayList<MovieDiscoverEntity>()
+                if (mediaType == "movie"){
+                    for(i in response){
+                        val trending = MovieDiscoverEntity(
+                            i.id,
+                            i.backdropPath,
+                            i.originalTitle,
+                            i.voteAverage
+                        )
+                        tvList.add(trending)
+                    }
+                    trendingResult.postValue(tvList)
+                } else if (mediaType == "tv"){
+                    for(i in response){
+                        val trending = MovieDiscoverEntity(
+                            i.id,
+                            i.backdropPath,
+                            i.originalName,
+                            i.voteAverage
+                        )
+                        tvList.add(trending)
+                    }
+                    trendingResult.postValue(tvList)
+                }
+
+
+            }
+
+
+        }, mediaType)
+        return trendingResult
+    }
+
+    override fun getMovieDetail(movieId: String): LiveData<MovieDetailEntity> {
+        val detailResult = MutableLiveData<MovieDetailEntity>()
+        remoteDataSource.getDetailMovie(object : RemoteDataSource.LoadDetailCallback{
+            override fun onAllDetailReceived(response: DetailMovieResponse?) {
+                val detail = MovieDetailEntity()
+                if (response !== null){
+                    detail.id = response.id
+                    detail.overview = response.overview
+                    detail.poster = response.posterPath
+                    detail.rating = response.voteAverage
+                    detail.release_date = response.releaseDate
+                    detail.title = response.originalTitle
+                }
+                detailResult.postValue(detail)
+            }
+        }, movieId)
+        return detailResult
+    }
+
+    override fun getTvDetail(tvId: String): LiveData<TvDetailEntity> {
+        val detailResult = MutableLiveData<TvDetailEntity>()
+        remoteDataSource.getDetailTv(object : RemoteDataSource.LoadDetailTvCallback {
+            override fun onAllDetailTvReceived(response: DetailTvResponse?) {
+                val detail = TvDetailEntity()
+                if (response !== null){
+                    detail.id = response.id
+                    detail.numberEpisdoe = response.numberOfEpisodes
+                    detail.numberSeasons = response.numberOfSeasons
+                    detail.overview = response.overview
+                    detail.poster = response.posterPath
+                    detail.rating = response.voteAverage
+                    detail.title = response.originalName
+                    Log.d("TAG GET", detail.overview!!)
+                }
+                detailResult.postValue(detail)
+
+            }
+
+        }, tvId)
+        return detailResult
+    }
+
+
 }

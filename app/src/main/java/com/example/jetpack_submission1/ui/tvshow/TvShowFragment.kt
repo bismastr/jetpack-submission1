@@ -2,7 +2,6 @@ package com.example.jetpack_submission1.ui.tvshow
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,31 +10,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.jetpack_submission1.adapter.FilmAdapter
 import com.example.jetpack_submission1.adapter.TrendingAdapter
 import com.example.jetpack_submission1.adapter.TvDiscoverAdapter
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.FragmentTvshowBinding
-import com.example.jetpack_submission1.model.Movie
-import com.example.jetpack_submission1.model.MovieResultsItem
-import com.example.jetpack_submission1.model.TvResultsItem
-import com.example.jetpack_submission1.ui.detail.DetailActivity
 import com.example.jetpack_submission1.ui.detail.DetailTvActivity
 import com.example.jetpack_submission1.utils.IdlingResources
-import com.example.jetpack_submission1.viewmodel.RetrofitViewModel
-import com.example.jetpack_submission1.viewmodel.TvDiscoverViewModel
-import com.example.jetpack_submission1.viewmodel.TvTrendingViewModel
 import com.example.jetpack_submission1.viewmodel.ViewModelFactory
 
 class TvShowFragment : Fragment() {
     private var _binding: FragmentTvshowBinding? = null
     private val binding get() = _binding!!
 
+
     //viewModel
-    private lateinit var retrofitViewModel: RetrofitViewModel
-    private lateinit var tvDiscoverViewModel: TvDiscoverViewModel
-    private lateinit var tvTrendingViewModel: TvTrendingViewModel
-    //newViewModel
     private lateinit var tvViewModel: TvViewModel
     //adapter
     private lateinit var adapterDiscover: TvDiscoverAdapter
@@ -48,11 +36,6 @@ class TvShowFragment : Fragment() {
     ): View {
         _binding = FragmentTvshowBinding.inflate(inflater, container, false)
         val view = binding.root
-        //viewModel
-        tvDiscoverViewModel = ViewModelProvider(this).get(TvDiscoverViewModel::class.java)
-        tvTrendingViewModel = ViewModelProvider(this).get(TvTrendingViewModel::class.java)
-        retrofitViewModel = ViewModelProvider(this).get(RetrofitViewModel::class.java)
-
         //New ViewModel
         val factory = ViewModelFactory.getInstance(requireActivity())
         tvViewModel = ViewModelProvider(this, factory)[TvViewModel::class.java]
@@ -92,7 +75,7 @@ class TvShowFragment : Fragment() {
 
         })
         adapterTrending.setOnItemCLickCallback(object : TrendingAdapter.OnItemClickCallback {
-            override fun onItemClick(data: Movie) {
+            override fun onItemClick(data: MovieDiscoverEntity) {
                 val intentDetailActivity = Intent(activity, DetailTvActivity::class.java)
                 intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FILM, data)
                 startActivity(intentDetailActivity)
@@ -102,23 +85,23 @@ class TvShowFragment : Fragment() {
     }
 
     //getData
-    private fun getDataTrending() {
-        IdlingResources.increment()
-        tvTrendingViewModel.setData()
-        tvTrendingViewModel.getData().observe(viewLifecycleOwner, { TrendingList ->
-            if (TrendingList !== null) {
-                adapterTrending.setData(TrendingList)
-            }
-        })
-        IdlingResources.decrement()
-    }
-
     private fun getData(){
         IdlingResources.increment()
         tvViewModel.getTvDiscover().observe(viewLifecycleOwner, {TvList ->
             if (TvList !== null){
                 val tvArray = TvList as ArrayList<MovieDiscoverEntity>
                 adapterDiscover.setData(tvArray)
+            }
+        })
+        IdlingResources.decrement()
+    }
+
+    private fun getDataTrending(){
+        IdlingResources.increment()
+        tvViewModel.getTvTrending().observe(viewLifecycleOwner, {TrendingList ->
+            if (TrendingList !== null){
+                val trendingArray = TrendingList as ArrayList<MovieDiscoverEntity>
+                adapterTrending.setData(trendingArray)
             }
         })
         IdlingResources.decrement()
