@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.ActivityDetailTvBinding
 import com.example.jetpack_submission1.model.DetailTrending
 import com.example.jetpack_submission1.model.Movie
@@ -25,7 +26,7 @@ class DetailTvActivity : AppCompatActivity() {
         binding = ActivityDetailTvBinding.inflate(layoutInflater)
         setContentView(binding.root)
         tvDetailViewModel = ViewModelProvider(this).get(TvDetailViewModel::class.java)
-        val dataIntent = intent.getParcelableExtra<TvResultsItem>(EXTRA_FILM) as TvResultsItem
+        val dataIntent = intent.getParcelableExtra<MovieDiscoverEntity>(EXTRA_FILM) as MovieDiscoverEntity
         tvId = dataIntent.id.toString()
         getData()
     }

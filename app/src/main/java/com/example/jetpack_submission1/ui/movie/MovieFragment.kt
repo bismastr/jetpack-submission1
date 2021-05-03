@@ -52,12 +52,6 @@ class MovieFragment : Fragment() {
         val factory = ViewModelFactory.getInstance(requireActivity())
         movieViewModel = ViewModelProvider(this, factory)[MovieViewModel::class.java]
 
-        retrofitViewModel.listMovieResult.observe(viewLifecycleOwner, { DiscoverList ->
-            if (DiscoverList !== null){
-                val dataArray = DiscoverList as ArrayList<MovieResultsItem>
-                Log.d("ARRAY", dataArray.toString())
-            }
-        })
         return view
     }
 
@@ -86,14 +80,14 @@ class MovieFragment : Fragment() {
 
     //onItemClick
     private fun onItemClick() {
-//        adapterDiscover.setOnItemCLickCallback(object : FilmAdapter.OnItemClickCallback {
-//            override fun onItemClicked(data: MovieDiscoverEntity) {
-//                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
-//                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
-//                startActivity(intentDetailActivity)
-//            }
-//
-//        })
+        adapterDiscover.setOnItemCLickCallback(object : FilmAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: MovieDiscoverEntity) {
+                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
+                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
+                startActivity(intentDetailActivity)
+            }
+
+        })
         adapterTrending.setOnItemCLickCallback(object : TrendingAdapter.OnItemClickCallback {
             override fun onItemClick(data: Movie) {
                 val intentDetailActivity = Intent(activity, DetailActivity::class.java)
@@ -115,27 +109,6 @@ class MovieFragment : Fragment() {
             }
         })
     }
-
-    //Retrofit
-//    private fun getData(){
-//        retrofitViewModel.listMovieResult.observe(viewLifecycleOwner, { MovieList ->
-//            if (MovieList !== null){
-//                val movieArray  = MovieList as ArrayList<MovieResultsItem>
-//                adapterDiscover.setData(movieArray)
-//            }
-//        })
-//    }
-    //Original
-//    private fun getData() {
-//        IdlingResources.increment()
-//        movieListViewModel.setData()
-//        movieListViewModel.getData().observe(viewLifecycleOwner, { MovieList ->
-//            if (MovieList !== null) {
-//                adapterDiscover.setData(MovieList)
-//            }
-//        })
-//        IdlingResources.decrement()
-//    }
 
     //getDataTrending
     private fun getDataTrending() {

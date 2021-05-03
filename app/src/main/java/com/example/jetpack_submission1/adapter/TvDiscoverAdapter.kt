@@ -5,14 +5,15 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jetpack_submission1.adapter.viewholder.TvDiscoverViewHolder
+import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.ItemMovieBinding
 import com.example.jetpack_submission1.model.TvResultsItem
 
 class TvDiscoverAdapter: RecyclerView.Adapter<TvDiscoverViewHolder>() {
     private var onItemClickCallback: OnItemClickCallback? = null
-    private val dataList = ArrayList<TvResultsItem>()
+    private val dataList = ArrayList<MovieDiscoverEntity>()
 
-    fun setData(data: ArrayList<TvResultsItem>){
+    fun setData(data: ArrayList<MovieDiscoverEntity>){
         dataList.clear()
         dataList.addAll(data)
         notifyDataSetChanged()
@@ -40,6 +41,6 @@ class TvDiscoverAdapter: RecyclerView.Adapter<TvDiscoverViewHolder>() {
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: TvResultsItem)
+        fun onItemClicked(data: MovieDiscoverEntity)
     }
 }

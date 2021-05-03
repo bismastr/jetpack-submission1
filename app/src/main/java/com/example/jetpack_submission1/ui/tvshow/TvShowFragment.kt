@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.jetpack_submission1.adapter.FilmAdapter
 import com.example.jetpack_submission1.adapter.TrendingAdapter
 import com.example.jetpack_submission1.adapter.TvDiscoverAdapter
+import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.FragmentTvshowBinding
 import com.example.jetpack_submission1.model.Movie
 import com.example.jetpack_submission1.model.MovieResultsItem
@@ -24,6 +25,7 @@ import com.example.jetpack_submission1.utils.IdlingResources
 import com.example.jetpack_submission1.viewmodel.RetrofitViewModel
 import com.example.jetpack_submission1.viewmodel.TvDiscoverViewModel
 import com.example.jetpack_submission1.viewmodel.TvTrendingViewModel
+import com.example.jetpack_submission1.viewmodel.ViewModelFactory
 
 class TvShowFragment : Fragment() {
     private var _binding: FragmentTvshowBinding? = null
@@ -33,7 +35,8 @@ class TvShowFragment : Fragment() {
     private lateinit var retrofitViewModel: RetrofitViewModel
     private lateinit var tvDiscoverViewModel: TvDiscoverViewModel
     private lateinit var tvTrendingViewModel: TvTrendingViewModel
-
+    //newViewModel
+    private lateinit var tvViewModel: TvViewModel
     //adapter
     private lateinit var adapterDiscover: TvDiscoverAdapter
     private lateinit var adapterTrending: TrendingAdapter
@@ -50,6 +53,9 @@ class TvShowFragment : Fragment() {
         tvTrendingViewModel = ViewModelProvider(this).get(TvTrendingViewModel::class.java)
         retrofitViewModel = ViewModelProvider(this).get(RetrofitViewModel::class.java)
 
+        //New ViewModel
+        val factory = ViewModelFactory.getInstance(requireActivity())
+        tvViewModel = ViewModelProvider(this, factory)[TvViewModel::class.java]
 
         return view
     }
@@ -78,7 +84,7 @@ class TvShowFragment : Fragment() {
     //onitemclick
     private fun onItemClick() {
         adapterDiscover.setOnItemClickCallback(object : TvDiscoverAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: TvResultsItem) {
+            override fun onItemClicked(data: MovieDiscoverEntity) {
                 val intentDetailActivity = Intent(activity, DetailTvActivity::class.java)
                 intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FILM, data)
                 startActivity(intentDetailActivity)
@@ -108,23 +114,15 @@ class TvShowFragment : Fragment() {
     }
 
     private fun getData(){
-        retrofitViewModel.listTvResult.observe(viewLifecycleOwner, { DiscoverList ->
-            if (DiscoverList !== null){
-                val dataArray = DiscoverList as ArrayList<TvResultsItem>
-                adapterDiscover.setData(DiscoverList)
+        IdlingResources.increment()
+        tvViewModel.getTvDiscover().observe(viewLifecycleOwner, {TvList ->
+            if (TvList !== null){
+                val tvArray = TvList as ArrayList<MovieDiscoverEntity>
+                adapterDiscover.setData(tvArray)
             }
         })
+        IdlingResources.decrement()
     }
-//    private fun getData() {
-//        IdlingResources.increment()
-//        tvDiscoverViewModel.setData()
-//        tvDiscoverViewModel.getData().observe(viewLifecycleOwner, { MovieList ->
-//            if (MovieList !== null) {
-//                adapterDiscover.setData(MovieList)
-//            }
-//        })
-//        IdlingResources.decrement()
-//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
