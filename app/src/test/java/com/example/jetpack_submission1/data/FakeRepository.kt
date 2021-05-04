@@ -9,21 +9,9 @@ import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
 import com.example.jetpack_submission1.data.remote.RemoteDataSource
 import com.example.jetpack_submission1.data.remote.respone.*
 
-
-class Repository private constructor(private val remoteDataSource: RemoteDataSource) :
+class FakeRepository (private val remoteDataSource: RemoteDataSource) :
     FilmDataSource {
 
-    companion object {
-        @Volatile
-        private var instance: Repository? = null
-
-        fun getInstance(remoteDataSource: RemoteDataSource): Repository =
-            instance ?: synchronized(this) {
-                instance ?: Repository(remoteDataSource).apply { instance = this }
-            }
-
-
-    }
     //Discover
     override fun getMovieDiscover(): LiveData<List<MovieDiscoverEntity>> {
         val movieResult = MutableLiveData<List<MovieDiscoverEntity>>()
@@ -137,7 +125,6 @@ class Repository private constructor(private val remoteDataSource: RemoteDataSou
                     detail.poster = response.posterPath
                     detail.rating = response.voteAverage
                     detail.title = response.originalName
-                    Log.d("TAG GET", detail.overview!!)
                 }
                 detailResult.postValue(detail)
 

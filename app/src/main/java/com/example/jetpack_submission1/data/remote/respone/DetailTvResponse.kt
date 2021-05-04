@@ -11,7 +11,7 @@ data class DetailTvResponse(
 	val numberOfEpisodes: Int,
 
 	@field:SerializedName("networks")
-	val networks: List<NetworksItem>,
+	val networks: List<NetworksItem>?,
 
 	@field:SerializedName("type")
 	val type: String,
@@ -20,13 +20,13 @@ data class DetailTvResponse(
 	val backdropPath: String,
 
 	@field:SerializedName("genres")
-	val genres: List<TvGenresItem>,
+	val genres: List<TvGenresItem>?,
 
 	@field:SerializedName("popularity")
 	val popularity: Double,
 
 	@field:SerializedName("production_countries")
-	val productionCountries: List<TvProductionCountriesItem>,
+	val productionCountries: List<TvProductionCountriesItem>?,
 
 	@field:SerializedName("id")
 	val id: Int,
@@ -44,28 +44,28 @@ data class DetailTvResponse(
 	val overview: String,
 
 	@field:SerializedName("seasons")
-	val seasons: List<SeasonsItem>,
+	val seasons: List<SeasonsItem>?,
 
 	@field:SerializedName("languages")
-	val languages: List<String>,
+	val languages: List<String>?,
 
 	@field:SerializedName("created_by")
-	val createdBy: List<CreatedByItem>,
+	val createdBy: List<CreatedByItem>?,
 
 	@field:SerializedName("last_episode_to_air")
-	val lastEpisodeToAir: LastEpisodeToAir,
+	val lastEpisodeToAir: LastEpisodeToAir?,
 
 	@field:SerializedName("poster_path")
 	val posterPath: String,
 
 	@field:SerializedName("origin_country")
-	val originCountry: List<String>,
+	val originCountry: List<String>?,
 
 	@field:SerializedName("spoken_languages")
-	val spokenLanguages: List<TvSpokenLanguagesItem>,
+	val spokenLanguages: List<TvSpokenLanguagesItem>?,
 
 	@field:SerializedName("production_companies")
-	val productionCompanies: List<TvProductionCompaniesItem>,
+	val productionCompanies: List<TvProductionCompaniesItem>?,
 
 	@field:SerializedName("original_name")
 	val originalName: String,
@@ -80,10 +80,10 @@ data class DetailTvResponse(
 	val tagline: String,
 
 	@field:SerializedName("episode_run_time")
-	val episodeRunTime: List<Int>,
+	val episodeRunTime: List<Int>?,
 
 	@field:SerializedName("next_episode_to_air")
-	val nextEpisodeToAir: Any,
+	val nextEpisodeToAir: Any?,
 
 	@field:SerializedName("in_production")
 	val inProduction: Boolean,

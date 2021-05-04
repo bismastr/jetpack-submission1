@@ -2,14 +2,8 @@ package com.example.jetpack_submission1.data.remote
 
 import android.util.Log
 import com.example.jetpack_submission1.api.ApiConfig
-import com.example.jetpack_submission1.data.remote.respone.DetailMovieResponse
-import com.example.jetpack_submission1.data.remote.respone.DetailTvResponse
-import com.example.jetpack_submission1.data.remote.respone.TrendingResponse
-import com.example.jetpack_submission1.data.remote.respone.TrendingResultItems
-import com.example.jetpack_submission1.model.DiscoverTvResponse
-import com.example.jetpack_submission1.model.MovieResultsItem
-import com.example.jetpack_submission1.model.Response
-import com.example.jetpack_submission1.model.TvResultsItem
+import com.example.jetpack_submission1.data.remote.respone.*
+
 import retrofit2.Call
 import retrofit2.Callback
 
@@ -64,7 +58,7 @@ class RemoteDataSource {
     }
 
     fun getTrending(callback: LoadTrendingCallback, mediaType: String){
-        var listData: ArrayList<TrendingResultItems>
+        var listData: List<TrendingResultItems>
         val client = ApiConfig.getApiServices().getTrending(mediaType)
         client.enqueue(object : Callback<TrendingResponse>{
             override fun onResponse(

@@ -11,7 +11,7 @@ data class TrendingResponse(
 	val totalPages: Int,
 
 	@field:SerializedName("results")
-	val results: List<TrendingResultItems>,
+	val results: List<TrendingResultItems>? = null,
 
 	@field:SerializedName("total_results")
 	val totalResults: Int
@@ -35,7 +35,7 @@ data class TrendingResultItems(
 	val title: String,
 
 	@field:SerializedName("genre_ids")
-	val genreIds: List<Int>,
+	val genreIds: List<Int>? = null,
 
 	@field:SerializedName("poster_path")
 	val posterPath: String,
@@ -65,7 +65,7 @@ data class TrendingResultItems(
 	val firstAirDate: String,
 
 	@field:SerializedName("origin_country")
-	val originCountry: List<String>,
+	val originCountry: List<String>? = null,
 
 	@field:SerializedName("original_name")
 	val originalName: String,

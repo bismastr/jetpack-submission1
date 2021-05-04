@@ -1,11 +1,7 @@
 package com.example.jetpack_submission1.api
 
 
-import com.example.jetpack_submission1.data.remote.respone.DetailMovieResponse
-import com.example.jetpack_submission1.data.remote.respone.DetailTvResponse
-import com.example.jetpack_submission1.data.remote.respone.TrendingResponse
-import com.example.jetpack_submission1.model.DiscoverTvResponse
-import com.example.jetpack_submission1.model.Response
+import com.example.jetpack_submission1.data.remote.respone.*
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

@@ -1,4 +1,4 @@
-package com.example.jetpack_submission1.model
+package com.example.jetpack_submission1.data.remote.respone
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -37,7 +37,7 @@ data class MovieResultsItem(
 	val title: String,
 
 	@field:SerializedName("genre_ids")
-	val genreIds: List<Int>,
+	val genreIds: List<Int>? = null,
 
 	@field:SerializedName("poster_path")
 	val posterPath: String,

@@ -1,4 +1,4 @@
-package com.example.jetpack_submission1.viewmodel
+package com.example.jetpack_submission1.ui.movie
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
@@ -18,13 +18,12 @@ import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class MovieDiscoverViewModelTest {
-//    private lateinit var viewModel: MovieDiscoverViewModel
+class MovieViewModelTest {
 
     private lateinit var movieViewModel: MovieViewModel
 
     @get:Rule
-    var instantTaskExcecutorRule = InstantTaskExecutorRule()
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Mock
     private lateinit var movieRepository: Repository
@@ -37,11 +36,6 @@ class MovieDiscoverViewModelTest {
         movieViewModel = MovieViewModel(movieRepository)
     }
 
-//    @Test
-//    fun getData() {
-//        val discoverEntities = viewModel.getData()
-//        assertNotNull(discoverEntities)
-//    }
     @Test
     fun getMovie(){
         val dummyMovie = DummyData.generateDummyMovie()
@@ -52,8 +46,25 @@ class MovieDiscoverViewModelTest {
         val movieEntities = movieViewModel.getMovieDiscover().value
         verify(movieRepository).getMovieDiscover()
         assertNotNull(movieEntities)
+        assertEquals(5, movieEntities?.size)
 
         movieViewModel.getMovieDiscover().observeForever(observer)
+        verify(observer).onChanged(dummyMovie)
+    }
+
+    @Test
+    fun getMovieTrending(){
+        val dummyMovie = DummyData.generateDummyMovie()
+        val movie = MutableLiveData<List<MovieDiscoverEntity>>()
+        movie.value = dummyMovie
+
+        `when`(movieRepository.getTrending("movie")).thenReturn(movie)
+        val movieEntities = movieViewModel.getMovieTrending().value
+        verify(movieRepository).getTrending("movie")
+        assertNotNull(movieEntities)
+        assertEquals(5, movieEntities?.size)
+
+        movieViewModel.getMovieTrending().observeForever(observer)
         verify(observer).onChanged(dummyMovie)
     }
 }

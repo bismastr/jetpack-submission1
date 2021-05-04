@@ -1,4 +1,4 @@
-package com.example.jetpack_submission1.model
+package com.example.jetpack_submission1.data.remote.respone
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -31,13 +31,13 @@ data class TvResultsItem(
 	val originalLanguage: String,
 
 	@field:SerializedName("genre_ids")
-	val genreIds: List<Int>,
+	val genreIds: List<Int>?,
 
 	@field:SerializedName("poster_path")
 	val posterPath: String,
 
 	@field:SerializedName("origin_country")
-	val originCountry: List<String>,
+	val originCountry: List<String>?,
 
 	@field:SerializedName("backdrop_path")
 	val backdropPath: String,

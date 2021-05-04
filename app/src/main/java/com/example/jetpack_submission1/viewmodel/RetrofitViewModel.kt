@@ -4,10 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.jetpack_submission1.api.ApiConfig
-import com.example.jetpack_submission1.model.DiscoverTvResponse
-import com.example.jetpack_submission1.model.Response
-import com.example.jetpack_submission1.model.MovieResultsItem
-import com.example.jetpack_submission1.model.TvResultsItem
+import com.example.jetpack_submission1.data.remote.respone.DiscoverTvResponse
+import com.example.jetpack_submission1.data.remote.respone.MovieResultsItem
+import com.example.jetpack_submission1.data.remote.respone.Response
+import com.example.jetpack_submission1.data.remote.respone.TvResultsItem
+
 import retrofit2.Call
 import retrofit2.Callback
 
