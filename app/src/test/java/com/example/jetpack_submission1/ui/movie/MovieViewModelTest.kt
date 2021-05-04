@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.jetpack_submission1.data.Repository
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
-import com.example.jetpack_submission1.ui.movie.MovieViewModel
 import com.example.jetpack_submission1.utils.DummyData
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

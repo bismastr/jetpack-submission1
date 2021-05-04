@@ -7,6 +7,7 @@ import com.example.jetpack_submission1.utils.LiveDataTestUtil
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.verify
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Rule
 import org.junit.Test
@@ -42,6 +43,7 @@ class RepositoryTest {
         verify(remote).getTrending(any(), eq("tv"))
 
         assertNotNull(trendingEntities)
+        assertEquals(trendingResponse.size.toLong(), trendingEntities.size.toLong())
     }
 
    @Test
@@ -57,6 +59,7 @@ class RepositoryTest {
        verify(remote).getDiscoverMovie(any())
 
        assertNotNull(movieDiscoverEntities)
+       assertEquals(movieDiscoverResponse.size.toLong(), movieDiscoverEntities.size.toLong())
    }
 
     @Test
@@ -67,11 +70,11 @@ class RepositoryTest {
             null
         }.`when`(remote).getDetailMovie(any(), eq("0"))
 
-        val movieDiscoverEntities = LiveDataTestUtil.getValue(repository.getMovieDetail("0"))
+        val movieDetailEntities = LiveDataTestUtil.getValue(repository.getMovieDetail("0"))
 
         verify(remote).getDetailMovie(any(), eq("0"))
 
-        assertNotNull(movieDiscoverEntities)
+        assertNotNull(movieDetailEntities)
     }
 
     @Test
@@ -87,6 +90,7 @@ class RepositoryTest {
         verify(remote).getDiscoverTv(any())
 
         assertNotNull(tvDiscoverEntities)
+        assertEquals(tvDiscoverResponse.size.toLong(), tvDiscoverEntities.size.toLong())
     }
 
     @Test

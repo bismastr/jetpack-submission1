@@ -1,6 +1,5 @@
 package com.example.jetpack_submission1.ui.tv
 
-import android.media.tv.TvView
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -8,18 +7,16 @@ import com.example.jetpack_submission1.data.Repository
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.ui.tvshow.TvViewModel
 import com.example.jetpack_submission1.utils.DummyData
-import com.example.jetpack_submission1.viewmodel.TvDiscoverViewModel
 import com.nhaarman.mockitokotlin2.verify
-import org.junit.Test
-
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
-import java.util.*
 
 @RunWith(MockitoJUnitRunner::class)
 class TvDiscoverViewModelTest {

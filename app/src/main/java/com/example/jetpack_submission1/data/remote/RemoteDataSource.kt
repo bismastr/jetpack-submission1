@@ -3,6 +3,8 @@ package com.example.jetpack_submission1.data.remote
 import android.util.Log
 import com.example.jetpack_submission1.api.ApiConfig
 import com.example.jetpack_submission1.data.remote.respone.*
+import com.example.jetpack_submission1.utils.IdlingResources
+import com.facebook.shimmer.ShimmerFrameLayout
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -79,6 +81,7 @@ class RemoteDataSource {
     }
 
     fun getDetailMovie(callback: LoadDetailCallback, movieId: String){
+        IdlingResources.increment()
         var listData: DetailMovieResponse?
         val client = ApiConfig.getApiServices().getMovieDetail(movieId)
         client.enqueue(object : Callback<DetailMovieResponse>{
@@ -94,7 +97,9 @@ class RemoteDataSource {
                 TODO("Not yet implemented")
             }
 
+
         })
+        IdlingResources.decrement()
     }
 
     fun getDetailTv(callback: LoadDetailTvCallback, tvId: String){

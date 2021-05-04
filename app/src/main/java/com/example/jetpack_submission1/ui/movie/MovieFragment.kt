@@ -47,6 +47,7 @@ class MovieFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
 
+
     }
 
     //setupRecyclerView
@@ -63,7 +64,6 @@ class MovieFragment : Fragment() {
         getDataTrending()
         getData()
         onItemClick()
-
     }
 
     //onItemClick
@@ -87,29 +87,64 @@ class MovieFragment : Fragment() {
     }
 
     //getData
-    private fun getData(){
+    private fun getData() {
         IdlingResources.increment()
-        movieViewModel.getMovieDiscover().observe(viewLifecycleOwner, {MovieList ->
-            if(MovieList !== null){
+        showDiscoverLoading(true)
+        movieViewModel.getMovieDiscover().observe(viewLifecycleOwner, { MovieList ->
+            if (MovieList !== null) {
                 val movieArray = MovieList as ArrayList<MovieDiscoverEntity>
+                showDiscoverLoading(false)
                 adapterDiscover.setData(movieArray)
                 Log.d("DATA", MovieList.toString())
             }
         })
+
         IdlingResources.decrement()
     }
 
     //getDataTrending
     private fun getDataTrending() {
         IdlingResources.increment()
+        showTrendingLoading(true)
         movieViewModel.getMovieTrending().observe(viewLifecycleOwner, { TrendingList ->
             if (TrendingList !== null) {
-                val trendingArray  = TrendingList as ArrayList<MovieDiscoverEntity>
+                val trendingArray = TrendingList as ArrayList<MovieDiscoverEntity>
+                showTrendingLoading(false)
                 adapterTrending.setData(trendingArray)
             }
+
         })
         IdlingResources.decrement()
 
+    }
+
+    //Loading
+    private fun showTrendingLoading(state: Boolean) {
+        if (state) {
+            binding.shimmerTrendingMovie.startShimmer()
+            binding.shimmerTrendingMovie.visibility = View.VISIBLE
+            binding.rvTrendingMovie.visibility = View.GONE
+
+
+        } else {
+            binding.shimmerTrendingMovie.stopShimmer()
+            binding.shimmerTrendingMovie.visibility = View.GONE
+            binding.rvTrendingMovie.visibility = View.VISIBLE
+
+        }
+    }
+
+    private fun showDiscoverLoading(state: Boolean) {
+        if (state) {
+            binding.shimmerDiscoverMovie.startShimmer()
+            binding.shimmerDiscoverMovie.visibility = View.VISIBLE
+            binding.rvMovieDiscover.visibility = View.GONE
+
+        } else {
+            binding.shimmerDiscoverMovie.stopShimmer()
+            binding.shimmerDiscoverMovie.visibility = View.GONE
+            binding.rvMovieDiscover.visibility = View.VISIBLE
+        }
     }
 
     override fun onDestroyView() {

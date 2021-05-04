@@ -4,66 +4,111 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.movie.MovieFragment"
-    android:background="@color/primaryColor">
+    android:background="@color/primaryColor"
+    tools:context=".ui.movie.MovieFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <!--Trending-->
+
         <TextView
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
             android:id="@+id/tv_whats_trending"
             style="@style/TextContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
             android:fontFamily="@font/roboto_bold"
             android:text="@string/what_s_trending" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_light"
             android:text="@string/trending_sub_movie"
             android:textColor="#A3FFFFFF" />
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerTrendingMovie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            app:shimmer_base_color="@color/secondaryColor"
+            app:shimmer_colored="true"
+            app:shimmer_dropoff="@integer/config_navAnimTime"
+            app:shimmer_highlight_color="@color/secondaryLightColor"
+            app:shimmer_shape="linear">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <include layout="@layout/item_trending" />
+
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_trending_movie"
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_trending" />
         <!--Discover-->
         <TextView
             style="@style/TextContent"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/roboto_bold"
-            android:text="@string/discover"/>
+            android:text="@string/discover" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_light"
             android:text="@string/discover_sub_movie"
             android:textColor="#A3FFFFFF" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerDiscoverMovie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:shimmer_base_color="@color/secondaryColor"
+            app:shimmer_colored="true"
+            app:shimmer_highlight_color="@color/secondaryLightColor">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <include layout="@layout/item_movie" />
+
+                <include layout="@layout/item_movie" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_movie_discover"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             tools:listitem="@layout/item_movie" />
     </LinearLayout>

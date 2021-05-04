@@ -87,9 +87,11 @@ class TvShowFragment : Fragment() {
     //getData
     private fun getData(){
         IdlingResources.increment()
+        showDiscoverLoading(true)
         tvViewModel.getTvDiscover().observe(viewLifecycleOwner, {TvList ->
             if (TvList !== null){
                 val tvArray = TvList as ArrayList<MovieDiscoverEntity>
+                showDiscoverLoading(false)
                 adapterDiscover.setData(tvArray)
             }
         })
@@ -98,13 +100,43 @@ class TvShowFragment : Fragment() {
 
     private fun getDataTrending(){
         IdlingResources.increment()
+        showTrendingLoading(true)
         tvViewModel.getTvTrending().observe(viewLifecycleOwner, {TrendingList ->
             if (TrendingList !== null){
                 val trendingArray = TrendingList as ArrayList<MovieDiscoverEntity>
+                showTrendingLoading(false)
                 adapterTrending.setData(trendingArray)
             }
         })
         IdlingResources.decrement()
+    }
+
+    private fun showDiscoverLoading(state: Boolean) {
+        if (state) {
+            binding.shimmerDiscoverTV.startShimmer()
+            binding.shimmerDiscoverTV.visibility = View.VISIBLE
+            binding.rvTvDiscover.visibility = View.GONE
+
+        } else {
+            binding.shimmerDiscoverTV.stopShimmer()
+            binding.shimmerDiscoverTV.visibility = View.GONE
+            binding.rvTvDiscover.visibility = View.VISIBLE
+        }
+    }
+
+    private fun showTrendingLoading(state: Boolean) {
+        if (state) {
+            binding.shimmerTrendingTv.startShimmer()
+            binding.shimmerTrendingTv.visibility = View.VISIBLE
+            binding.rvTrendingTvShow.visibility = View.GONE
+
+
+        } else {
+            binding.shimmerTrendingTv.stopShimmer()
+            binding.shimmerTrendingTv.visibility = View.GONE
+            binding.rvTrendingTvShow.visibility = View.VISIBLE
+
+        }
     }
 
     override fun onDestroyView() {

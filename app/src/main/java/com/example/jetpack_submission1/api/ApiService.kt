@@ -1,6 +1,7 @@
 package com.example.jetpack_submission1.api
 
 
+import com.example.jetpack_submission1.BuildConfig
 import com.example.jetpack_submission1.data.remote.respone.*
 import retrofit2.Call
 import retrofit2.http.GET
@@ -8,7 +9,7 @@ import retrofit2.http.Path
 
 interface ApiService {
     companion object {
-        const val KEY = "423b6f0f60e161184f1ecddb00f45512"
+        const val KEY = BuildConfig.API_KEY
     }
 
     @GET("discover/movie?api_key=${KEY}")

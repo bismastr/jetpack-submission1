@@ -2,12 +2,14 @@ package com.example.jetpack_submission1.ui.detail
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
 import com.example.jetpack_submission1.databinding.ActivityDetailTvBinding
+import com.example.jetpack_submission1.utils.IdlingResources
 import com.example.jetpack_submission1.viewmodel.ViewModelFactory
 
 class DetailTvActivity : AppCompatActivity() {
@@ -34,6 +36,7 @@ class DetailTvActivity : AppCompatActivity() {
     }
 
     private fun setData(detail: TvDetailEntity) {
+        IdlingResources.increment()
         binding.tvOverviewTv.text = detail.overview
         binding.tvTitleTv.text = detail.title
         binding.tvEpisode.text = detail.numberEpisdoe.toString()
@@ -43,14 +46,19 @@ class DetailTvActivity : AppCompatActivity() {
         Glide.with(this)
             .load("https://image.tmdb.org/t/p/w500" + detail.poster)
             .into(binding.imgPosterTv)
+        showDetailLoading(false)
+        IdlingResources.decrement()
     }
 
     private fun getData() {
+        IdlingResources.increment()
+        showDetailLoading(true)
         tvViewModel.getTvDetail(tvId).observe(this, { DetailData ->
             if (DetailData != null) {
                 setData(DetailData)
             }
         })
+        IdlingResources.decrement()
     }
 
     private fun getIntentData() {
@@ -58,5 +66,18 @@ class DetailTvActivity : AppCompatActivity() {
             intent.getParcelableExtra<MovieDiscoverEntity>(EXTRA_FILM) as MovieDiscoverEntity
         tvId = dataIntent.id.toString()
         Log.d("TAG", tvId)
+    }
+
+    private fun showDetailLoading(state: Boolean) {
+        if (state) {
+            binding.shimmerDetail.startShimmer()
+            binding.shimmerDetail.visibility = View.VISIBLE
+            binding.layoutDetail.visibility = View.GONE
+
+        } else {
+            binding.shimmerDetail.stopShimmer()
+            binding.shimmerDetail.visibility = View.GONE
+            binding.layoutDetail.visibility = View.VISIBLE
+        }
     }
 }

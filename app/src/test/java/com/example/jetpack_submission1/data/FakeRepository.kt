@@ -1,6 +1,5 @@
 package com.example.jetpack_submission1.data
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.jetpack_submission1.data.local.entity.MovieDetailEntity

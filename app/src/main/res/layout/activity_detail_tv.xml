@@ -12,143 +12,168 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/img_poster_tv"
-            android:layout_width="200dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="34dp"
-            android:src="@drawable/ic_launcher_background"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:riv_corner_radius="20dp" />
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerDetail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:shimmer_base_color="@color/secondaryColor"
+            app:shimmer_colored="true"
+            app:shimmer_dropoff="@integer/config_navAnimTime"
+            app:shimmer_highlight_color="@color/secondaryLightColor"
+            app:shimmer_shape="linear">
 
-        <TextView
-            android:id="@+id/tv_title_tv"
-            style="@style/TextContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/dummy_title"
-            android:textAlignment="center"
-            android:textSize="30sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_rating_tv"
-            style="@style/TextContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/dummy_rating"
-            android:textColor="@color/secondaryLightColor"
-            android:textSize="30sp" />
-
-        <RatingBar
-            android:id="@+id/ratingbar_tv"
-            style="@style/Widget.AppCompat.RatingBar.Indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="4dp"
-            android:numStars="5"
-            android:rating="4.7"
-            android:theme="@style/RatingBar" />
-
-        <TextView
-            style="@style/TextContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/overview"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/tv_overview_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:text="@string/dummy_overview"
-            android:textColor="@color/primaryTextColor" />
+                <include layout="@layout/item_detail_placeholder" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp"
-            android:orientation="horizontal">
+            android:id="@+id/layout_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_episode"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_margin="10dp"
-                app:cardBackgroundColor="@color/primaryLightColor"
-                app:cardCornerRadius="10dp">
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/img_poster_tv"
+                android:layout_width="200dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="34dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:riv_corner_radius="20dp" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_title_tv"
+                style="@style/TextContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/dummy_title"
+                android:textAlignment="center"
+                android:textSize="30sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="@font/roboto"
-                        android:text="@string/episode"
-                        android:textColor="@color/primaryTextColor" />
+            <TextView
+                android:id="@+id/tv_rating_tv"
+                style="@style/TextContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/dummy_rating"
+                android:textColor="@color/secondaryLightColor"
+                android:textSize="30sp" />
 
-                    <TextView
-                        android:id="@+id/tv_episode"
-                        style="@style/TextContent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="@string/dummy_number" />
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
+            <RatingBar
+                android:id="@+id/ratingbar_tv"
+                style="@style/Widget.AppCompat.RatingBar.Indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="4dp"
+                android:numStars="5"
+                android:rating="4.7"
+                android:theme="@style/RatingBar" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_season"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_margin="10dp"
-                app:cardBackgroundColor="@color/primaryLightColor"
-                app:cardCornerRadius="10dp">
+            <TextView
+                style="@style/TextContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/overview"
+                android:textSize="18sp" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_overview_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:text="@string/dummy_overview"
+                android:textColor="@color/primaryTextColor" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="@font/roboto"
-                        android:text="@string/seasons"
-                        android:textColor="@color/primaryTextColor" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tv_seasons"
-                        style="@style/TextContent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="@string/dummy_number" />
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_episode"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="10dp"
+                    app:cardBackgroundColor="@color/primaryLightColor"
+                    app:cardCornerRadius="10dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/roboto"
+                            android:text="@string/episode"
+                            android:textColor="@color/primaryTextColor" />
+
+                        <TextView
+                            android:id="@+id/tv_episode"
+                            style="@style/TextContent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="@string/dummy_number" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_season"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="10dp"
+                    app:cardBackgroundColor="@color/primaryLightColor"
+                    app:cardCornerRadius="10dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/roboto"
+                            android:text="@string/seasons"
+                            android:textColor="@color/primaryTextColor" />
+
+                        <TextView
+                            android:id="@+id/tv_seasons"
+                            style="@style/TextContent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="@string/dummy_number" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

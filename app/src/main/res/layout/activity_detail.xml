@@ -6,79 +6,103 @@
     android:layout_height="match_parent"
     android:background="@color/primaryColor"
     tools:context=".ui.detail.DetailActivity">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerMovieDetail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:shimmer_base_color="@color/secondaryColor"
+            app:shimmer_colored="true"
+            app:shimmer_dropoff="@integer/config_navAnimTime"
+            app:shimmer_highlight_color="@color/secondaryLightColor"
+            app:shimmer_shape="linear">
 
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/img_poster_movie"
-            android:layout_width="200dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="34dp"
-            android:src="@drawable/ic_launcher_background"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:riv_corner_radius="20dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_title_movie"
-            style="@style/TextContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/dummy_title"
-            android:textAlignment="center"
-            android:textSize="30sp" />
+                <include layout="@layout/item_detail_placeholder" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+        <LinearLayout
+            android:id="@+id/layoutMovieDetail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-        <TextView
-            android:id="@+id/tv_rating_movie"
-            style="@style/TextContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/dummy_rating"
-            android:textColor="@color/secondaryLightColor"
-            android:textSize="30sp" />
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/img_poster_movie"
+                android:layout_width="200dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="34dp"
+                android:src="@drawable/ic_launcher_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:riv_corner_radius="20dp" />
 
-        <RatingBar
-            android:id="@+id/ratingbar_movie"
-            style="@style/Widget.AppCompat.RatingBar.Indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="4dp"
-            android:numStars="5"
-            android:rating="4.7"
-            android:theme="@style/RatingBar" />
+            <TextView
+                android:id="@+id/tv_title_movie"
+                style="@style/TextContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/dummy_title"
+                android:textAlignment="center"
+                android:textSize="30sp" />
 
-        <TextView
-            style="@style/TextContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/overview"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/tv_rating_movie"
+                style="@style/TextContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/dummy_rating"
+                android:textColor="@color/secondaryLightColor"
+                android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/tv_overview_movie"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:text="@string/dummy_overview"
-            android:textColor="@color/primaryTextColor" />
+            <RatingBar
+                android:id="@+id/ratingbar_movie"
+                style="@style/Widget.AppCompat.RatingBar.Indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="4dp"
+                android:numStars="5"
+                android:rating="4.7"
+                android:theme="@style/RatingBar" />
+
+            <TextView
+                style="@style/TextContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/overview"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_overview_movie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:text="@string/dummy_overview"
+                android:textColor="@color/primaryTextColor" />
+        </LinearLayout>
     </LinearLayout>
+
 
 
 </androidx.core.widget.NestedScrollView>

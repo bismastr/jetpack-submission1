@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
     android:background="@color/primaryColor"
     tools:context=".ui.tvshow.TvShowFragment">
@@ -14,6 +14,7 @@
         android:orientation="vertical">
         <!--Trending-->
         <TextView
+            android:id="@+id/tv_whats_trending"
             android:layout_marginTop="24dp"
             android:layout_marginStart="24dp"
             android:layout_width="wrap_content"
@@ -31,16 +32,40 @@
             android:layout_height="wrap_content"
             android:text="@string/trending_sub_tv"
             android:textColor="#A3FFFFFF"/>
+<!--        Shimmer Effect -->
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerTrendingTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            app:shimmer_base_color="@color/secondaryColor"
+            app:shimmer_colored="true"
+            app:shimmer_dropoff="@integer/config_navAnimTime"
+            app:shimmer_highlight_color="@color/secondaryLightColor"
+            app:shimmer_shape="linear">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <include layout="@layout/item_trending" />
+
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_trending_tvShow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="horizontal"
-            tools:listitem="@layout/item_trending"/>
+            tools:listitem="@layout/item_trending"
+            android:visibility="gone"/>
         <!--Discover-->
         <TextView
+            android:id="@+id/tv_discover_tv"
             style="@style/TextContent"
             android:fontFamily="@font/roboto_bold"
             android:layout_marginStart="24dp"
@@ -57,14 +82,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/discover_sub_tv" />
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerDiscoverTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:shimmer_base_color="@color/secondaryColor"
+            app:shimmer_colored="true"
+            app:shimmer_highlight_color="@color/secondaryLightColor">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <include layout="@layout/item_movie" />
+
+                <include layout="@layout/item_movie" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_tv_discover"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-            tools:listitem="@layout/item_movie" />
+            tools:listitem="@layout/item_movie"
+            android:visibility="gone"/>
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
