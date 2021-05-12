@@ -21,4 +21,7 @@
     <string name="trending_sub_movie">Take a look what people see</string>
     <string name="trending_sub_tv">Take a look people see</string>
     <string name="discover_sub_tv">Let\'s find your favorite TV Series</string>
+    <string name="tv"> TV</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

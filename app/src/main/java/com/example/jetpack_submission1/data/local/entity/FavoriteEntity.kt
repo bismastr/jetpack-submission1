@@ -6,12 +6,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
-@Entity(tableName = "movie_table")
+@Entity(tableName = "favorite_table")
 @Parcelize
-data class MovieDiscoverEntity(
+data class FavoriteEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    var id: Int = 0,
+    var id: Int ,
 
     @ColumnInfo(name = "poster")
     var poster: String? = null,
@@ -20,6 +20,8 @@ data class MovieDiscoverEntity(
     var title: String? = null,
 
     @ColumnInfo(name = "rating")
-    var rating: Double = 0.0
+    var rating: Double = 0.0,
 
+    @ColumnInfo(name = "from")
+    var from: Int = 0
 ) : Parcelable

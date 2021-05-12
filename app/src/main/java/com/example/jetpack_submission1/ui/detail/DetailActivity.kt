@@ -49,14 +49,12 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun getData() {
-        IdlingResources.increment()
         showDetailLoading(true)
         detailViewModel.getMovieDetail(movieId).observe(this, { DetailData ->
             if (DetailData != null) {
                 setData(DetailData)
             }
         })
-        IdlingResources.decrement()
     }
 
     private fun getIntentData(){

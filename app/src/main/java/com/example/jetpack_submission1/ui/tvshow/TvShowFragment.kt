@@ -20,7 +20,7 @@ import com.example.jetpack_submission1.viewmodel.ViewModelFactory
 
 class TvShowFragment : Fragment() {
     private var _binding: FragmentTvshowBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding as FragmentTvshowBinding
 
 
     //viewModel
@@ -70,6 +70,7 @@ class TvShowFragment : Fragment() {
             override fun onItemClicked(data: MovieDiscoverEntity) {
                 val intentDetailActivity = Intent(activity, DetailTvActivity::class.java)
                 intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FILM, data)
+                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FROM, 1)
                 startActivity(intentDetailActivity)
             }
 
@@ -78,6 +79,7 @@ class TvShowFragment : Fragment() {
             override fun onItemClick(data: MovieDiscoverEntity) {
                 val intentDetailActivity = Intent(activity, DetailTvActivity::class.java)
                 intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FILM, data)
+                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FROM, 1)
                 startActivity(intentDetailActivity)
             }
 

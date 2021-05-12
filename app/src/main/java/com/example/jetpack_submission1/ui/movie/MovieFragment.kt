@@ -16,14 +16,15 @@ import com.example.jetpack_submission1.adapter.TrendingAdapter
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.FragmentMovieBinding
 import com.example.jetpack_submission1.ui.detail.DetailActivity
+import com.example.jetpack_submission1.ui.detail.DetailTvActivity
 import com.example.jetpack_submission1.utils.IdlingResources
 import com.example.jetpack_submission1.viewmodel.ViewModelFactory
 
 class MovieFragment : Fragment() {
     private var _binding: FragmentMovieBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding as FragmentMovieBinding
 
-    //viewmodel
+    //viewModel
     private lateinit var movieViewModel: MovieViewModel
 
     //adapter
@@ -70,16 +71,18 @@ class MovieFragment : Fragment() {
     private fun onItemClick() {
         adapterDiscover.setOnItemCLickCallback(object : FilmAdapter.OnItemClickCallback {
             override fun onItemClicked(data: MovieDiscoverEntity) {
-                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
-                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
+                val intentDetailActivity = Intent(activity, DetailTvActivity::class.java)
+                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FILM, data)
+                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FROM, 0)
                 startActivity(intentDetailActivity)
             }
 
         })
         adapterTrending.setOnItemCLickCallback(object : TrendingAdapter.OnItemClickCallback {
             override fun onItemClick(data: MovieDiscoverEntity) {
-                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
-                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
+                val intentDetailActivity = Intent(activity, DetailTvActivity::class.java)
+                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FILM, data)
+                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FROM, 0)
                 startActivity(intentDetailActivity)
             }
 
@@ -124,13 +127,10 @@ class MovieFragment : Fragment() {
             binding.shimmerTrendingMovie.startShimmer()
             binding.shimmerTrendingMovie.visibility = View.VISIBLE
             binding.rvTrendingMovie.visibility = View.GONE
-
-
         } else {
             binding.shimmerTrendingMovie.stopShimmer()
             binding.shimmerTrendingMovie.visibility = View.GONE
             binding.rvTrendingMovie.visibility = View.VISIBLE
-
         }
     }
 

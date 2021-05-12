@@ -1,15 +1,18 @@
 package com.example.jetpack_submission1.viewmodel
 
+import android.app.Application
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.jetpack_submission1.data.Repository
+import com.example.jetpack_submission1.data.local.LocalRepository
 import com.example.jetpack_submission1.di.Injection
 import com.example.jetpack_submission1.ui.detail.DetailViewModel
 import com.example.jetpack_submission1.ui.movie.MovieViewModel
+import com.example.jetpack_submission1.ui.notifications.FavoriteViewModel
 import com.example.jetpack_submission1.ui.tvshow.TvViewModel
 
-class ViewModelFactory private constructor(private val mRepository: Repository): ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory private constructor(private val mRepository: Repository, private val localRepository: LocalRepository): ViewModelProvider.NewInstanceFactory() {
 
     companion object {
         @Volatile
@@ -17,7 +20,7 @@ class ViewModelFactory private constructor(private val mRepository: Repository):
 
         fun getInstance(context: Context): ViewModelFactory =
             instance ?: synchronized(this){
-                instance ?: ViewModelFactory(Injection.provideRepository()).apply {
+                instance ?: ViewModelFactory(Injection.provideRepository(), Injection.provideLocalRepository(context)).apply {
                     instance = this
                 }
             }
@@ -37,7 +40,10 @@ class ViewModelFactory private constructor(private val mRepository: Repository):
                  TvViewModel(mRepository) as T
             }
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
-                DetailViewModel(mRepository) as T
+                DetailViewModel(mRepository, localRepository) as T
+            }
+            modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> {
+                FavoriteViewModel(localRepository) as T
             }
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)
         }

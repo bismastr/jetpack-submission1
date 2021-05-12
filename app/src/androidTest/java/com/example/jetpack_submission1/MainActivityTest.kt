@@ -87,6 +87,7 @@ class MainActivityTest {
         onView(withId(R.id.tv_episode)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_seasons)).check(matches(isDisplayed()))
     }
+
     @Test
     fun loadDetailTvTrending(){
         onView(withId(R.id.tv_discover_tv)).perform(swipeUp()).perform(swipeUp()).perform(swipeUp())
