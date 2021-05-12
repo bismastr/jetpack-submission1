@@ -3,17 +3,15 @@ package com.example.jetpack_submission1.ui.notifications
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.jetpack_submission1.adapter.FilmAdapter
 import com.example.jetpack_submission1.data.local.entity.FavoriteEntity
-import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.ItemMovieBinding
 
 class FavoritePagedListAdapter :
-    PagingDataAdapter<FavoriteEntity, FavoritePagedListAdapter.FavoriteViewHolder>(DIFF_CALLBACK) {
+    PagedListAdapter<FavoriteEntity, FavoritePagedListAdapter.FavoriteViewHolder>(DIFF_CALLBACK) {
     private val favoList = ArrayList<FavoriteEntity>()
     private var onItemCLickCallback: OnItemClickCallback? = null
 
@@ -73,12 +71,12 @@ class FavoritePagedListAdapter :
         )
     }
 
-    override fun getItemCount(): Int {
-        return favoList.count()
-    }
-
     interface OnItemClickCallback {
         fun onItemClicked(data: FavoriteEntity)
+    }
+
+    override fun getItemCount(): Int {
+        return favoList.size
     }
 
 

@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.jetpack_submission1.data.Repository
+import com.example.jetpack_submission1.data.local.LocalRepository
 import com.example.jetpack_submission1.data.local.entity.MovieDetailEntity
 import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
 import com.example.jetpack_submission1.utils.DummyData
@@ -28,6 +29,9 @@ class DetailViewModelTest {
     private lateinit var repository: Repository
 
     @Mock
+    private lateinit var localRepository: LocalRepository
+
+    @Mock
     private lateinit var observerMovie: Observer<MovieDetailEntity>
 
     @Mock
@@ -35,7 +39,7 @@ class DetailViewModelTest {
 
     @Before
     fun setUp(){
-        detailViewModel = DetailViewModel(repository)
+        detailViewModel = DetailViewModel(repository, localRepository)
     }
 
 

@@ -1,10 +1,12 @@
 package com.example.jetpack_submission1.data.local
 
 import androidx.annotation.WorkerThread
-import androidx.paging.DataSource
+import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.example.jetpack_submission1.data.local.entity.FavoriteEntity
 
-class LocalRepository private constructor (private val mFilmDao: FilmDao) {
+class LocalRepository(private val mFilmDao: FilmDao) {
 
     companion object {
         @Volatile
@@ -14,11 +16,11 @@ class LocalRepository private constructor (private val mFilmDao: FilmDao) {
             instance ?: synchronized(this) {
                 instance ?: LocalRepository(filmDao).apply { instance = this }
             }
-
-
     }
 
-    fun getAllMovie(from: Int): DataSource.Factory<Int, FavoriteEntity> = mFilmDao.getFavorite(from)
+    fun getAllMovie(from: Int): LiveData<PagedList<FavoriteEntity>> {
+        return LivePagedListBuilder(mFilmDao.getFavorite(from), 20).build()
+    }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
