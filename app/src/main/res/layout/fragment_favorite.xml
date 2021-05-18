@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.notifications.FavoriteFragment"
+    tools:context=".ui.favorite.FavoriteFragment"
     android:background="@color/primaryColor">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primaryLightColor"
+        android:background="@color/primaryColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tabIndicatorColor="@color/white"

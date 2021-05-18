@@ -1,6 +1,5 @@
 package com.example.jetpack_submission1.viewmodel
 
-import android.app.Application
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -9,7 +8,7 @@ import com.example.jetpack_submission1.data.local.LocalRepository
 import com.example.jetpack_submission1.di.Injection
 import com.example.jetpack_submission1.ui.detail.DetailViewModel
 import com.example.jetpack_submission1.ui.movie.MovieViewModel
-import com.example.jetpack_submission1.ui.notifications.FavoriteViewModel
+import com.example.jetpack_submission1.ui.favorite.FavoriteViewModel
 import com.example.jetpack_submission1.ui.tvshow.TvViewModel
 
 class ViewModelFactory private constructor(private val mRepository: Repository, private val localRepository: LocalRepository): ViewModelProvider.NewInstanceFactory() {

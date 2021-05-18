@@ -1,4 +1,4 @@
-package com.example.jetpack_submission1.ui.notifications
+package com.example.jetpack_submission1.ui.favorite
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -39,6 +39,7 @@ class FavoritePagedListAdapter :
         favoList.clear()
         favoList.addAll(favoData)
         notifyDataSetChanged()
+
     }
 
     fun setOnItemCLickCallback(onItemClickCallback: OnItemClickCallback) {
@@ -56,6 +57,7 @@ class FavoritePagedListAdapter :
                 .load("https://image.tmdb.org/t/p/w500" + element.poster)
                 .into(binding.imgMovie)
         }
+
     }
 
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {

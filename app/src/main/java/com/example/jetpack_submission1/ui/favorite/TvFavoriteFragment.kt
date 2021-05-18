@@ -1,4 +1,4 @@
-package com.example.jetpack_submission1.ui.notifications
+package com.example.jetpack_submission1.ui.favorite
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.jetpack_submission1.data.local.entity.FavoriteEntity
 import com.example.jetpack_submission1.databinding.FragmentTvFavoriteBinding
 import com.example.jetpack_submission1.ui.detail.DetailActivity
-import com.example.jetpack_submission1.ui.detail.DetailTvActivity
 import com.example.jetpack_submission1.utils.IdlingResources
 import com.example.jetpack_submission1.viewmodel.ViewModelFactory
 
@@ -44,8 +43,9 @@ class TvFavoriteFragment : Fragment() {
         adapter.setOnItemCLickCallback(object: FavoritePagedListAdapter.OnItemClickCallback{
             override fun onItemClicked(data: FavoriteEntity) {
                 val intentDetailActivity = Intent(activity, DetailActivity::class.java)
-                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FILM, data)
-                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FROM, 1)
+                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
+                intentDetailActivity.putExtra(DetailActivity.EXTRA_FROM, 1)
+                intentDetailActivity.putExtra(DetailActivity.EXTRA_FAVO, true)
                 startActivity(intentDetailActivity)
             }
 
@@ -57,7 +57,9 @@ class TvFavoriteFragment : Fragment() {
             if (TvList !== null) {
                 adapter.setData(TvList)
             }
+            IdlingResources.decrement()
         })
+
     }
 
     private fun setupRecyclerView() {

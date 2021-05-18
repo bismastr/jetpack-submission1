@@ -14,7 +14,7 @@ import com.example.jetpack_submission1.adapter.TrendingAdapter
 import com.example.jetpack_submission1.adapter.TvDiscoverAdapter
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.FragmentTvshowBinding
-import com.example.jetpack_submission1.ui.detail.DetailTvActivity
+import com.example.jetpack_submission1.ui.detail.DetailActivity
 import com.example.jetpack_submission1.utils.IdlingResources
 import com.example.jetpack_submission1.viewmodel.ViewModelFactory
 
@@ -68,18 +68,18 @@ class TvShowFragment : Fragment() {
     private fun onItemClick() {
         adapterDiscover.setOnItemClickCallback(object : TvDiscoverAdapter.OnItemClickCallback {
             override fun onItemClicked(data: MovieDiscoverEntity) {
-                val intentDetailActivity = Intent(activity, DetailTvActivity::class.java)
-                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FILM, data)
-                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FROM, 1)
+                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
+                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
+                intentDetailActivity.putExtra(DetailActivity.EXTRA_FROM, 1)
                 startActivity(intentDetailActivity)
             }
 
         })
         adapterTrending.setOnItemCLickCallback(object : TrendingAdapter.OnItemClickCallback {
             override fun onItemClick(data: MovieDiscoverEntity) {
-                val intentDetailActivity = Intent(activity, DetailTvActivity::class.java)
-                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FILM, data)
-                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FROM, 1)
+                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
+                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
+                intentDetailActivity.putExtra(DetailActivity.EXTRA_FROM, 1)
                 startActivity(intentDetailActivity)
             }
 

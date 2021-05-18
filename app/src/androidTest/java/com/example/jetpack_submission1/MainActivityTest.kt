@@ -3,8 +3,7 @@ package com.example.jetpack_submission1
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.swipeUp
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -56,22 +55,23 @@ class MainActivityTest {
     fun loadDetailMovie(){
         onView(withId(R.id.navigation_movie)).perform(click())
         onView(withId(R.id.rv_movie_discover)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
-        onView(withId(R.id.tv_overview_movie)).check(matches(isDisplayed()))
-        onView(withId(R.id.img_poster_movie)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_title_movie)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_rating_movie)).check(matches(isDisplayed()))
-        onView(withId(R.id.ratingbar_movie)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_overview_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.img_poster_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_title_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_rating_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.ratingbar_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.btn_favorite)).perform(click())
     }
 
     @Test
     fun loadDetailMovieTrending(){
         onView(withId(R.id.navigation_movie)).perform(click())
         onView(withId(R.id.rv_trending_movie)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
-        onView(withId(R.id.tv_overview_movie)).check(matches(isDisplayed()))
-        onView(withId(R.id.img_poster_movie)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_title_movie)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_rating_movie)).check(matches(isDisplayed()))
-        onView(withId(R.id.ratingbar_movie)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_overview_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.img_poster_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_title_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_rating_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.ratingbar_tv)).check(matches(isDisplayed()))
     }
     //check detail tv
     @Test
@@ -100,6 +100,22 @@ class MainActivityTest {
         onView(withId(R.id.ratingbar_tv)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_episode)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_seasons)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun favoriteMovie(){
+        onView(withId(R.id.navigation_favorite)).perform(click())
+        onView(withId(R.id.rv_movie_favorite)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_movie_favorite)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+
+    }
+
+    @Test
+    fun favoriteTv(){
+        onView(withId(R.id.navigation_favorite)).perform(click())
+        onView(withId(R.id.rv_movie_favorite)).perform(swipeLeft())
+        onView(withId(R.id.rv_tv_favorite)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_tv_favorite)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
     }
 
 

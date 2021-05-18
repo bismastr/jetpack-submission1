@@ -1,4 +1,4 @@
-package com.example.jetpack_submission1.ui.notifications
+package com.example.jetpack_submission1.ui.favorite
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

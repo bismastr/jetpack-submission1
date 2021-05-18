@@ -21,15 +21,16 @@ class LocalRepositoryTest {
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private val mDao = mock(FilmDao::class.java)
-    private val repository = LocalRepository(mDao)
+    private val repository = FakeLocalRepository(mDao)
 
+    @Mock
+    private lateinit var dataSourceFactory: DataSource.Factory<Int, FavoriteEntity>
 
     @Test
     fun favorite() {
-        val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, FavoriteEntity>
         `when`(mDao.getFavorite(1)).thenReturn(dataSourceFactory)
         repository.getAllMovie(1)
-        verify(mDao).getFavorite(anyInt())
+        verify(mDao).getFavorite(1)
     }
 
     @Test

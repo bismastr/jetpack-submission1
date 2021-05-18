@@ -16,7 +16,6 @@ import com.example.jetpack_submission1.adapter.TrendingAdapter
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.FragmentMovieBinding
 import com.example.jetpack_submission1.ui.detail.DetailActivity
-import com.example.jetpack_submission1.ui.detail.DetailTvActivity
 import com.example.jetpack_submission1.utils.IdlingResources
 import com.example.jetpack_submission1.viewmodel.ViewModelFactory
 
@@ -71,18 +70,18 @@ class MovieFragment : Fragment() {
     private fun onItemClick() {
         adapterDiscover.setOnItemCLickCallback(object : FilmAdapter.OnItemClickCallback {
             override fun onItemClicked(data: MovieDiscoverEntity) {
-                val intentDetailActivity = Intent(activity, DetailTvActivity::class.java)
-                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FILM, data)
-                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FROM, 0)
+                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
+                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
+                intentDetailActivity.putExtra(DetailActivity.EXTRA_FROM, 0)
                 startActivity(intentDetailActivity)
             }
 
         })
         adapterTrending.setOnItemCLickCallback(object : TrendingAdapter.OnItemClickCallback {
             override fun onItemClick(data: MovieDiscoverEntity) {
-                val intentDetailActivity = Intent(activity, DetailTvActivity::class.java)
-                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FILM, data)
-                intentDetailActivity.putExtra(DetailTvActivity.EXTRA_FROM, 0)
+                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
+                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
+                intentDetailActivity.putExtra(DetailActivity.EXTRA_FROM, 0)
                 startActivity(intentDetailActivity)
             }
 
