@@ -4,13 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.jetpack_submission1.data.Repository
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
+import com.example.jetpack_submission1.domain.usecase.FilmUseCase
 
-class TvViewModel(private val repository: Repository): ViewModel() {
+class TvViewModel(private val filmUseCase: FilmUseCase): ViewModel() {
     fun getTvDiscover(): LiveData<List<MovieDiscoverEntity>>{
-        return repository.getTvDiscover()
+        return filmUseCase.getTvDiscover()
     }
 
     fun getTvTrending(): LiveData<List<MovieDiscoverEntity>>{
-        return repository.getTrending("tv")
+        return filmUseCase.getTrending("tv")
     }
 }

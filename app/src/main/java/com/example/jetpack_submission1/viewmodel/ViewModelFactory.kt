@@ -6,12 +6,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.jetpack_submission1.data.Repository
 import com.example.jetpack_submission1.data.local.LocalRepository
 import com.example.jetpack_submission1.di.Injection
+import com.example.jetpack_submission1.domain.usecase.FilmUseCase
 import com.example.jetpack_submission1.ui.detail.DetailViewModel
 import com.example.jetpack_submission1.ui.movie.MovieViewModel
 import com.example.jetpack_submission1.ui.favorite.FavoriteViewModel
 import com.example.jetpack_submission1.ui.tvshow.TvViewModel
 
-class ViewModelFactory private constructor(private val mRepository: Repository, private val localRepository: LocalRepository): ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory private constructor(private val mFilmUseCase: FilmUseCase, private val localRepository: LocalRepository): ViewModelProvider.NewInstanceFactory() {
 
     companion object {
         @Volatile
@@ -19,7 +20,7 @@ class ViewModelFactory private constructor(private val mRepository: Repository, 
 
         fun getInstance(context: Context): ViewModelFactory =
             instance ?: synchronized(this){
-                instance ?: ViewModelFactory(Injection.provideRepository(), Injection.provideLocalRepository(context)).apply {
+                instance ?: ViewModelFactory(Injection.provideTourismUseCase(), Injection.provideLocalRepository(context)).apply {
                     instance = this
                 }
             }
@@ -27,19 +28,17 @@ class ViewModelFactory private constructor(private val mRepository: Repository, 
 
     }
 
-
-
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(MovieViewModel::class.java) -> {
-                 MovieViewModel(mRepository) as T
+                 MovieViewModel(mFilmUseCase) as T
             }
             modelClass.isAssignableFrom(TvViewModel::class.java) -> {
-                 TvViewModel(mRepository) as T
+                 TvViewModel(mFilmUseCase) as T
             }
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
-                DetailViewModel(mRepository, localRepository) as T
+                DetailViewModel(mFilmUseCase, localRepository) as T
             }
             modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> {
                 FavoriteViewModel(localRepository) as T

@@ -7,9 +7,10 @@ import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
 import com.example.jetpack_submission1.data.remote.RemoteDataSource
 import com.example.jetpack_submission1.data.remote.respone.*
+import com.example.jetpack_submission1.domain.repository.IFilmRepository
 
 class FakeRepository (private val remoteDataSource: RemoteDataSource) :
-    FilmDataSource {
+    IFilmRepository {
 
     //Discover
     override fun getMovieDiscover(): LiveData<List<MovieDiscoverEntity>> {
