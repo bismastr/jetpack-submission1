@@ -9,10 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-
 import retrofit2.Call
 import retrofit2.Callback
-import java.lang.Exception
 
 class RemoteDataSource {
     companion object {
@@ -43,44 +41,37 @@ class RemoteDataSource {
         }.flowOn(Dispatchers.IO)
     }
 
-    fun getTrending(callback: LoadTrendingCallback, mediaType: String) {
-        var listData: List<TrendingResultItems>
-        val client = ApiConfig.getApiServices().getTrending(mediaType)
-        client.enqueue(object : Callback<TrendingResponse> {
-            override fun onResponse(
-                call: Call<TrendingResponse>,
-                response: retrofit2.Response<TrendingResponse>
-            ) {
-                listData = response.body()?.results as ArrayList<TrendingResultItems>
-                callback.onAllTrendingReceived(listData)
+    suspend fun getTrending(mediaType: String): Flow<ApiResponse<List<TrendingResultItems>>> {
 
+        return flow {
+            try {
+                val response = ApiConfig.getApiServices().getTrending(mediaType)
+                val dataArray = response.results as ArrayList<TrendingResultItems>
+                if (dataArray.isNotEmpty()){
+                    this.emit(ApiResponse.Success(response.results))
+                } else {
+                    this.emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception){
+                this.emit(ApiResponse.Error(e.toString()))
             }
-
-            override fun onFailure(call: Call<TrendingResponse>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-
-        })
+        }.flowOn(Dispatchers.IO)
     }
 
-    fun getDiscoverTv(callback: LoadTvCallback) {
-        var listData: ArrayList<TvResultsItem>
-        val client = ApiConfig.getApiServices().getTvDiscover()
-        client.enqueue(object : Callback<DiscoverTvResponse> {
-            override fun onResponse(
-                call: Call<DiscoverTvResponse>,
-                response: retrofit2.Response<DiscoverTvResponse>
-            ) {
-                listData = response.body()?.results as ArrayList<TvResultsItem>
-                callback.onAllTvReceived(listData)
-            }
-
-            override fun onFailure(call: Call<DiscoverTvResponse>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-        })
+    suspend fun getDiscoverTv(): Flow<ApiResponse<List<TvResultsItem>>> {
+       return flow {
+           try {
+               val response = ApiConfig.getApiServices().getTvDiscover()
+               val dataArray = response.results as ArrayList<TvResultsItem>
+               if(dataArray.isNotEmpty()){
+                   this.emit(ApiResponse.Success(response.results))
+               } else {
+                   this.emit(ApiResponse.Empty)
+               }
+           }catch (e: Exception) {
+               this.emit(ApiResponse.Error(e.toString()))
+           }
+       }.flowOn(Dispatchers.IO)
     }
 
 

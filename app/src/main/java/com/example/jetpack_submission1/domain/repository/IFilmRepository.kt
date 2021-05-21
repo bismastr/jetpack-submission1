@@ -12,9 +12,11 @@ interface IFilmRepository {
 
     fun getMovieDiscover(): Flow<Resource<List<MovieDiscover>>>
 
-    fun getTvDiscover(): LiveData<List<MovieDiscoverEntity>>
+    fun getTvDiscover(): Flow<Resource<List<MovieDiscover>>>
 
     fun getTrending(mediaType: String): Flow<Resource<List<MovieDiscover>>>
+
+    fun getTvTrending(mediaType: String): Flow<Resource<List<MovieDiscover>>>
 
     fun getMovieDetail(movieId: String): LiveData<MovieDetailEntity>
 

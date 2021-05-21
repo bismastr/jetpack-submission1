@@ -1,6 +1,7 @@
 package com.example.jetpack_submission1.data.local
 
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
+import com.example.jetpack_submission1.data.local.entity.TvDiscoverEntity
 import com.example.jetpack_submission1.data.local.filmRoom.Dao
 import kotlinx.coroutines.flow.Flow
 
@@ -21,4 +22,13 @@ class LocalDataSource private constructor(private val filmDao: Dao){
     fun getAllMovieTrending(): Flow<List<MovieDiscoverEntity>> = filmDao.getAllMovieTrending()
 
     suspend fun insertMovieTrending(filmList: List<MovieDiscoverEntity>) = filmDao.insertMovieTrending(filmList)
+
+    //tv
+    fun getAllTvDiscover(): Flow<List<TvDiscoverEntity>> = filmDao.getAllTvDiscover()
+
+    suspend fun insertTvDiscover(tvList: List<TvDiscoverEntity>) = filmDao.insertTvDiscover(tvList)
+
+    fun getAllTvTrending(): Flow<List<TvDiscoverEntity>> = filmDao.getAllTvTrending()
+
+    suspend fun insertTvTrending(tvList: List<TvDiscoverEntity>) = filmDao.insertTvTrending(tvList)
 }

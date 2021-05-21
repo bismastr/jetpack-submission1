@@ -6,12 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.jetpack_submission1.adapter.viewholder.TrendingViewHolder
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.ItemTrendingBinding
+import com.example.jetpack_submission1.domain.model.MovieDiscover
 
 class TrendingAdapter : RecyclerView.Adapter<TrendingViewHolder>() {
     private var onItemClickCallback: OnItemClickCallback? = null
-    private val dataList = ArrayList<MovieDiscoverEntity>()
+    private val dataList = ArrayList<MovieDiscover>()
 
-    fun setData(movie: ArrayList<MovieDiscoverEntity>) {
+    fun setData(movie: ArrayList<MovieDiscover>) {
         dataList.clear()
         dataList.addAll(movie)
         notifyDataSetChanged()
@@ -39,6 +40,6 @@ class TrendingAdapter : RecyclerView.Adapter<TrendingViewHolder>() {
     }
 
     interface OnItemClickCallback {
-        fun onItemClick(data: MovieDiscoverEntity)
+        fun onItemClick(data: MovieDiscover)
     }
 }

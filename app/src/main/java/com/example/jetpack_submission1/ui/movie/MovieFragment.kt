@@ -1,6 +1,5 @@
 package com.example.jetpack_submission1.ui.movie
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,11 +13,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.jetpack_submission1.adapter.FilmAdapter
 import com.example.jetpack_submission1.adapter.TrendingAdapter
 import com.example.jetpack_submission1.data.Resource
-import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.FragmentMovieBinding
 import com.example.jetpack_submission1.domain.model.MovieDiscover
-import com.example.jetpack_submission1.ui.detail.DetailActivity
-import com.example.jetpack_submission1.utils.IdlingResources
 import com.example.jetpack_submission1.viewmodel.ViewModelFactory
 
 class MovieFragment : Fragment() {
@@ -84,20 +80,21 @@ class MovieFragment : Fragment() {
 
         })
         adapterTrending.setOnItemCLickCallback(object : TrendingAdapter.OnItemClickCallback {
-            override fun onItemClick(data: MovieDiscoverEntity) {
-                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
-                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
-                intentDetailActivity.putExtra(DetailActivity.EXTRA_FROM, 0)
-                startActivity(intentDetailActivity)
+            override fun onItemClick(data: MovieDiscover) {
+                TODO("Not yet implemented")
             }
+//            override fun onItemClick(data: MovieDiscoverEntity) {
+//                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
+//                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
+//                intentDetailActivity.putExtra(DetailActivity.EXTRA_FROM, 0)
+//                startActivity(intentDetailActivity)
+//            }
 
         })
     }
 
     //getData
     private fun getData() {
-        IdlingResources.increment()
-        showDiscoverLoading(true)
         movieViewModel.movieDiscover.observe(viewLifecycleOwner, { MovieList ->
             if (MovieList != null){
                 when(MovieList){
@@ -111,23 +108,23 @@ class MovieFragment : Fragment() {
                 }
             }
         })
-
-        IdlingResources.decrement()
     }
 
     //getDataTrending
     private fun getDataTrending() {
-        IdlingResources.increment()
-        showTrendingLoading(true)
-        movieViewModel.getMovieTrending().observe(viewLifecycleOwner, { TrendingList ->
-            if (TrendingList !== null) {
-                val trendingArray = TrendingList as ArrayList<MovieDiscoverEntity>
-                showTrendingLoading(false)
-                adapterTrending.setData(trendingArray)
+        movieViewModel.movieTrending.observe(viewLifecycleOwner, { TrendingList ->
+            if (TrendingList != null){
+                when(TrendingList){
+                    is Resource.Loading -> showTrendingLoading(true)
+                    is Resource.Success -> {
+                        showTrendingLoading(false)
+                        val trendingArrayList = TrendingList.data as ArrayList<MovieDiscover>
+                        adapterTrending.setData(trendingArrayList)
+                    }
+                    is Resource.Error -> Log.d("TAG", "GetTrending Error")
+                }
             }
-
         })
-        IdlingResources.decrement()
 
     }
 

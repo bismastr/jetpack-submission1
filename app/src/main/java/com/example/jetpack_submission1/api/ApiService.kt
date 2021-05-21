@@ -16,10 +16,10 @@ interface ApiService {
     suspend fun getDiscover(): Response
 
     @GET("discover/tv?api_key=${KEY}")
-    fun getTvDiscover(): Call<DiscoverTvResponse>
+    suspend fun getTvDiscover(): DiscoverTvResponse
 
     @GET("trending/{media_type}/week?api_key=${KEY}")
-    fun getTrending(@Path("media_type") mediaType: String): Call<TrendingResponse>
+    suspend fun getTrending(@Path("media_type") mediaType: String): TrendingResponse
 
     @GET("movie/{movie_id}?api_key=${KEY}")
     fun getMovieDetail(@Path("movie_id") movieId: String): Call<DetailMovieResponse>

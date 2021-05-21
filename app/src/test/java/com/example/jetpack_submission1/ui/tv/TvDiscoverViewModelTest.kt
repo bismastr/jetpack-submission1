@@ -60,7 +60,7 @@ class TvDiscoverViewModelTest {
         val dataEntities = viewModel.getTvTrending().value
         verify(repository).getTrending("tv")
         assertNotNull(dataEntities)
-        assertEquals(5, dataEntities?.size)
+        assertEquals(5, dataEntities.size)
 
         viewModel.getTvTrending().observeForever(observer)
         verify(observer).onChanged(dummyData)

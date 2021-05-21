@@ -46,7 +46,7 @@ class MovieViewModelTest {
         val movieEntities = movieViewModel.getMovieDiscover().value
         verify(movieRepository).getMovieDiscover()
         assertNotNull(movieEntities)
-        assertEquals(5, movieEntities?.size)
+        assertEquals(5, movieEntities.size)
 
         movieViewModel.getMovieDiscover().observeForever(observer)
         verify(observer).onChanged(dummyMovie)
@@ -62,7 +62,7 @@ class MovieViewModelTest {
         val movieEntities = movieViewModel.getMovieTrending().value
         verify(movieRepository).getTrending("movie")
         assertNotNull(movieEntities)
-        assertEquals(5, movieEntities?.size)
+        assertEquals(5, movieEntities.size)
 
         movieViewModel.getMovieTrending().observeForever(observer)
         verify(observer).onChanged(dummyMovie)

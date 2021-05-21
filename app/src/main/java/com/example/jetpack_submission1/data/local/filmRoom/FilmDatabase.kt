@@ -5,8 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
+import com.example.jetpack_submission1.data.local.entity.TvDiscoverEntity
 
-@Database(entities = [MovieDiscoverEntity::class], version = 1)
+@Database(entities = [MovieDiscoverEntity::class, TvDiscoverEntity::class], version = 1)
 abstract class FilmDatabase: RoomDatabase() {
     abstract fun Dao(): Dao
 

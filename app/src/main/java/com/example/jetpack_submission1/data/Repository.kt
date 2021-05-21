@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.example.jetpack_submission1.api.ApiResponse
 import com.example.jetpack_submission1.data.local.LocalDataSource
 import com.example.jetpack_submission1.data.local.entity.MovieDetailEntity
-import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
 import com.example.jetpack_submission1.data.remote.RemoteDataSource
 import com.example.jetpack_submission1.data.remote.respone.*
@@ -27,7 +26,10 @@ class Repository private constructor(
         @Volatile
         private var instance: Repository? = null
 
-        fun getInstance(remoteDataSource: RemoteDataSource, localDataSource: LocalDataSource): Repository =
+        fun getInstance(
+            remoteDataSource: RemoteDataSource,
+            localDataSource: LocalDataSource
+        ): Repository =
             instance ?: synchronized(this) {
                 instance ?: Repository(remoteDataSource, localDataSource).apply { instance = this }
             }
@@ -35,12 +37,12 @@ class Repository private constructor(
 
     }
 
-    //Discover
+    //MovieDiscover
     override fun getMovieDiscover(): Flow<Resource<List<MovieDiscover>>> =
-        object : NetworkBoundResource<List<MovieDiscover>, List<MovieResultsItem>>(){
+        object : NetworkBoundResource<List<MovieDiscover>, List<MovieResultsItem>>() {
             override fun loadFromDB(): Flow<List<MovieDiscover>> {
                 return localDataSource.getAllMovieDiscover().map {
-                    DataMapper.filmEntitiesToDomain(it)
+                    DataMapper.movieEntitiesToDomain(it)
                 }
             }
 
@@ -53,90 +55,83 @@ class Repository private constructor(
             }
 
             override suspend fun saveCallResult(data: List<MovieResultsItem>) {
-                val filmList = DataMapper.filmResponseToEntities(data)
+                val filmList = DataMapper.movieResponseToEntities(data)
                 localDataSource.insertMovieDiscover(filmList)
             }
 
 
         }.asFlow()
 
+    //MovieTrending
     override fun getTrending(mediaType: String): Flow<Resource<List<MovieDiscover>>> =
         object : NetworkBoundResource<List<MovieDiscover>, List<TrendingResultItems>>() {
             override fun loadFromDB(): Flow<List<MovieDiscover>> {
-                TODO("Not yet implemented")
+                return localDataSource.getAllMovieTrending().map {
+                    DataMapper.movieEntitiesToDomain(it)
+                }
             }
 
             override fun shouldFetch(data: List<MovieDiscover>?): Boolean {
-                TODO("Not yet implemented")
+                return true
             }
 
             override suspend fun createCall(): Flow<ApiResponse<List<TrendingResultItems>>> {
-                TODO("Not yet implemented")
+                return remoteDataSource.getTrending(mediaType)
             }
 
             override suspend fun saveCallResult(data: List<TrendingResultItems>) {
-                TODO("Not yet implemented")
+                val trendingList = DataMapper.trendingResponseToEntities(data, mediaType)
+                localDataSource.insertMovieTrending(trendingList)
             }
 
         }.asFlow()
 
-    override fun getTvDiscover(): LiveData<List<MovieDiscoverEntity>> {
-        val tvResult = MutableLiveData<List<MovieDiscoverEntity>>()
-        remoteDataSource.getDiscoverTv(object : RemoteDataSource.LoadTvCallback {
-            override fun onAllTvReceived(response: List<TvResultsItem>) {
-                val tvList = ArrayList<MovieDiscoverEntity>()
-                for (i in response) {
-                    val tv = MovieDiscoverEntity(
-                        i.id,
-                        i.posterPath,
-                        i.originalName,
-                        i.voteAverage
-                    )
-                    tvList.add(tv)
+    //TvDiscover
+    override fun getTvDiscover(): Flow<Resource<List<MovieDiscover>>> =
+        object : NetworkBoundResource<List<MovieDiscover>, List<TvResultsItem>>() {
+            override fun loadFromDB(): Flow<List<MovieDiscover>> {
+                return localDataSource.getAllTvDiscover().map {
+                    DataMapper.tvEntitiesToDomain(it)
                 }
-                tvResult.postValue(tvList)
             }
 
-        })
-        return tvResult
-    }
+            override fun shouldFetch(data: List<MovieDiscover>?): Boolean {
+                return true
+            }
 
+            override suspend fun createCall(): Flow<ApiResponse<List<TvResultsItem>>> {
+                return remoteDataSource.getDiscoverTv()
+            }
 
-//        val trendingResult = MutableLiveData<List<MovieDiscoverEntity>>()
-//        remoteDataSource.getTrending(object : RemoteDataSource.LoadTrendingCallback {
-//            override fun onAllTrendingReceived(response: List<TrendingResultItems>) {
-//                val tvList = ArrayList<MovieDiscoverEntity>()
-//                if (mediaType == "movie") {
-//                    for (i in response) {
-//                        val trending = MovieDiscoverEntity(
-//                            i.id,
-//                            i.backdropPath,
-//                            i.originalTitle,
-//                            i.voteAverage
-//                        )
-//                        tvList.add(trending)
-//                    }
-//                    trendingResult.postValue(tvList)
-//                } else if (mediaType == "tv") {
-//                    for (i in response) {
-//                        val trending = MovieDiscoverEntity(
-//                            i.id,
-//                            i.backdropPath,
-//                            i.originalName,
-//                            i.voteAverage
-//                        )
-//                        tvList.add(trending)
-//                    }
-//                    trendingResult.postValue(tvList)
-//                }
-//
-//
-//            }
-//
-//
-//        }, mediaType)
-//        return trendingResult
+            override suspend fun saveCallResult(data: List<TvResultsItem>) {
+                val tvList = DataMapper.tvResponseToEntities(data)
+                localDataSource.insertTvDiscover(tvList)
+            }
 
+        }.asFlow()
+
+    override fun getTvTrending(mediaType: String): Flow<Resource<List<MovieDiscover>>> =
+        object : NetworkBoundResource<List<MovieDiscover>, List<TrendingResultItems>>() {
+            override fun loadFromDB(): Flow<List<MovieDiscover>> {
+                return localDataSource.getAllTvTrending().map {
+                    DataMapper.tvEntitiesToDomain(it)
+                }
+            }
+
+            override fun shouldFetch(data: List<MovieDiscover>?): Boolean {
+                return true
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<List<TrendingResultItems>>> {
+                return remoteDataSource.getTrending(mediaType)
+            }
+
+            override suspend fun saveCallResult(data: List<TrendingResultItems>) {
+                val trendingList = DataMapper.tvTrendingResponseToEntities(data)
+                localDataSource.insertTvTrending(trendingList)
+            }
+
+        }.asFlow()
 
     override fun getMovieDetail(movieId: String): LiveData<MovieDetailEntity> {
         val detailResult = MutableLiveData<MovieDetailEntity>()

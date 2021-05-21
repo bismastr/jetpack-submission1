@@ -6,12 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.jetpack_submission1.adapter.viewholder.FilmViewHolder
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.ItemMovieBinding
+import com.example.jetpack_submission1.domain.model.MovieDiscover
 
 class TvDiscoverAdapter: RecyclerView.Adapter<FilmViewHolder>() {
     private var onItemClickCallback: OnItemClickCallback? = null
-    private val dataList = ArrayList<MovieDiscoverEntity>()
+    private val dataList = ArrayList<MovieDiscover>()
 
-    fun setData(data: ArrayList<MovieDiscoverEntity>){
+    fun setData(data: ArrayList<MovieDiscover>){
         dataList.clear()
         dataList.addAll(data)
         notifyDataSetChanged()
@@ -28,10 +29,10 @@ class TvDiscoverAdapter: RecyclerView.Adapter<FilmViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
-//       holder.bind(dataList[position])
-//        holder.itemView.setOnClickListener{
-//            onItemClickCallback?.onItemClicked(dataList[position])
-//        }
+       holder.bind(dataList[position])
+        holder.itemView.setOnClickListener{
+            onItemClickCallback?.onItemClicked(dataList[position])
+        }
     }
 
     override fun getItemCount(): Int {
@@ -39,6 +40,6 @@ class TvDiscoverAdapter: RecyclerView.Adapter<FilmViewHolder>() {
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: MovieDiscoverEntity)
+        fun onItemClicked(data: MovieDiscover)
     }
 }

@@ -10,10 +10,7 @@ class MovieViewModel(private val filmUseCase: FilmUseCase) : ViewModel() {
 
     val movieDiscover = filmUseCase.getMovieDiscover().asLiveData()
 
-
-    fun getMovieTrending(): LiveData<List<MovieDiscoverEntity>> {
-        return filmUseCase.getTrending("movie")
-    }
+    val movieTrending = filmUseCase.getTrending("movie").asLiveData()
 
 
 }
