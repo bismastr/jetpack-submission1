@@ -2,17 +2,16 @@ package com.example.jetpack_submission1.ui.movie
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.jetpack_submission1.data.Repository
+import androidx.lifecycle.asLiveData
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.domain.usecase.FilmUseCase
 
-class MovieViewModel(private val filmUseCase: FilmUseCase): ViewModel() {
+class MovieViewModel(private val filmUseCase: FilmUseCase) : ViewModel() {
 
-    fun getMovieDiscover(): LiveData<List<MovieDiscoverEntity>>{
-        return filmUseCase.getMovieDiscover()
-    }
+    val movieDiscover = filmUseCase.getMovieDiscover().asLiveData()
 
-    fun getMovieTrending(): LiveData<List<MovieDiscoverEntity>>{
+
+    fun getMovieTrending(): LiveData<List<MovieDiscoverEntity>> {
         return filmUseCase.getTrending("movie")
     }
 

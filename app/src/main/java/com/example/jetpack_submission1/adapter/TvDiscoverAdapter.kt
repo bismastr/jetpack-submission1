@@ -28,10 +28,10 @@ class TvDiscoverAdapter: RecyclerView.Adapter<FilmViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
-       holder.bind(dataList[position])
-        holder.itemView.setOnClickListener{
-            onItemClickCallback?.onItemClicked(dataList[position])
-        }
+//       holder.bind(dataList[position])
+//        holder.itemView.setOnClickListener{
+//            onItemClickCallback?.onItemClicked(dataList[position])
+//        }
     }
 
     override fun getItemCount(): Int {

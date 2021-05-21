@@ -6,13 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.jetpack_submission1.adapter.viewholder.FilmViewHolder
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.ItemMovieBinding
+import com.example.jetpack_submission1.domain.model.MovieDiscover
 import com.example.jetpack_submission1.utils.IdlingResources
 
 class FilmAdapter : RecyclerView.Adapter<FilmViewHolder>() {
     private var onItemCLickCallback: OnItemClickCallback? = null
-    private val dataList = ArrayList<MovieDiscoverEntity>()
+    private val dataList = ArrayList<MovieDiscover>()
 
-    fun setData(movie: ArrayList<MovieDiscoverEntity>) {
+    fun setData(movie: ArrayList<MovieDiscover>) {
         dataList.clear()
         dataList.addAll(movie)
         notifyDataSetChanged()
@@ -42,6 +43,6 @@ class FilmAdapter : RecyclerView.Adapter<FilmViewHolder>() {
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: MovieDiscoverEntity)
+        fun onItemClicked(data: MovieDiscover)
     }
 }

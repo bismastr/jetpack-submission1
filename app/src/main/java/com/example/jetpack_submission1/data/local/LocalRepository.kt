@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.example.jetpack_submission1.data.local.entity.FavoriteEntity
+import com.example.jetpack_submission1.data.local.favoriteRoom.FilmDao
 
 class LocalRepository(private val mFilmDao: FilmDao) {
 

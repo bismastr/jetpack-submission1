@@ -4,10 +4,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.ItemMovieBinding
+import com.example.jetpack_submission1.domain.model.MovieDiscover
 
 class FilmViewHolder(private val binding: ItemMovieBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(element: MovieDiscoverEntity) {
+    fun bind(element: MovieDiscover) {
         binding.tvTitle.text = element.title
         binding.ratingMovie.rating = ((element.rating / 2).toFloat())
         binding.tvRating.text = element.rating.toString()

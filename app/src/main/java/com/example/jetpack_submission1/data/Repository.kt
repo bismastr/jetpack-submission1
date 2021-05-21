@@ -3,51 +3,82 @@ package com.example.jetpack_submission1.data
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.jetpack_submission1.api.ApiResponse
+import com.example.jetpack_submission1.data.local.LocalDataSource
 import com.example.jetpack_submission1.data.local.entity.MovieDetailEntity
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
 import com.example.jetpack_submission1.data.remote.RemoteDataSource
 import com.example.jetpack_submission1.data.remote.respone.*
+import com.example.jetpack_submission1.domain.model.MovieDiscover
 import com.example.jetpack_submission1.domain.repository.IFilmRepository
+import com.example.jetpack_submission1.utils.DataMapper
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 
-class Repository private constructor(private val remoteDataSource: RemoteDataSource) :
+class Repository private constructor(
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource
+) :
     IFilmRepository {
 
     companion object {
         @Volatile
         private var instance: Repository? = null
 
-        fun getInstance(remoteDataSource: RemoteDataSource): Repository =
+        fun getInstance(remoteDataSource: RemoteDataSource, localDataSource: LocalDataSource): Repository =
             instance ?: synchronized(this) {
-                instance ?: Repository(remoteDataSource).apply { instance = this }
+                instance ?: Repository(remoteDataSource, localDataSource).apply { instance = this }
             }
 
 
     }
 
     //Discover
-    override fun getMovieDiscover(): LiveData<List<MovieDiscoverEntity>> {
-        val movieResult = MutableLiveData<List<MovieDiscoverEntity>>()
-        remoteDataSource.getDiscoverMovie(object : RemoteDataSource.LoadMovieCallback {
-            override fun onAllMovieReceived(response: List<MovieResultsItem>) {
-                val movieList = ArrayList<MovieDiscoverEntity>()
-                for (i in response) {
-                    val movie = MovieDiscoverEntity(
-                        i.id,
-                        i.posterPath,
-                        i.title,
-                        i.voteAverage
-                    )
-                    movieList.add(movie)
+    override fun getMovieDiscover(): Flow<Resource<List<MovieDiscover>>> =
+        object : NetworkBoundResource<List<MovieDiscover>, List<MovieResultsItem>>(){
+            override fun loadFromDB(): Flow<List<MovieDiscover>> {
+                return localDataSource.getAllMovieDiscover().map {
+                    DataMapper.filmEntitiesToDomain(it)
                 }
-                movieResult.postValue(movieList)
             }
 
-        })
+            override fun shouldFetch(data: List<MovieDiscover>?): Boolean {
+                return true
+            }
 
-        return movieResult
-    }
+            override suspend fun createCall(): Flow<ApiResponse<List<MovieResultsItem>>> {
+                return remoteDataSource.getDiscoverMovie()
+            }
+
+            override suspend fun saveCallResult(data: List<MovieResultsItem>) {
+                val filmList = DataMapper.filmResponseToEntities(data)
+                localDataSource.insertMovieDiscover(filmList)
+            }
+
+
+        }.asFlow()
+
+    override fun getTrending(mediaType: String): Flow<Resource<List<MovieDiscover>>> =
+        object : NetworkBoundResource<List<MovieDiscover>, List<TrendingResultItems>>() {
+            override fun loadFromDB(): Flow<List<MovieDiscover>> {
+                TODO("Not yet implemented")
+            }
+
+            override fun shouldFetch(data: List<MovieDiscover>?): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<List<TrendingResultItems>>> {
+                TODO("Not yet implemented")
+            }
+
+            override suspend fun saveCallResult(data: List<TrendingResultItems>) {
+                TODO("Not yet implemented")
+            }
+
+        }.asFlow()
 
     override fun getTvDiscover(): LiveData<List<MovieDiscoverEntity>> {
         val tvResult = MutableLiveData<List<MovieDiscoverEntity>>()
@@ -70,42 +101,42 @@ class Repository private constructor(private val remoteDataSource: RemoteDataSou
         return tvResult
     }
 
-    override fun getTrending(mediaType: String): LiveData<List<MovieDiscoverEntity>> {
-        val trendingResult = MutableLiveData<List<MovieDiscoverEntity>>()
-        remoteDataSource.getTrending(object : RemoteDataSource.LoadTrendingCallback {
-            override fun onAllTrendingReceived(response: List<TrendingResultItems>) {
-                val tvList = ArrayList<MovieDiscoverEntity>()
-                if (mediaType == "movie") {
-                    for (i in response) {
-                        val trending = MovieDiscoverEntity(
-                            i.id,
-                            i.backdropPath,
-                            i.originalTitle,
-                            i.voteAverage
-                        )
-                        tvList.add(trending)
-                    }
-                    trendingResult.postValue(tvList)
-                } else if (mediaType == "tv") {
-                    for (i in response) {
-                        val trending = MovieDiscoverEntity(
-                            i.id,
-                            i.backdropPath,
-                            i.originalName,
-                            i.voteAverage
-                        )
-                        tvList.add(trending)
-                    }
-                    trendingResult.postValue(tvList)
-                }
 
+//        val trendingResult = MutableLiveData<List<MovieDiscoverEntity>>()
+//        remoteDataSource.getTrending(object : RemoteDataSource.LoadTrendingCallback {
+//            override fun onAllTrendingReceived(response: List<TrendingResultItems>) {
+//                val tvList = ArrayList<MovieDiscoverEntity>()
+//                if (mediaType == "movie") {
+//                    for (i in response) {
+//                        val trending = MovieDiscoverEntity(
+//                            i.id,
+//                            i.backdropPath,
+//                            i.originalTitle,
+//                            i.voteAverage
+//                        )
+//                        tvList.add(trending)
+//                    }
+//                    trendingResult.postValue(tvList)
+//                } else if (mediaType == "tv") {
+//                    for (i in response) {
+//                        val trending = MovieDiscoverEntity(
+//                            i.id,
+//                            i.backdropPath,
+//                            i.originalName,
+//                            i.voteAverage
+//                        )
+//                        tvList.add(trending)
+//                    }
+//                    trendingResult.postValue(tvList)
+//                }
+//
+//
+//            }
+//
+//
+//        }, mediaType)
+//        return trendingResult
 
-            }
-
-
-        }, mediaType)
-        return trendingResult
-    }
 
     override fun getMovieDetail(movieId: String): LiveData<MovieDetailEntity> {
         val detailResult = MutableLiveData<MovieDetailEntity>()

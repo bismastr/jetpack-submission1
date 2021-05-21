@@ -13,7 +13,7 @@ interface ApiService {
     }
 
     @GET("discover/movie?api_key=${KEY}")
-    fun getDiscover(): Call<Response>
+    suspend fun getDiscover(): Response
 
     @GET("discover/tv?api_key=${KEY}")
     fun getTvDiscover(): Call<DiscoverTvResponse>

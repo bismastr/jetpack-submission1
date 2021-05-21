@@ -2,8 +2,7 @@ package com.example.jetpack_submission1.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.DataSource
-import com.example.jetpack_submission1.data.local.FilmDao
-import com.example.jetpack_submission1.data.local.LocalRepository
+import com.example.jetpack_submission1.data.local.favoriteRoom.FilmDao
 import com.example.jetpack_submission1.data.local.entity.FavoriteEntity
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking

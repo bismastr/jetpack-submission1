@@ -1,4 +1,4 @@
-package com.example.jetpack_submission1.data.local
+package com.example.jetpack_submission1.data.local.favoriteRoom
 
 import android.content.Context
 import androidx.room.Database

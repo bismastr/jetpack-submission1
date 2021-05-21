@@ -2,12 +2,17 @@ package com.example.jetpack_submission1.data.remote
 
 import android.util.Log
 import com.example.jetpack_submission1.api.ApiConfig
+import com.example.jetpack_submission1.api.ApiResponse
 import com.example.jetpack_submission1.data.remote.respone.*
 import com.example.jetpack_submission1.utils.IdlingResources
-import com.facebook.shimmer.ShimmerFrameLayout
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 import retrofit2.Call
 import retrofit2.Callback
+import java.lang.Exception
 
 class RemoteDataSource {
     companion object {
@@ -20,27 +25,46 @@ class RemoteDataSource {
             }
     }
 
-    fun getDiscoverMovie(callback:LoadMovieCallback) {
-        var liveData: ArrayList<MovieResultsItem>
-        val client = ApiConfig.getApiServices().getDiscover()
-        client.enqueue(object : Callback<Response>{
-            override fun onResponse(
-                call: Call<Response>,
-                response: retrofit2.Response<Response>
-            ) {
-                liveData = response.body()?.results as ArrayList<MovieResultsItem>
-                callback.onAllMovieReceived(liveData)
+    suspend fun getDiscoverMovie(): Flow<ApiResponse<List<MovieResultsItem>>> {
+        return flow {
+            try {
+                val response = ApiConfig.getApiServices().getDiscover()
+                val dataArray = response.results as ArrayList<MovieResultsItem>
+                if (dataArray.isNotEmpty()) {
+                    this.emit(ApiResponse.Success(response.results))
+                } else {
+                    this.emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                this.emit(ApiResponse.Error(e.toString()))
+                Log.e("RemoteDataSource", e.toString())
             }
 
-            override fun onFailure(call: Call<Response>, t: Throwable) {
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun getTrending(callback: LoadTrendingCallback, mediaType: String) {
+        var listData: List<TrendingResultItems>
+        val client = ApiConfig.getApiServices().getTrending(mediaType)
+        client.enqueue(object : Callback<TrendingResponse> {
+            override fun onResponse(
+                call: Call<TrendingResponse>,
+                response: retrofit2.Response<TrendingResponse>
+            ) {
+                listData = response.body()?.results as ArrayList<TrendingResultItems>
+                callback.onAllTrendingReceived(listData)
+
+            }
+
+            override fun onFailure(call: Call<TrendingResponse>, t: Throwable) {
                 TODO("Not yet implemented")
             }
 
+
         })
-       
     }
 
-    fun getDiscoverTv(callback: LoadTvCallback){
+    fun getDiscoverTv(callback: LoadTvCallback) {
         var listData: ArrayList<TvResultsItem>
         val client = ApiConfig.getApiServices().getTvDiscover()
         client.enqueue(object : Callback<DiscoverTvResponse> {
@@ -59,32 +83,13 @@ class RemoteDataSource {
         })
     }
 
-    fun getTrending(callback: LoadTrendingCallback, mediaType: String){
-        var listData: List<TrendingResultItems>
-        val client = ApiConfig.getApiServices().getTrending(mediaType)
-        client.enqueue(object : Callback<TrendingResponse>{
-            override fun onResponse(
-                call: Call<TrendingResponse>,
-                response: retrofit2.Response<TrendingResponse>
-            ) {
-                listData = response.body()?.results as ArrayList<TrendingResultItems>
-                callback.onAllTrendingReceived(listData)
-
-            }
-
-            override fun onFailure(call: Call<TrendingResponse>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
 
 
-        })
-    }
-
-    fun getDetailMovie(callback: LoadDetailCallback, movieId: String){
+    fun getDetailMovie(callback: LoadDetailCallback, movieId: String) {
         IdlingResources.increment()
         var listData: DetailMovieResponse?
         val client = ApiConfig.getApiServices().getMovieDetail(movieId)
-        client.enqueue(object : Callback<DetailMovieResponse>{
+        client.enqueue(object : Callback<DetailMovieResponse> {
             override fun onResponse(
                 call: Call<DetailMovieResponse>,
                 response: retrofit2.Response<DetailMovieResponse>
@@ -102,10 +107,10 @@ class RemoteDataSource {
         IdlingResources.decrement()
     }
 
-    fun getDetailTv(callback: LoadDetailTvCallback, tvId: String){
+    fun getDetailTv(callback: LoadDetailTvCallback, tvId: String) {
         var listData: DetailTvResponse?
         val client = ApiConfig.getApiServices().getTvDetail(tvId)
-        client.enqueue(object : Callback<DetailTvResponse>{
+        client.enqueue(object : Callback<DetailTvResponse> {
             override fun onResponse(
                 call: Call<DetailTvResponse>,
                 response: retrofit2.Response<DetailTvResponse>
@@ -124,22 +129,22 @@ class RemoteDataSource {
 
 
     interface LoadMovieCallback {
-        fun onAllMovieReceived(response: List<MovieResultsItem>)
+        suspend fun onAllMovieReceived(response: Flow<ApiResponse<List<MovieResultsItem>>>)
     }
 
     interface LoadTvCallback {
         fun onAllTvReceived(response: List<TvResultsItem>)
     }
 
-    interface LoadTrendingCallback{
+    interface LoadTrendingCallback {
         fun onAllTrendingReceived(response: List<TrendingResultItems>)
     }
 
-    interface LoadDetailCallback{
+    interface LoadDetailCallback {
         fun onAllDetailReceived(response: DetailMovieResponse?)
     }
 
-    interface LoadDetailTvCallback{
+    interface LoadDetailTvCallback {
         fun onAllDetailTvReceived(response: DetailTvResponse?)
     }
 

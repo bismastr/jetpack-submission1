@@ -13,8 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.jetpack_submission1.adapter.FilmAdapter
 import com.example.jetpack_submission1.adapter.TrendingAdapter
+import com.example.jetpack_submission1.data.Resource
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.FragmentMovieBinding
+import com.example.jetpack_submission1.domain.model.MovieDiscover
 import com.example.jetpack_submission1.ui.detail.DetailActivity
 import com.example.jetpack_submission1.utils.IdlingResources
 import com.example.jetpack_submission1.viewmodel.ViewModelFactory
@@ -69,11 +71,15 @@ class MovieFragment : Fragment() {
     //onItemClick
     private fun onItemClick() {
         adapterDiscover.setOnItemCLickCallback(object : FilmAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: MovieDiscoverEntity) {
-                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
-                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
-                intentDetailActivity.putExtra(DetailActivity.EXTRA_FROM, 0)
-                startActivity(intentDetailActivity)
+//            override fun onItemClicked(data: MovieDiscoverEntity) {
+//                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
+//                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
+//                intentDetailActivity.putExtra(DetailActivity.EXTRA_FROM, 0)
+//                startActivity(intentDetailActivity)
+//            }
+
+            override fun onItemClicked(data: MovieDiscover) {
+                TODO("Not yet implemented")
             }
 
         })
@@ -92,12 +98,17 @@ class MovieFragment : Fragment() {
     private fun getData() {
         IdlingResources.increment()
         showDiscoverLoading(true)
-        movieViewModel.getMovieDiscover().observe(viewLifecycleOwner, { MovieList ->
-            if (MovieList !== null) {
-                val movieArray = MovieList as ArrayList<MovieDiscoverEntity>
-                showDiscoverLoading(false)
-                adapterDiscover.setData(movieArray)
-                Log.d("DATA", MovieList.toString())
+        movieViewModel.movieDiscover.observe(viewLifecycleOwner, { MovieList ->
+            if (MovieList != null){
+                when(MovieList){
+                    is Resource.Loading -> showDiscoverLoading(true)
+                    is Resource.Success -> {
+                        showDiscoverLoading(false)
+                        val movieArrayList = MovieList.data as ArrayList<MovieDiscover>
+                        adapterDiscover.setData(movieArrayList)
+                    }
+                    is Resource.Error -> Log.d("TAG", "Get data discover error")
+                }
             }
         })
 

@@ -3,13 +3,12 @@ package com.example.jetpack_submission1.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.jetpack_submission1.data.Repository
 import com.example.jetpack_submission1.data.local.LocalRepository
 import com.example.jetpack_submission1.di.Injection
 import com.example.jetpack_submission1.domain.usecase.FilmUseCase
 import com.example.jetpack_submission1.ui.detail.DetailViewModel
-import com.example.jetpack_submission1.ui.movie.MovieViewModel
 import com.example.jetpack_submission1.ui.favorite.FavoriteViewModel
+import com.example.jetpack_submission1.ui.movie.MovieViewModel
 import com.example.jetpack_submission1.ui.tvshow.TvViewModel
 
 class ViewModelFactory private constructor(private val mFilmUseCase: FilmUseCase, private val localRepository: LocalRepository): ViewModelProvider.NewInstanceFactory() {
@@ -20,7 +19,7 @@ class ViewModelFactory private constructor(private val mFilmUseCase: FilmUseCase
 
         fun getInstance(context: Context): ViewModelFactory =
             instance ?: synchronized(this){
-                instance ?: ViewModelFactory(Injection.provideTourismUseCase(), Injection.provideLocalRepository(context)).apply {
+                instance ?: ViewModelFactory(Injection.provideTourismUseCase(context), Injection.provideLocalRepository(context)).apply {
                     instance = this
                 }
             }

@@ -11,15 +11,15 @@ import kotlinx.parcelize.Parcelize
 data class MovieDiscoverEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    var id: Int = 0,
+    var id: Int,
 
     @ColumnInfo(name = "poster")
-    var poster: String? = null,
+    var poster: String,
 
     @ColumnInfo(name = "title")
-    var title: String? = null,
+    var title: String,
 
     @ColumnInfo(name = "rating")
-    var rating: Double = 0.0
+    var rating: Double
 
 ) : Parcelable

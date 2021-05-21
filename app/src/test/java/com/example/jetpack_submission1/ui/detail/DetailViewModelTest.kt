@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.jetpack_submission1.data.Repository
-import com.example.jetpack_submission1.data.local.FilmDao
+import com.example.jetpack_submission1.data.local.favoriteRoom.FilmDao
 import com.example.jetpack_submission1.data.local.LocalRepository
 import com.example.jetpack_submission1.data.local.entity.FavoriteEntity
 import com.example.jetpack_submission1.data.local.entity.MovieDetailEntity
