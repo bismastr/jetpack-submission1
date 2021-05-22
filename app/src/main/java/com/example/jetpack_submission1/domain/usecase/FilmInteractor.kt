@@ -18,11 +18,7 @@ class FilmInteractor(private val filmRepository: IFilmRepository) : FilmUseCase 
 
     override fun getTrending(mediaType: String) = filmRepository.getTrending(mediaType)
 
-    override fun getMovieDetail(movieId: String): LiveData<MovieDetailEntity> {
-        return filmRepository.getMovieDetail(movieId)
-    }
+    override fun getMovieDetail(movieId: String) = filmRepository.getMovieDetail(movieId)
 
-    override fun getTvDetail(tvId: String): LiveData<TvDetailEntity> {
-        return filmRepository.getTvDetail(tvId)
-    }
+    override fun getTvDetail(tvId: String) = filmRepository.getTvDetail(tvId)
 }

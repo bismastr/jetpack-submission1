@@ -4,13 +4,10 @@ import android.util.Log
 import com.example.jetpack_submission1.api.ApiConfig
 import com.example.jetpack_submission1.api.ApiResponse
 import com.example.jetpack_submission1.data.remote.respone.*
-import com.example.jetpack_submission1.utils.IdlingResources
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import retrofit2.Call
-import retrofit2.Callback
 
 class RemoteDataSource {
     companion object {
@@ -76,46 +73,34 @@ class RemoteDataSource {
 
 
 
-    fun getDetailMovie(callback: LoadDetailCallback, movieId: String) {
-        IdlingResources.increment()
-        var listData: DetailMovieResponse?
-        val client = ApiConfig.getApiServices().getMovieDetail(movieId)
-        client.enqueue(object : Callback<DetailMovieResponse> {
-            override fun onResponse(
-                call: Call<DetailMovieResponse>,
-                response: retrofit2.Response<DetailMovieResponse>
-            ) {
-                listData = response.body()
-                callback.onAllDetailReceived(listData)
+    suspend fun getDetailMovie(movieId: String): Flow<ApiResponse<DetailMovieResponse>> {
+        return flow {
+            try {
+                val response = ApiConfig.getApiServices().getMovieDetail(movieId)
+                if (response !== null){
+                    this.emit(ApiResponse.Success(response))
+                } else {
+                    this.emit(ApiResponse.Empty)
+                }
+            }catch (e: Exception){
+                this.emit(ApiResponse.Error(e.toString()))
             }
-
-            override fun onFailure(call: Call<DetailMovieResponse>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-
-        })
-        IdlingResources.decrement()
+        }.flowOn(Dispatchers.IO)
     }
 
-    fun getDetailTv(callback: LoadDetailTvCallback, tvId: String) {
-        var listData: DetailTvResponse?
-        val client = ApiConfig.getApiServices().getTvDetail(tvId)
-        client.enqueue(object : Callback<DetailTvResponse> {
-            override fun onResponse(
-                call: Call<DetailTvResponse>,
-                response: retrofit2.Response<DetailTvResponse>
-            ) {
-                listData = response.body()
-                Log.d("TEST", listData.toString())
-                callback.onAllDetailTvReceived(listData)
+    fun getDetailTv(tvId: String): Flow<ApiResponse<DetailTvResponse>> {
+        return flow {
+            try {
+                val response = ApiConfig.getApiServices().getTvDetail(tvId)
+                if (response !== null){
+                    this.emit(ApiResponse.Success(response))
+                } else {
+                    this.emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                this.emit(ApiResponse.Error(e.toString()))
             }
-
-            override fun onFailure(call: Call<DetailTvResponse>, t: Throwable) {
-                Log.d("Error", t.toString())
-            }
-
-        })
+        }.flowOn(Dispatchers.IO)
     }
 
 

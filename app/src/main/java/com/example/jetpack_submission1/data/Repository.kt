@@ -1,15 +1,12 @@
 package com.example.jetpack_submission1.data
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.jetpack_submission1.api.ApiResponse
 import com.example.jetpack_submission1.data.local.LocalDataSource
-import com.example.jetpack_submission1.data.local.entity.MovieDetailEntity
-import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
 import com.example.jetpack_submission1.data.remote.RemoteDataSource
 import com.example.jetpack_submission1.data.remote.respone.*
+import com.example.jetpack_submission1.domain.model.MovieDetail
 import com.example.jetpack_submission1.domain.model.MovieDiscover
+import com.example.jetpack_submission1.domain.model.TvDetail
 import com.example.jetpack_submission1.domain.repository.IFilmRepository
 import com.example.jetpack_submission1.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
@@ -80,7 +77,7 @@ class Repository private constructor(
             }
 
             override suspend fun saveCallResult(data: List<TrendingResultItems>) {
-                val trendingList = DataMapper.trendingResponseToEntities(data, mediaType)
+                val trendingList = DataMapper.trendingResponseToEntities(data)
                 localDataSource.insertMovieTrending(trendingList)
             }
 
@@ -133,47 +130,51 @@ class Repository private constructor(
 
         }.asFlow()
 
-    override fun getMovieDetail(movieId: String): LiveData<MovieDetailEntity> {
-        val detailResult = MutableLiveData<MovieDetailEntity>()
-        remoteDataSource.getDetailMovie(object : RemoteDataSource.LoadDetailCallback {
-            override fun onAllDetailReceived(response: DetailMovieResponse?) {
-                val detail = MovieDetailEntity()
-                if (response !== null) {
-                    detail.id = response.id
-                    detail.overview = response.overview
-                    detail.poster = response.posterPath
-                    detail.rating = response.voteAverage
-                    detail.release_date = response.releaseDate
-                    detail.title = response.originalTitle
+    override fun getMovieDetail(movieId: String): Flow<Resource<MovieDetail>> =
+        object : NetworkBoundResource<MovieDetail, DetailMovieResponse?>() {
+            override fun loadFromDB(): Flow<MovieDetail> {
+                return localDataSource.getMovieDetail(movieId).map{
+                    DataMapper.movieDetailEntitiesToDomain(it)
                 }
-                detailResult.postValue(detail)
-            }
-        }, movieId)
-        return detailResult
-    }
-
-    override fun getTvDetail(tvId: String): LiveData<TvDetailEntity> {
-        val detailResult = MutableLiveData<TvDetailEntity>()
-        remoteDataSource.getDetailTv(object : RemoteDataSource.LoadDetailTvCallback {
-            override fun onAllDetailTvReceived(response: DetailTvResponse?) {
-                val detail = TvDetailEntity()
-                if (response !== null) {
-                    detail.id = response.id
-                    detail.numberEpisdoe = response.numberOfEpisodes
-                    detail.numberSeasons = response.numberOfSeasons
-                    detail.overview = response.overview
-                    detail.poster = response.posterPath
-                    detail.rating = response.voteAverage
-                    detail.title = response.originalName
-                    Log.d("TAG GET", detail.overview!!)
-                }
-                detailResult.postValue(detail)
-
             }
 
-        }, tvId)
-        return detailResult
-    }
+            override fun shouldFetch(data: MovieDetail?): Boolean {
+                return true
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<DetailMovieResponse>> {
+                return remoteDataSource.getDetailMovie(movieId)
+            }
+
+            override suspend fun saveCallResult(data: DetailMovieResponse?) {
+                val detail = DataMapper.movieDetailResponseToEntities(data)
+                localDataSource.insertMovieDetail(detail)
+            }
+
+        }.asFlow()
+
+    override fun getTvDetail(tvId: String): Flow<Resource<TvDetail>> =
+        object : NetworkBoundResource<TvDetail, DetailTvResponse?>(){
+            override fun loadFromDB(): Flow<TvDetail> {
+                return localDataSource.getTvDetail(tvId).map {
+                    DataMapper.tvDetailEntitiesToDomain(it)
+                }
+            }
+
+            override fun shouldFetch(data: TvDetail?): Boolean {
+                return true
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<DetailTvResponse?>> {
+                return remoteDataSource.getDetailTv(tvId)
+            }
+
+            override suspend fun saveCallResult(data: DetailTvResponse?) {
+                val detail = DataMapper.tvDetailResponseToEntities(data)
+                localDataSource.insertTvDetail(detail)
+            }
+
+        }.asFlow()
 
 
 }

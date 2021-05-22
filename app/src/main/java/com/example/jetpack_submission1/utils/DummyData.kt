@@ -58,17 +58,17 @@ object DummyData {
         return movie
     }
 
-    fun generateDummyDetail(): MovieDetailEntity {
-        val detail = MovieDetailEntity()
-        detail.id = 0
-        detail.release_date = "Today"
-        detail.title = "Movie Title"
-        detail.rating = 8.4
-        detail.poster = "poster Link"
-        detail.overview = "Overview"
-
-        return detail
-    }
+//    fun generateDummyDetail(): MovieDetailEntity {
+//        val detail = MovieDetailEntity()
+//        detail.id = 0
+//        detail.release_date = "Today"
+//        detail.title = "Movie Title"
+//        detail.rating = 8.4
+//        detail.poster = "poster Link"
+//        detail.overview = "Overview"
+//
+//        return detail
+//    }
 
     fun generateTvDummyDetail(): TvDetailEntity {
         val detail = TvDetailEntity()

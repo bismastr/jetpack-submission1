@@ -4,7 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.jetpack_submission1.data.local.entity.MovieDetailEntity
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
+import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
 import com.example.jetpack_submission1.data.local.entity.TvDiscoverEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -35,4 +37,18 @@ interface Dao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTvTrending(trending: List<TvDiscoverEntity>)
+
+    //movieDetail
+    @Query("SELECT * FROM movie_detail_table where id=:id")
+    fun getMovieDetail(id: String): Flow<MovieDetailEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMovieDetail(film: MovieDetailEntity)
+
+    //tvDetail
+    @Query("SELECT * FROM tv_detail_table where id=:id")
+    fun getTvDetail(id: String): Flow<TvDetailEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTvDetail(film: TvDetailEntity)
 }

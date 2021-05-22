@@ -22,9 +22,9 @@ interface ApiService {
     suspend fun getTrending(@Path("media_type") mediaType: String): TrendingResponse
 
     @GET("movie/{movie_id}?api_key=${KEY}")
-    fun getMovieDetail(@Path("movie_id") movieId: String): Call<DetailMovieResponse>
+    suspend fun getMovieDetail(@Path("movie_id") movieId: String): DetailMovieResponse?
 
     @GET("tv/{tv_id}?api_key=${KEY}")
-    fun getTvDetail(@Path("tv_id") tvId: String): Call<DetailTvResponse>
+    suspend fun getTvDetail(@Path("tv_id") tvId: String): DetailTvResponse?
 
 }

@@ -1,5 +1,6 @@
 package com.example.jetpack_submission1.ui.movie
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.example.jetpack_submission1.adapter.TrendingAdapter
 import com.example.jetpack_submission1.data.Resource
 import com.example.jetpack_submission1.databinding.FragmentMovieBinding
 import com.example.jetpack_submission1.domain.model.MovieDiscover
+import com.example.jetpack_submission1.ui.detail.DetailActivity
 import com.example.jetpack_submission1.viewmodel.ViewModelFactory
 
 class MovieFragment : Fragment() {
@@ -75,13 +77,19 @@ class MovieFragment : Fragment() {
 //            }
 
             override fun onItemClicked(data: MovieDiscover) {
-                TODO("Not yet implemented")
+                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
+                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
+                intentDetailActivity.putExtra(DetailActivity.EXTRA_FROM, 0)
+                startActivity(intentDetailActivity)
             }
 
         })
         adapterTrending.setOnItemCLickCallback(object : TrendingAdapter.OnItemClickCallback {
             override fun onItemClick(data: MovieDiscover) {
-                TODO("Not yet implemented")
+                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
+                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
+                intentDetailActivity.putExtra(DetailActivity.EXTRA_FROM, 0)
+                startActivity(intentDetailActivity)
             }
 //            override fun onItemClick(data: MovieDiscoverEntity) {
 //                val intentDetailActivity = Intent(activity, DetailActivity::class.java)

@@ -4,11 +4,16 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.jetpack_submission1.data.local.entity.MovieDetailEntity
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
+import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
 import com.example.jetpack_submission1.data.local.entity.TvDiscoverEntity
 
-@Database(entities = [MovieDiscoverEntity::class, TvDiscoverEntity::class], version = 1)
-abstract class FilmDatabase: RoomDatabase() {
+@Database(
+    entities = [MovieDiscoverEntity::class, TvDiscoverEntity::class, MovieDetailEntity::class, TvDetailEntity::class],
+    version = 1
+)
+abstract class FilmDatabase : RoomDatabase() {
     abstract fun Dao(): Dao
 
     companion object {

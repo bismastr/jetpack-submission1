@@ -6,11 +6,13 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.example.jetpack_submission1.data.Resource
 import com.example.jetpack_submission1.data.local.entity.FavoriteEntity
-import com.example.jetpack_submission1.data.local.entity.MovieDetailEntity
-import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
 import com.example.jetpack_submission1.databinding.ActivityDetailBinding
+import com.example.jetpack_submission1.domain.model.MovieDetail
+import com.example.jetpack_submission1.domain.model.MovieDiscover
+import com.example.jetpack_submission1.domain.model.TvDetail
 import com.example.jetpack_submission1.utils.IdlingResources
 import com.example.jetpack_submission1.viewmodel.ViewModelFactory
 import kotlinx.coroutines.CoroutineScope
@@ -25,6 +27,7 @@ class DetailActivity : AppCompatActivity() {
         const val EXTRA_FROM = "extra_from"
         const val EXTRA_FAVO = "extra_favo"
     }
+
     //from tv or movie
     private var from: Int = 0
 
@@ -32,6 +35,7 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var id: String
     private lateinit var binding: ActivityDetailBinding
+
     //favorite
     private lateinit var favoriteEntity: FavoriteEntity
     private var _isChecked = false
@@ -45,7 +49,7 @@ class DetailActivity : AppCompatActivity() {
         tvViewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
         val isFromFavo = intent.getBooleanExtra(EXTRA_FAVO, false)
 
-        if (isFromFavo){
+        if (isFromFavo) {
             getIntentDataFavo()
         } else {
             getIntentData()
@@ -54,7 +58,7 @@ class DetailActivity : AppCompatActivity() {
         if (from == 1) {
             getData()
         } else {
-            getMovieData()
+            getMovieData(id)
         }
 
     }
@@ -87,47 +91,55 @@ class DetailActivity : AppCompatActivity() {
     }
 
     //MovieDetail
-    private fun setMovieData(detail: MovieDetailEntity) {
-        IdlingResources.increment()
-        binding.tvOverviewTv.text = detail.overview
-        binding.tvTitleTv.text = detail.title
-        binding.tvRatingTv.text = detail.rating.toString()
-        binding.ratingbarTv.rating = (detail.rating / 2).toFloat()
-        binding.cvEpisode.visibility = View.GONE
-        binding.cvSeason.visibility = View.GONE
-        Glide.with(this)
-            .load("https://image.tmdb.org/t/p/w500" + detail.poster)
-            .into(binding.imgPosterTv)
-        showDetailLoading(false)
-        IdlingResources.decrement()
+    private fun setMovieData(detail: MovieDetail) {
 
-        favoriteEntity = FavoriteEntity(
-            id = detail.id,
-            poster = detail.poster,
-            title = detail.title,
-            rating = detail.rating,
-            from = from,
-        )
+            binding.tvOverviewTv.text = detail.overview
+            binding.tvTitleTv.text = detail.title
+            binding.tvRatingTv.text = detail.rating.toString()
+            binding.ratingbarTv.rating = (detail.rating / 2).toFloat()
+            binding.cvEpisode.visibility = View.GONE
+            binding.cvSeason.visibility = View.GONE
+            Glide.with(this)
+                .load("https://image.tmdb.org/t/p/w500" + detail.poster)
+                .into(binding.imgPosterTv)
+            showDetailLoading(false)
+            IdlingResources.decrement()
 
-        favoriteButton(detail.id)
+            favoriteEntity = FavoriteEntity(
+                id = detail.id,
+                poster = detail.poster,
+                title = detail.title,
+                rating = detail.rating,
+                from = from,
+            )
+
+            favoriteButton(detail.id)
+
+
     }
 
-    private fun getMovieData() {
-        showDetailLoading(true)
-        tvViewModel.getMovieDetail(id).observe(this, { DetailData ->
-            if (DetailData != null) {
-                setMovieData(DetailData)
-            }
-        })
+    private fun getMovieData(movieId: String) {
+       tvViewModel.getMovieDetail(movieId).observe(this, {Detail ->
+           if (Detail != null){
+               when(Detail){
+                   is Resource.Loading -> showDetailLoading(true)
+                   is Resource.Success -> {
+                       showDetailLoading(false)
+                       Detail.data?.let { setMovieData(it) }
+                   }
+                   is Resource.Error -> Log.d("TAG", "GetMovieDetailError")
+               }
+           }
+       })
 
     }
 
     //TvDetail
-    private fun setData(detail: TvDetailEntity) {
+    private fun setData(detail: TvDetail) {
         IdlingResources.increment()
         binding.tvOverviewTv.text = detail.overview
         binding.tvTitleTv.text = detail.title
-        binding.tvEpisode.text = detail.numberEpisdoe.toString()
+        binding.tvEpisode.text = detail.numberEpisode.toString()
         binding.tvSeasons.text = detail.numberSeasons.toString()
         binding.tvRatingTv.text = detail.rating.toString()
         binding.ratingbarTv.rating = (detail.rating / 2).toFloat()
@@ -152,7 +164,14 @@ class DetailActivity : AppCompatActivity() {
         showDetailLoading(true)
         tvViewModel.getTvDetail(id).observe(this) { DetailData ->
             if (DetailData != null) {
-                setData(DetailData)
+                when(DetailData){
+                    is Resource.Loading -> showDetailLoading(true)
+                    is Resource.Success -> {
+                        showDetailLoading(false)
+                        DetailData.data?.let { setData(it) }
+                    }
+                    is Resource.Error -> Log.d("TAG", "GetMovieDetailError")
+                }
             }
         }
 
@@ -160,7 +179,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun getIntentData() {
         val dataIntent =
-            intent.getParcelableExtra<MovieDiscoverEntity>(EXTRA_FILM) as MovieDiscoverEntity
+            intent.getParcelableExtra<MovieDiscover>(EXTRA_FILM) as MovieDiscover
         from = intent.getIntExtra(EXTRA_FROM, 0)
         id = dataIntent.id.toString()
     }
