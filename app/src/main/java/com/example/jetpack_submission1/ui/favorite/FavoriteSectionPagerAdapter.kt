@@ -1,4 +1,4 @@
-package com.brillante.favorite
+package com.example.jetpack_submission1.ui.favorite
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

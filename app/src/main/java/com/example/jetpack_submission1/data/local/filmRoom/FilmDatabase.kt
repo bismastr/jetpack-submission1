@@ -6,7 +6,8 @@ import com.example.jetpack_submission1.data.local.entity.*
 
 @Database(
     entities = [MovieDiscoverEntity::class, TvDiscoverEntity::class, MovieDetailEntity::class, TvDetailEntity::class, FavoriteEntity::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class FilmDatabase : RoomDatabase() {
     abstract fun Dao(): Dao

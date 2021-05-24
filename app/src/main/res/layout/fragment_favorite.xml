@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.brillante.favorite.FavoriteFragment"
+    tools:context="com.example.jetpack_submission1.ui.favorite.FavoriteFragment"
     android:background="@color/primaryColor">
 
     <com.google.android.material.tabs.TabLayout
