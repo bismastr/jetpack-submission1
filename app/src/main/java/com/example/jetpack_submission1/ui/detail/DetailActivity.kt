@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.brillante.core.data.Resource
+import com.brillante.core.data.local.entity.FavoriteEntity
+import com.brillante.core.domain.model.MovieDetail
+import com.brillante.core.domain.model.MovieDiscover
+import com.brillante.core.domain.model.TvDetail
 import com.bumptech.glide.Glide
-import com.example.jetpack_submission1.data.Resource
-import com.example.jetpack_submission1.data.local.entity.FavoriteEntity
 import com.example.jetpack_submission1.databinding.ActivityDetailBinding
-import com.example.jetpack_submission1.domain.model.MovieDetail
-import com.example.jetpack_submission1.domain.model.MovieDiscover
-import com.example.jetpack_submission1.domain.model.TvDetail
-import com.example.jetpack_submission1.utils.IdlingResources
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailActivity : AppCompatActivity() {
@@ -82,7 +81,6 @@ class DetailActivity : AppCompatActivity() {
             .load("https://image.tmdb.org/t/p/w500" + detail.poster)
             .into(binding.imgPosterTv)
         showDetailLoading(false)
-        IdlingResources.decrement()
 
         var stateFavorite = detail.isFavorite
         Log.d("STATEFAVO", stateFavorite.toString())
@@ -123,7 +121,6 @@ class DetailActivity : AppCompatActivity() {
             .load("https://image.tmdb.org/t/p/w500" + detail.poster)
             .into(binding.imgPosterTv)
         showDetailLoading(false)
-        IdlingResources.decrement()
 
         var stateFavorite = detail.isFavorite
         Log.d("STATEFAVO", stateFavorite.toString())

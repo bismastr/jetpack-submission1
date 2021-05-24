@@ -20,7 +20,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
+        buildConfigField("String", "API_KEY", '"423b6f0f60e161184f1ecddb00f45512"')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -53,4 +53,5 @@ dependencies {
     //Couroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0"
+    api "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
 }

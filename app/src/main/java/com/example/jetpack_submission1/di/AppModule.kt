@@ -1,7 +1,8 @@
 package com.example.jetpack_submission1.di
 
-import com.example.jetpack_submission1.domain.usecase.FilmInteractor
-import com.example.jetpack_submission1.domain.usecase.FilmUseCase
+
+import com.brillante.core.domain.usecase.FilmInteractor
+import com.brillante.core.domain.usecase.FilmUseCase
 import com.example.jetpack_submission1.ui.detail.DetailViewModel
 import com.example.jetpack_submission1.ui.favorite.FavoriteViewModel
 import com.example.jetpack_submission1.ui.movie.MovieViewModel

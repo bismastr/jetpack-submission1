@@ -10,11 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.jetpack_submission1.adapter.TrendingAdapter
-import com.example.jetpack_submission1.adapter.TvDiscoverAdapter
-import com.example.jetpack_submission1.data.Resource
+import com.brillante.core.data.Resource
+import com.brillante.core.domain.model.MovieDiscover
 import com.example.jetpack_submission1.databinding.FragmentTvshowBinding
-import com.example.jetpack_submission1.domain.model.MovieDiscover
 import com.example.jetpack_submission1.ui.detail.DetailActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,8 +25,8 @@ class TvShowFragment : Fragment() {
     private val tvViewModel: TvViewModel by viewModel()
 
     //adapter
-    private lateinit var adapterDiscover: TvDiscoverAdapter
-    private lateinit var adapterTrending: TrendingAdapter
+    private lateinit var adapterDiscover: com.brillante.core.adapter.TvDiscoverAdapter
+    private lateinit var adapterTrending: com.brillante.core.adapter.TrendingAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,8 +44,8 @@ class TvShowFragment : Fragment() {
 
     //setupRecyclerView
     private fun setupRecyclerView() {
-        adapterDiscover = TvDiscoverAdapter()
-        adapterTrending = TrendingAdapter()
+        adapterDiscover = com.brillante.core.adapter.TvDiscoverAdapter()
+        adapterTrending = com.brillante.core.adapter.TrendingAdapter()
         adapterDiscover.notifyDataSetChanged()
         binding.rvTvDiscover.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -62,7 +60,7 @@ class TvShowFragment : Fragment() {
 
     //onitemclick
     private fun onItemClick() {
-        adapterDiscover.setOnItemClickCallback(object : TvDiscoverAdapter.OnItemClickCallback {
+        adapterDiscover.setOnItemClickCallback(object : com.brillante.core.adapter.TvDiscoverAdapter.OnItemClickCallback {
             override fun onItemClicked(data: MovieDiscover) {
                 val intentDetailActivity = Intent(activity, DetailActivity::class.java)
                 intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
@@ -71,7 +69,7 @@ class TvShowFragment : Fragment() {
             }
 
         })
-        adapterTrending.setOnItemCLickCallback(object : TrendingAdapter.OnItemClickCallback {
+        adapterTrending.setOnItemCLickCallback(object : com.brillante.core.adapter.TrendingAdapter.OnItemClickCallback {
             override fun onItemClick(data: MovieDiscover) {
                 val intentDetailActivity = Intent(activity, DetailActivity::class.java)
                 intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)

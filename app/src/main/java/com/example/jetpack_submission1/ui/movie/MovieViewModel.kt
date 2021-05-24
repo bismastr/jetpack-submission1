@@ -2,7 +2,7 @@ package com.example.jetpack_submission1.ui.movie
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.example.jetpack_submission1.domain.usecase.FilmUseCase
+import com.brillante.core.domain.usecase.FilmUseCase
 
 class MovieViewModel(filmUseCase: FilmUseCase) : ViewModel() {
 

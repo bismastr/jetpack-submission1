@@ -2,9 +2,9 @@ package com.example.jetpack_submission1.ui.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.example.jetpack_submission1.domain.model.MovieDetail
-import com.example.jetpack_submission1.domain.model.TvDetail
-import com.example.jetpack_submission1.domain.usecase.FilmUseCase
+import com.brillante.core.domain.model.MovieDetail
+import com.brillante.core.domain.model.TvDetail
+import com.brillante.core.domain.usecase.FilmUseCase
 
 class DetailViewModel(
     private val filmUseCase: FilmUseCase

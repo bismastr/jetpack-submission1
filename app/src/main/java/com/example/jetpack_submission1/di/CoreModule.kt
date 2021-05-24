@@ -1,13 +1,14 @@
 package com.example.jetpack_submission1.di
 
 import androidx.room.Room
-import com.example.jetpack_submission1.api.ApiService
-import com.example.jetpack_submission1.data.Repository
-import com.example.jetpack_submission1.data.local.LocalDataSource
-import com.example.jetpack_submission1.data.local.filmRoom.FilmDatabase
-import com.example.jetpack_submission1.data.remote.RemoteDataSource
-import com.example.jetpack_submission1.domain.repository.IFilmRepository
-import com.example.jetpack_submission1.utils.AppExecutors
+import com.brillante.core.api.ApiService
+import com.brillante.core.data.Repository
+import com.brillante.core.data.local.LocalDataSource
+import com.brillante.core.data.local.filmRoom.FilmDatabase
+import com.brillante.core.data.remote.RemoteDataSource
+import com.brillante.core.domain.repository.IFilmRepository
+import com.brillante.core.utils.AppExecutors
+
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
