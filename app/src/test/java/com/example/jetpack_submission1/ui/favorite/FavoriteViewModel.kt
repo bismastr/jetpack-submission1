@@ -2,9 +2,8 @@ package com.example.jetpack_submission1.ui.favorite
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.DataSource
-import com.example.jetpack_submission1.data.local.favoriteRoom.FilmDao
-import com.example.jetpack_submission1.data.local.LocalRepository
 import com.example.jetpack_submission1.data.local.entity.FavoriteEntity
+import com.example.jetpack_submission1.data.local.favoriteRoom.FilmDao
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.Rule
 import org.junit.Test
@@ -20,16 +19,16 @@ class FavoriteViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private  val mDao = mock(FilmDao::class.java)
+    private val mDao = mock(FilmDao::class.java)
     private val repository = LocalRepository(mDao)
-    private  val  viewModel = FavoriteViewModel(repository)
+    private val viewModel = com.brillante.favorite.FavoriteViewModel(repository)
 
 
     @Mock
     private lateinit var dataSourceFactory: DataSource.Factory<Int, FavoriteEntity>
 
     @Test
-    fun favorite(){
+    fun favorite() {
         `when`(mDao.getFavorite(1)).thenReturn(dataSourceFactory)
         viewModel.getAllMovie(1)
         verify(mDao).getFavorite(1)

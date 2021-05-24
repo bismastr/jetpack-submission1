@@ -11,7 +11,7 @@ import kotlinx.parcelize.Parcelize
 data class FavoriteEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    var id: Int ,
+    var id: Int,
 
     @ColumnInfo(name = "poster")
     var poster: String? = null,

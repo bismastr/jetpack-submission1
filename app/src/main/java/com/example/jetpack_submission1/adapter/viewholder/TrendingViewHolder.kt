@@ -2,7 +2,6 @@ package com.example.jetpack_submission1.adapter.viewholder
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.ItemTrendingBinding
 import com.example.jetpack_submission1.domain.model.MovieDiscover
 

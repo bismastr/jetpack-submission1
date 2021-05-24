@@ -1,9 +1,7 @@
 package com.example.jetpack_submission1.data.local.filmRoom
 
+import androidx.room.*
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
 import com.example.jetpack_submission1.data.local.entity.MovieDetailEntity
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
@@ -42,13 +40,27 @@ interface Dao {
     @Query("SELECT * FROM movie_detail_table where id=:id")
     fun getMovieDetail(id: String): Flow<MovieDetailEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertMovieDetail(film: MovieDetailEntity)
 
     //tvDetail
     @Query("SELECT * FROM tv_detail_table where id=:id")
     fun getTvDetail(id: String): Flow<TvDetailEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertTvDetail(film: TvDetailEntity)
+
+    //favorite
+    @Update
+    fun updateMovieFavorite(favorite: MovieDetailEntity)
+
+    @Update
+    fun updateTvFavorite(favorite: TvDetailEntity)
+
+    @Query("SELECT * FROM movie_detail_table where isFavorite = 1")
+    fun getMovieFavorite(): Flow<List<MovieDetailEntity>>
+
+    @Query("SELECT * FROM tv_detail_table where isFavorite = 1")
+    fun getTvFavorite(): Flow<List<TvDetailEntity>>
+
 }

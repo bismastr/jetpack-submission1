@@ -22,12 +22,12 @@ class MainActivityTest {
     val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Before
-    fun registerIdlingResource(){
+    fun registerIdlingResource() {
         IdlingRegistry.getInstance().register(IdlingResources.countingIdlingResources)
     }
 
     @After
-    fun unregisterIdlingResource(){
+    fun unregisterIdlingResource() {
         IdlingRegistry.getInstance().unregister(IdlingResources.countingIdlingResources)
     }
 
@@ -36,25 +36,48 @@ class MainActivityTest {
         onView(withId(R.id.navigation_movie)).perform(click())
         onView(withId(R.id.navigation_tvshow)).perform(click())
     }
+
     //Check Recyclerview pada Tv dan Movie
     @Test
-    fun recyclerViewTest(){
+    fun recyclerViewTest() {
         onView(withId(R.id.navigation_tvshow)).perform(click())
         onView(withId(R.id.rv_tv_discover)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_trending_tvShow)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_tv_discover)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(10))
-        onView(withId(R.id.rv_trending_tvShow)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(10))
+        onView(withId(R.id.rv_tv_discover)).perform(
+            RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
+                10
+            )
+        )
+        onView(withId(R.id.rv_trending_tvShow)).perform(
+            RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
+                10
+            )
+        )
         onView(withId(R.id.navigation_movie)).perform(click())
         onView(withId(R.id.rv_trending_movie)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_trending_movie)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(10))
+        onView(withId(R.id.rv_trending_movie)).perform(
+            RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
+                10
+            )
+        )
         onView(withId(R.id.rv_movie_discover)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_movie_discover)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(10))
+        onView(withId(R.id.rv_movie_discover)).perform(
+            RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
+                10
+            )
+        )
     }
+
     //Check Detail pada Movie
     @Test
-    fun loadDetailMovie(){
+    fun loadDetailMovie() {
         onView(withId(R.id.navigation_movie)).perform(click())
-        onView(withId(R.id.rv_movie_discover)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.rv_movie_discover)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
         onView(withId(R.id.tv_overview_tv)).check(matches(isDisplayed()))
         onView(withId(R.id.img_poster_tv)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_title_tv)).check(matches(isDisplayed()))
@@ -64,21 +87,32 @@ class MainActivityTest {
     }
 
     @Test
-    fun loadDetailMovieTrending(){
+    fun loadDetailMovieTrending() {
         onView(withId(R.id.navigation_movie)).perform(click())
-        onView(withId(R.id.rv_trending_movie)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.rv_trending_movie)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
         onView(withId(R.id.tv_overview_tv)).check(matches(isDisplayed()))
         onView(withId(R.id.img_poster_tv)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_title_tv)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_rating_tv)).check(matches(isDisplayed()))
         onView(withId(R.id.ratingbar_tv)).check(matches(isDisplayed()))
     }
+
     //check detail tv
     @Test
-    fun loadDetailTv(){
+    fun loadDetailTv() {
         onView(withId(R.id.tv_discover_tv)).perform(swipeUp()).perform(swipeUp()).perform(swipeUp())
         onView(withId(R.id.navigation_tvshow)).perform(click())
-        onView(withId(R.id.rv_tv_discover)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.rv_tv_discover)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
         onView(withId(R.id.tv_overview_tv)).check(matches(isDisplayed()))
         onView(withId(R.id.img_poster_tv)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_title_tv)).check(matches(isDisplayed()))
@@ -89,10 +123,15 @@ class MainActivityTest {
     }
 
     @Test
-    fun loadDetailTvTrending(){
+    fun loadDetailTvTrending() {
         onView(withId(R.id.tv_discover_tv)).perform(swipeUp()).perform(swipeUp()).perform(swipeUp())
         onView(withId(R.id.navigation_tvshow)).perform(click())
-        onView(withId(R.id.rv_trending_tvShow)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.rv_trending_tvShow)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
         onView(withId(R.id.tv_overview_tv)).check(matches(isDisplayed()))
         onView(withId(R.id.img_poster_tv)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_title_tv)).check(matches(isDisplayed()))
@@ -103,23 +142,30 @@ class MainActivityTest {
     }
 
     @Test
-    fun favoriteMovie(){
+    fun favoriteMovie() {
         onView(withId(R.id.navigation_favorite)).perform(click())
         onView(withId(R.id.rv_movie_favorite)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_movie_favorite)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.rv_movie_favorite)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
 
     }
 
     @Test
-    fun favoriteTv(){
+    fun favoriteTv() {
         onView(withId(R.id.navigation_favorite)).perform(click())
         onView(withId(R.id.rv_movie_favorite)).perform(swipeLeft())
         onView(withId(R.id.rv_tv_favorite)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_tv_favorite)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.rv_tv_favorite)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
     }
-
-
-
 
 
 }

@@ -1,4 +1,4 @@
-package com.example.jetpack_submission1.ui.favorite
+package com.brillante.favorite
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,30 +6,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.jetpack_submission1.data.local.entity.FavoriteEntity
+import com.example.jetpack_submission1.adapter.FilmAdapter
 import com.example.jetpack_submission1.databinding.FragmentTvFavoriteBinding
+import com.example.jetpack_submission1.domain.model.MovieDiscover
 import com.example.jetpack_submission1.ui.detail.DetailActivity
 import com.example.jetpack_submission1.utils.IdlingResources
-import com.example.jetpack_submission1.viewmodel.ViewModelFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class TvFavoriteFragment : Fragment() {
     private var _binding: FragmentTvFavoriteBinding? = null
     private val binding get() = _binding as FragmentTvFavoriteBinding
 
-    private lateinit var adapter: FavoritePagedListAdapter
+    private lateinit var adapter: FilmAdapter
 
-    private lateinit var favoriteViewModel: FavoriteViewModel
+    private val favoriteViewModel: FavoriteViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTvFavoriteBinding.inflate(inflater, container, false)
-        val factory = ViewModelFactory.getInstance(requireActivity())
-        favoriteViewModel = ViewModelProvider(this, factory)[FavoriteViewModel::class.java]
+//        val factory = ViewModelFactory.getInstance(requireActivity())
+//        favoriteViewModel = ViewModelProvider(this, factory)[FavoriteViewModel::class.java]
         return binding.root
     }
 
@@ -39,22 +39,24 @@ class TvFavoriteFragment : Fragment() {
         onItemClick()
     }
 
-    private fun onItemClick(){
-        adapter.setOnItemCLickCallback(object: FavoritePagedListAdapter.OnItemClickCallback{
-            override fun onItemClicked(data: FavoriteEntity) {
+    private fun onItemClick() {
+        adapter.setOnItemCLickCallback(object : FilmAdapter.OnItemClickCallback {
+
+            override fun onItemClicked(data: MovieDiscover) {
                 val intentDetailActivity = Intent(activity, DetailActivity::class.java)
                 intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
                 intentDetailActivity.putExtra(DetailActivity.EXTRA_FROM, 1)
-                intentDetailActivity.putExtra(DetailActivity.EXTRA_FAVO, true)
                 startActivity(intentDetailActivity)
             }
 
         })
     }
+
     private fun getData() {
         IdlingResources.increment()
-        favoriteViewModel.getAllMovie(1).observe(viewLifecycleOwner, { TvList ->
+        favoriteViewModel.getTvFavorite().observe(viewLifecycleOwner, { TvList ->
             if (TvList !== null) {
+                TvList as ArrayList
                 adapter.setData(TvList)
             }
             IdlingResources.decrement()
@@ -63,7 +65,7 @@ class TvFavoriteFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = FavoritePagedListAdapter()
+        adapter = FilmAdapter()
         binding.rvTvFavorite.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.rvTvFavorite.adapter = adapter

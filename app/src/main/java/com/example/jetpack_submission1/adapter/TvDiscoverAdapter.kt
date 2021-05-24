@@ -4,21 +4,20 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jetpack_submission1.adapter.viewholder.FilmViewHolder
-import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.databinding.ItemMovieBinding
 import com.example.jetpack_submission1.domain.model.MovieDiscover
 
-class TvDiscoverAdapter: RecyclerView.Adapter<FilmViewHolder>() {
+class TvDiscoverAdapter : RecyclerView.Adapter<FilmViewHolder>() {
     private var onItemClickCallback: OnItemClickCallback? = null
     private val dataList = ArrayList<MovieDiscover>()
 
-    fun setData(data: ArrayList<MovieDiscover>){
+    fun setData(data: ArrayList<MovieDiscover>) {
         dataList.clear()
         dataList.addAll(data)
         notifyDataSetChanged()
     }
 
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
 
@@ -29,8 +28,8 @@ class TvDiscoverAdapter: RecyclerView.Adapter<FilmViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
-       holder.bind(dataList[position])
-        holder.itemView.setOnClickListener{
+        holder.bind(dataList[position])
+        holder.itemView.setOnClickListener {
             onItemClickCallback?.onItemClicked(dataList[position])
         }
     }

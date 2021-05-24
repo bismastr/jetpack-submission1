@@ -5,26 +5,27 @@ import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
 import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
 import com.example.jetpack_submission1.data.local.entity.TvDiscoverEntity
 import com.example.jetpack_submission1.data.local.filmRoom.Dao
-import com.example.jetpack_submission1.domain.model.MovieDetail
 import kotlinx.coroutines.flow.Flow
 
-class LocalDataSource private constructor(private val filmDao: Dao){
+class LocalDataSource constructor(private val filmDao: Dao) {
     companion object {
         private var instance: LocalDataSource? = null
 
         fun getInstance(filmDao: Dao): LocalDataSource =
-            instance ?: synchronized(this){
+            instance ?: synchronized(this) {
                 instance ?: LocalDataSource(filmDao)
             }
     }
 
     fun getAllMovieDiscover(): Flow<List<MovieDiscoverEntity>> = filmDao.getAllMovieDiscover()
 
-    suspend fun insertMovieDiscover(filmList: List<MovieDiscoverEntity>) = filmDao.insertMovieDiscover(filmList)
+    suspend fun insertMovieDiscover(filmList: List<MovieDiscoverEntity>) =
+        filmDao.insertMovieDiscover(filmList)
 
     fun getAllMovieTrending(): Flow<List<MovieDiscoverEntity>> = filmDao.getAllMovieTrending()
 
-    suspend fun insertMovieTrending(filmList: List<MovieDiscoverEntity>) = filmDao.insertMovieTrending(filmList)
+    suspend fun insertMovieTrending(filmList: List<MovieDiscoverEntity>) =
+        filmDao.insertMovieTrending(filmList)
 
     //tv
     fun getAllTvDiscover(): Flow<List<TvDiscoverEntity>> = filmDao.getAllTvDiscover()
@@ -38,10 +39,26 @@ class LocalDataSource private constructor(private val filmDao: Dao){
     //detail
     fun getMovieDetail(movieId: String): Flow<MovieDetailEntity> = filmDao.getMovieDetail(movieId)
 
-    suspend fun insertMovieDetail(movieDetail: MovieDetailEntity) = filmDao.insertMovieDetail(movieDetail)
+    suspend fun insertMovieDetail(movieDetail: MovieDetailEntity) =
+        filmDao.insertMovieDetail(movieDetail)
 
     //tvDetail
     fun getTvDetail(tvId: String): Flow<TvDetailEntity> = filmDao.getTvDetail(tvId)
 
     suspend fun insertTvDetail(tvDetail: TvDetailEntity) = filmDao.insertTvDetail(tvDetail)
+
+    //favorite
+    fun getMovieFavorite(): Flow<List<MovieDetailEntity>> = filmDao.getMovieFavorite()
+
+    fun getTvFavorite(): Flow<List<TvDetailEntity>> = filmDao.getTvFavorite()
+
+    fun setMovieFavorite(film: MovieDetailEntity, state: Boolean) {
+        film.isFavorite = state
+        filmDao.updateMovieFavorite(film)
+    }
+
+    fun setTvFavorite(film: TvDetailEntity, state: Boolean) {
+        film.isFavorite = state
+        filmDao.updateTvFavorite(film)
+    }
 }

@@ -4,21 +4,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.jetpack_submission1.data.Resource
 import com.example.jetpack_submission1.data.local.entity.FavoriteEntity
-import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
 import com.example.jetpack_submission1.databinding.ActivityDetailBinding
 import com.example.jetpack_submission1.domain.model.MovieDetail
 import com.example.jetpack_submission1.domain.model.MovieDiscover
 import com.example.jetpack_submission1.domain.model.TvDetail
 import com.example.jetpack_submission1.utils.IdlingResources
-import com.example.jetpack_submission1.viewmodel.ViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailActivity : AppCompatActivity() {
 
@@ -31,22 +25,22 @@ class DetailActivity : AppCompatActivity() {
     //from tv or movie
     private var from: Int = 0
 
-    private lateinit var tvViewModel: DetailViewModel
+    private val tvViewModel: DetailViewModel by viewModel()
 
     private lateinit var id: String
     private lateinit var binding: ActivityDetailBinding
 
-    //favorite
-    private lateinit var favoriteEntity: FavoriteEntity
-    private var _isChecked = false
+//    //favorite
+//    private lateinit var favoriteEntity: FavoriteEntity
+//    private var _isChecked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //ViewModel
-        val factory = ViewModelFactory.getInstance(this)
-        tvViewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
+//        val factory = ViewModelFactory.getInstance(this)
+//        tvViewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
         val isFromFavo = intent.getBooleanExtra(EXTRA_FAVO, false)
 
         if (isFromFavo) {
@@ -61,6 +55,7 @@ class DetailActivity : AppCompatActivity() {
             getMovieData(id)
         }
 
+
     }
 
     private fun getIntentDataFavo() {
@@ -70,73 +65,54 @@ class DetailActivity : AppCompatActivity() {
         id = dataIntent.id.toString()
     }
 
-    private fun favoriteButton(id: Int) {
-        CoroutineScope(Dispatchers.IO).launch {
-            _isChecked = tvViewModel.isChecked(id)
-            Log.d("TAG", _isChecked.toString())
-            withContext(Dispatchers.Main) {
-                binding.btnFavorite.isChecked = _isChecked
-            }
-        }
-
-        binding.btnFavorite.setOnClickListener {
-            _isChecked = !_isChecked
-            if (_isChecked) {
-                tvViewModel.insert(favoriteEntity)
-            } else {
-                tvViewModel.delete(favoriteEntity)
-            }
-            binding.btnFavorite.isChecked = _isChecked
-        }
+    private fun setFavorite(state: Boolean) {
+        binding.btnFavorite.isChecked = state
     }
 
     //MovieDetail
     private fun setMovieData(detail: MovieDetail) {
 
-            binding.tvOverviewTv.text = detail.overview
-            binding.tvTitleTv.text = detail.title
-            binding.tvRatingTv.text = detail.rating.toString()
-            binding.ratingbarTv.rating = (detail.rating / 2).toFloat()
-            binding.cvEpisode.visibility = View.GONE
-            binding.cvSeason.visibility = View.GONE
-            Glide.with(this)
-                .load("https://image.tmdb.org/t/p/w500" + detail.poster)
-                .into(binding.imgPosterTv)
-            showDetailLoading(false)
-            IdlingResources.decrement()
+        binding.tvOverviewTv.text = detail.overview
+        binding.tvTitleTv.text = detail.title
+        binding.tvRatingTv.text = detail.rating.toString()
+        binding.ratingbarTv.rating = (detail.rating / 2).toFloat()
+        binding.cvEpisode.visibility = View.GONE
+        binding.cvSeason.visibility = View.GONE
+        Glide.with(this)
+            .load("https://image.tmdb.org/t/p/w500" + detail.poster)
+            .into(binding.imgPosterTv)
+        showDetailLoading(false)
+        IdlingResources.decrement()
 
-            favoriteEntity = FavoriteEntity(
-                id = detail.id,
-                poster = detail.poster,
-                title = detail.title,
-                rating = detail.rating,
-                from = from,
-            )
-
-            favoriteButton(detail.id)
-
+        var stateFavorite = detail.isFavorite
+        Log.d("STATEFAVO", stateFavorite.toString())
+        setFavorite(stateFavorite)
+        binding.btnFavorite.setOnClickListener {
+            stateFavorite = !stateFavorite
+            tvViewModel.setMovieFavorite(detail, stateFavorite)
+            Log.d("STATEFAVO", stateFavorite.toString())
+        }
 
     }
 
     private fun getMovieData(movieId: String) {
-       tvViewModel.getMovieDetail(movieId).observe(this, {Detail ->
-           if (Detail != null){
-               when(Detail){
-                   is Resource.Loading -> showDetailLoading(true)
-                   is Resource.Success -> {
-                       showDetailLoading(false)
-                       Detail.data?.let { setMovieData(it) }
-                   }
-                   is Resource.Error -> Log.d("TAG", "GetMovieDetailError")
-               }
-           }
-       })
+        tvViewModel.getMovieDetail(movieId).observe(this, { Detail ->
+            if (Detail != null) {
+                when (Detail) {
+                    is Resource.Loading -> showDetailLoading(true)
+                    is Resource.Success -> {
+                        showDetailLoading(false)
+                        Detail.data?.let { setMovieData(it) }
+                    }
+                    is Resource.Error -> Log.d("TAG", "GetMovieDetailError")
+                }
+            }
+        })
 
     }
 
     //TvDetail
     private fun setData(detail: TvDetail) {
-        IdlingResources.increment()
         binding.tvOverviewTv.text = detail.overview
         binding.tvTitleTv.text = detail.title
         binding.tvEpisode.text = detail.numberEpisode.toString()
@@ -149,22 +125,23 @@ class DetailActivity : AppCompatActivity() {
         showDetailLoading(false)
         IdlingResources.decrement()
 
-        favoriteEntity = FavoriteEntity(
-            id = detail.id,
-            poster = detail.poster,
-            title = detail.title,
-            rating = detail.rating,
-            from = from,
-        )
+        var stateFavorite = detail.isFavorite
+        Log.d("STATEFAVO", stateFavorite.toString())
+        setFavorite(stateFavorite)
+        binding.btnFavorite.setOnClickListener {
+            stateFavorite = !stateFavorite
+            tvViewModel.setTvFavorite(detail, stateFavorite)
+            setFavorite(stateFavorite)
+            Log.d("STATEFAVO", stateFavorite.toString())
+        }
 
-        favoriteButton(detail.id)
     }
 
     private fun getData() {
         showDetailLoading(true)
         tvViewModel.getTvDetail(id).observe(this) { DetailData ->
             if (DetailData != null) {
-                when(DetailData){
+                when (DetailData) {
                     is Resource.Loading -> showDetailLoading(true)
                     is Resource.Success -> {
                         showDetailLoading(false)

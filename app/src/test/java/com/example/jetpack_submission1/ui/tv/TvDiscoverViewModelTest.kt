@@ -24,6 +24,7 @@ class TvDiscoverViewModelTest {
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
+
     @Mock
     private lateinit var repository: Repository
 
@@ -31,9 +32,10 @@ class TvDiscoverViewModelTest {
     private lateinit var observer: Observer<List<MovieDiscoverEntity>>
 
     @Before
-    fun setUp(){
+    fun setUp() {
         viewModel = TvViewModel(repository)
     }
+
     @Test
     fun getDiscover() {
         val dummyData = DummyData.generateDummyMovie()
@@ -44,7 +46,7 @@ class TvDiscoverViewModelTest {
         val dataEntities = viewModel.getTvDiscover().value
         verify(repository).getTvDiscover()
         assertNotNull(dataEntities)
-        assertEquals(5, dataEntities?.size)
+        assertEquals(5, dataEntities.size)
 
         viewModel.getTvDiscover().observeForever(observer)
         verify(observer).onChanged(dummyData)

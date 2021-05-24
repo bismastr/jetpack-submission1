@@ -65,19 +65,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:riv_corner_radius="20dp" />
 
-                <TextView
-                    android:id="@+id/tv_title_tv"
-                    style="@style/TextContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="@string/dummy_title"
-                    android:textAlignment="center"
-                    android:textSize="30sp" />
-
+            <TextView
+                android:id="@+id/tv_title_tv"
+                style="@style/TextContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/dummy_title"
+                android:textAlignment="center"
+                android:textSize="30sp" />
 
 
             <TextView

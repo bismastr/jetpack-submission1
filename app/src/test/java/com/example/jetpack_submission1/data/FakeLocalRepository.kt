@@ -4,12 +4,12 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.example.jetpack_submission1.data.local.favoriteRoom.FilmDao
 import com.example.jetpack_submission1.data.local.entity.FavoriteEntity
+import com.example.jetpack_submission1.data.local.favoriteRoom.FilmDao
 
 class FakeLocalRepository(private val mFilmDao: FilmDao) {
 
-    fun getAllMovie(from: Int): LiveData<PagedList<FavoriteEntity>>{
+    fun getAllMovie(from: Int): LiveData<PagedList<FavoriteEntity>> {
         return LivePagedListBuilder(mFilmDao.getFavorite(from), 20).build()
     }
 

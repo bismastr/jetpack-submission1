@@ -4,11 +4,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.jetpack_submission1.data.Repository
-import com.example.jetpack_submission1.data.local.favoriteRoom.FilmDao
-import com.example.jetpack_submission1.data.local.LocalRepository
 import com.example.jetpack_submission1.data.local.entity.FavoriteEntity
 import com.example.jetpack_submission1.data.local.entity.MovieDetailEntity
 import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
+import com.example.jetpack_submission1.data.local.favoriteRoom.FilmDao
 import com.example.jetpack_submission1.utils.DummyData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -32,12 +31,12 @@ class DetailViewModelTest {
     private lateinit var detailViewModel: DetailViewModel
     private val testCoroutineDispatcher = TestCoroutineDispatcher()
     private val mDao = Mockito.mock(FilmDao::class.java)
+
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Mock
     private lateinit var repository: Repository
-
 
 
     @Mock

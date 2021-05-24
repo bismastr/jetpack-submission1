@@ -1,10 +1,6 @@
 package com.example.jetpack_submission1.domain.usecase
 
-import androidx.lifecycle.LiveData
 import com.example.jetpack_submission1.data.Resource
-import com.example.jetpack_submission1.data.local.entity.MovieDetailEntity
-import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
-import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
 import com.example.jetpack_submission1.domain.model.MovieDetail
 import com.example.jetpack_submission1.domain.model.MovieDiscover
 import com.example.jetpack_submission1.domain.model.TvDetail
@@ -22,4 +18,12 @@ interface FilmUseCase {
     fun getMovieDetail(movieId: String): Flow<Resource<MovieDetail>>
 
     fun getTvDetail(tvId: String): Flow<Resource<TvDetail>>
+
+    fun getMovieFavorite(): Flow<List<MovieDiscover>>
+
+    fun getTvFavorite(): Flow<List<MovieDiscover>>
+
+    fun setMovieFavorite(film: MovieDetail, state: Boolean)
+
+    fun setTvFavorite(film: TvDetail, state: Boolean)
 }

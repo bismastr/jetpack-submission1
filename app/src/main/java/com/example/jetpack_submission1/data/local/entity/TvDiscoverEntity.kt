@@ -23,6 +23,9 @@ data class TvDiscoverEntity(
     var rating: Double,
 
     @ColumnInfo(name = "trending")
-    var isTrending: Boolean = false
+    var isTrending: Boolean = false,
 
-) : Parcelable
+    @ColumnInfo(name = "isFavorite")
+    var isFavorite: Boolean = false,
+
+    ) : Parcelable

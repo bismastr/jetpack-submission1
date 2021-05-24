@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -17,7 +16,7 @@ import com.example.jetpack_submission1.data.Resource
 import com.example.jetpack_submission1.databinding.FragmentTvshowBinding
 import com.example.jetpack_submission1.domain.model.MovieDiscover
 import com.example.jetpack_submission1.ui.detail.DetailActivity
-import com.example.jetpack_submission1.viewmodel.ViewModelFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TvShowFragment : Fragment() {
     private var _binding: FragmentTvshowBinding? = null
@@ -25,7 +24,7 @@ class TvShowFragment : Fragment() {
 
 
     //viewModel
-    private lateinit var tvViewModel: TvViewModel
+    private val tvViewModel: TvViewModel by viewModel()
 
     //adapter
     private lateinit var adapterDiscover: TvDiscoverAdapter
@@ -37,12 +36,7 @@ class TvShowFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTvshowBinding.inflate(inflater, container, false)
-        val view = binding.root
-        //New ViewModel
-        val factory = ViewModelFactory.getInstance(requireActivity())
-        tvViewModel = ViewModelProvider(this, factory)[TvViewModel::class.java]
-
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

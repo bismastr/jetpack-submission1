@@ -8,31 +8,17 @@ import com.example.jetpack_submission1.domain.model.MovieDetail
 import com.example.jetpack_submission1.domain.model.MovieDiscover
 import com.example.jetpack_submission1.domain.model.TvDetail
 import com.example.jetpack_submission1.domain.repository.IFilmRepository
+import com.example.jetpack_submission1.utils.AppExecutors
 import com.example.jetpack_submission1.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 
-class Repository private constructor(
+class Repository constructor(
     private val remoteDataSource: RemoteDataSource,
-    private val localDataSource: LocalDataSource
-) :
-    IFilmRepository {
-
-    companion object {
-        @Volatile
-        private var instance: Repository? = null
-
-        fun getInstance(
-            remoteDataSource: RemoteDataSource,
-            localDataSource: LocalDataSource
-        ): Repository =
-            instance ?: synchronized(this) {
-                instance ?: Repository(remoteDataSource, localDataSource).apply { instance = this }
-            }
-
-
-    }
+    private val localDataSource: LocalDataSource,
+    private val appExecutors: AppExecutors
+) : IFilmRepository {
 
     //MovieDiscover
     override fun getMovieDiscover(): Flow<Resource<List<MovieDiscover>>> =
@@ -131,9 +117,9 @@ class Repository private constructor(
         }.asFlow()
 
     override fun getMovieDetail(movieId: String): Flow<Resource<MovieDetail>> =
-        object : NetworkBoundResource<MovieDetail, DetailMovieResponse?>() {
+        object : NetworkBoundResource<MovieDetail, DetailMovieResponse>() {
             override fun loadFromDB(): Flow<MovieDetail> {
-                return localDataSource.getMovieDetail(movieId).map{
+                return localDataSource.getMovieDetail(movieId).map {
                     DataMapper.movieDetailEntitiesToDomain(it)
                 }
             }
@@ -146,7 +132,7 @@ class Repository private constructor(
                 return remoteDataSource.getDetailMovie(movieId)
             }
 
-            override suspend fun saveCallResult(data: DetailMovieResponse?) {
+            override suspend fun saveCallResult(data: DetailMovieResponse) {
                 val detail = DataMapper.movieDetailResponseToEntities(data)
                 localDataSource.insertMovieDetail(detail)
             }
@@ -154,7 +140,7 @@ class Repository private constructor(
         }.asFlow()
 
     override fun getTvDetail(tvId: String): Flow<Resource<TvDetail>> =
-        object : NetworkBoundResource<TvDetail, DetailTvResponse?>(){
+        object : NetworkBoundResource<TvDetail, DetailTvResponse>() {
             override fun loadFromDB(): Flow<TvDetail> {
                 return localDataSource.getTvDetail(tvId).map {
                     DataMapper.tvDetailEntitiesToDomain(it)
@@ -165,16 +151,38 @@ class Repository private constructor(
                 return true
             }
 
-            override suspend fun createCall(): Flow<ApiResponse<DetailTvResponse?>> {
+            override suspend fun createCall(): Flow<ApiResponse<DetailTvResponse>> {
                 return remoteDataSource.getDetailTv(tvId)
             }
 
-            override suspend fun saveCallResult(data: DetailTvResponse?) {
+            override suspend fun saveCallResult(data: DetailTvResponse) {
                 val detail = DataMapper.tvDetailResponseToEntities(data)
                 localDataSource.insertTvDetail(detail)
             }
 
         }.asFlow()
+
+    override fun getMovieFavorite(): Flow<List<MovieDiscover>> {
+        return localDataSource.getMovieFavorite().map {
+            DataMapper.movieDetailEntitiesToDomainDiscover(it)
+        }
+    }
+
+    override fun getTvFavorite(): Flow<List<MovieDiscover>> {
+        return localDataSource.getTvFavorite().map {
+            DataMapper.tvDetailEntitiesToDomainDiscover(it)
+        }
+    }
+
+    override fun setMovieFavorite(film: MovieDetail, state: Boolean) {
+        val entity = DataMapper.movieDomainToEntities(film)
+        appExecutors.diskIO().execute { localDataSource.setMovieFavorite(entity, state) }
+    }
+
+    override fun setTvFavorite(film: TvDetail, state: Boolean) {
+        val entity = DataMapper.tvDomainToEntities(film)
+        appExecutors.diskIO().execute { localDataSource.setTvFavorite(entity, state) }
+    }
 
 
 }

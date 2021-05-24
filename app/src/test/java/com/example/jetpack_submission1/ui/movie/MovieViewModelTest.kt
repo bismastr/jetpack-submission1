@@ -32,12 +32,12 @@ class MovieViewModelTest {
     private lateinit var observer: Observer<List<MovieDiscoverEntity>>
 
     @Before
-    fun setUp(){
+    fun setUp() {
         movieViewModel = MovieViewModel(movieRepository)
     }
 
     @Test
-    fun getMovie(){
+    fun getMovie() {
         val dummyMovie = DummyData.generateDummyMovie()
         val movie = MutableLiveData<List<MovieDiscoverEntity>>()
         movie.value = dummyMovie
@@ -53,7 +53,7 @@ class MovieViewModelTest {
     }
 
     @Test
-    fun getMovieTrending(){
+    fun getMovieTrending() {
         val dummyMovie = DummyData.generateDummyMovie()
         val movie = MutableLiveData<List<MovieDiscoverEntity>>()
         movie.value = dummyMovie

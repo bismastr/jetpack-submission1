@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_favorite"
-        android:name="com.example.jetpack_submission1.ui.favorite.FavoriteFragment"
+        android:name="com.brillante.favorite.FavoriteFragment"
         android:label="Favorite"
         tools:layout="@layout/fragment_favorite" />
 </navigation>

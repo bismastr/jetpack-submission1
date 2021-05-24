@@ -31,7 +31,7 @@ class RepositoryTest {
     private val movieDetailResponse = DummyData.generateRemoteMovieDetail()
 
     @Test
-    fun getAllTrending(){
+    fun getAllTrending() {
         doAnswer { invocation ->
             (invocation.arguments[0] as RemoteDataSource.LoadTrendingCallback)
                 .onAllTrendingReceived(trendingResponse)
@@ -46,24 +46,24 @@ class RepositoryTest {
         assertEquals(trendingResponse.size.toLong(), trendingEntities.size.toLong())
     }
 
-   @Test
-   fun getMovieDiscover(){
-       doAnswer { invocation ->
-           (invocation.arguments[0] as RemoteDataSource.LoadMovieCallback)
-               .onAllMovieReceived(movieDiscoverResponse)
-           null
-       }.`when`(remote).getDiscoverMovie(any())
+    @Test
+    fun getMovieDiscover() {
+        doAnswer { invocation ->
+            (invocation.arguments[0] as RemoteDataSource.LoadMovieCallback)
+                .onAllMovieReceived(movieDiscoverResponse)
+            null
+        }.`when`(remote).getDiscoverMovie(any())
 
-       val movieDiscoverEntities = LiveDataTestUtil.getValue(repository.getMovieDiscover())
+        val movieDiscoverEntities = LiveDataTestUtil.getValue(repository.getMovieDiscover())
 
-       verify(remote).getDiscoverMovie(any())
+        verify(remote).getDiscoverMovie(any())
 
-       assertNotNull(movieDiscoverEntities)
-       assertEquals(movieDiscoverResponse.size.toLong(), movieDiscoverEntities.size.toLong())
-   }
+        assertNotNull(movieDiscoverEntities)
+        assertEquals(movieDiscoverResponse.size.toLong(), movieDiscoverEntities.size.toLong())
+    }
 
     @Test
-    fun getMovieDetail(){
+    fun getMovieDetail() {
         doAnswer { invocation ->
             (invocation.arguments[0] as RemoteDataSource.LoadDetailCallback)
                 .onAllDetailReceived(movieDetailResponse)
@@ -78,7 +78,7 @@ class RepositoryTest {
     }
 
     @Test
-    fun getTvDiscover(){
+    fun getTvDiscover() {
         doAnswer { invocation ->
             (invocation.arguments[0] as RemoteDataSource.LoadTvCallback)
                 .onAllTvReceived(tvDiscoverResponse)
@@ -94,7 +94,7 @@ class RepositoryTest {
     }
 
     @Test
-    fun getTvDetail(){
+    fun getTvDetail() {
         doAnswer { invocation ->
             (invocation.arguments[0] as RemoteDataSource.LoadDetailTvCallback)
                 .onAllDetailTvReceived(tvDetailResponse)
@@ -107,12 +107,6 @@ class RepositoryTest {
 
         assertNotNull(tvDetailEntities)
     }
-
-
-
-
-
-
 
 
 }

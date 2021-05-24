@@ -9,7 +9,7 @@ import com.example.jetpack_submission1.data.remote.RemoteDataSource
 import com.example.jetpack_submission1.data.remote.respone.*
 import com.example.jetpack_submission1.domain.repository.IFilmRepository
 
-class FakeRepository (private val remoteDataSource: RemoteDataSource) :
+class FakeRepository(private val remoteDataSource: RemoteDataSource) :
     IFilmRepository {
 
     //Discover
@@ -37,10 +37,10 @@ class FakeRepository (private val remoteDataSource: RemoteDataSource) :
 
     override fun getTvDiscover(): LiveData<List<MovieDiscoverEntity>> {
         val tvResult = MutableLiveData<List<MovieDiscoverEntity>>()
-        remoteDataSource.getDiscoverTv(object : RemoteDataSource.LoadTvCallback{
+        remoteDataSource.getDiscoverTv(object : RemoteDataSource.LoadTvCallback {
             override fun onAllTvReceived(response: List<TvResultsItem>) {
                 val tvList = ArrayList<MovieDiscoverEntity>()
-                for(i in response){
+                for (i in response) {
                     val tv = MovieDiscoverEntity(
                         i.id,
                         i.posterPath,
@@ -58,11 +58,11 @@ class FakeRepository (private val remoteDataSource: RemoteDataSource) :
 
     override fun getTrending(mediaType: String): LiveData<List<MovieDiscoverEntity>> {
         val trendingResult = MutableLiveData<List<MovieDiscoverEntity>>()
-        remoteDataSource.getTrending(object : RemoteDataSource.LoadTrendingCallback{
+        remoteDataSource.getTrending(object : RemoteDataSource.LoadTrendingCallback {
             override fun onAllTrendingReceived(response: List<TrendingResultItems>) {
                 val tvList = ArrayList<MovieDiscoverEntity>()
-                if (mediaType == "movie"){
-                    for(i in response){
+                if (mediaType == "movie") {
+                    for (i in response) {
                         val trending = MovieDiscoverEntity(
                             i.id,
                             i.backdropPath,
@@ -72,8 +72,8 @@ class FakeRepository (private val remoteDataSource: RemoteDataSource) :
                         tvList.add(trending)
                     }
                     trendingResult.postValue(tvList)
-                } else if (mediaType == "tv"){
-                    for(i in response){
+                } else if (mediaType == "tv") {
+                    for (i in response) {
                         val trending = MovieDiscoverEntity(
                             i.id,
                             i.backdropPath,
@@ -95,10 +95,10 @@ class FakeRepository (private val remoteDataSource: RemoteDataSource) :
 
     override fun getMovieDetail(movieId: String): LiveData<MovieDetailEntity> {
         val detailResult = MutableLiveData<MovieDetailEntity>()
-        remoteDataSource.getDetailMovie(object : RemoteDataSource.LoadDetailCallback{
+        remoteDataSource.getDetailMovie(object : RemoteDataSource.LoadDetailCallback {
             override fun onAllDetailReceived(response: DetailMovieResponse?) {
                 val detail = MovieDetailEntity()
-                if (response !== null){
+                if (response !== null) {
                     detail.id = response.id
                     detail.overview = response.overview
                     detail.poster = response.posterPath
@@ -117,7 +117,7 @@ class FakeRepository (private val remoteDataSource: RemoteDataSource) :
         remoteDataSource.getDetailTv(object : RemoteDataSource.LoadDetailTvCallback {
             override fun onAllDetailTvReceived(response: DetailTvResponse?) {
                 val detail = TvDetailEntity()
-                if (response !== null){
+                if (response !== null) {
                     detail.id = response.id
                     detail.numberEpisdoe = response.numberOfEpisodes
                     detail.numberSeasons = response.numberOfSeasons

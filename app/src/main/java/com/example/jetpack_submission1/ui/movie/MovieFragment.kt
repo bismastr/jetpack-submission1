@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -17,14 +16,14 @@ import com.example.jetpack_submission1.data.Resource
 import com.example.jetpack_submission1.databinding.FragmentMovieBinding
 import com.example.jetpack_submission1.domain.model.MovieDiscover
 import com.example.jetpack_submission1.ui.detail.DetailActivity
-import com.example.jetpack_submission1.viewmodel.ViewModelFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MovieFragment : Fragment() {
     private var _binding: FragmentMovieBinding? = null
     private val binding get() = _binding as FragmentMovieBinding
 
     //viewModel
-    private lateinit var movieViewModel: MovieViewModel
+    private val movieViewModel: MovieViewModel by viewModel()
 
     //adapter
     private lateinit var adapterDiscover: FilmAdapter
@@ -35,12 +34,8 @@ class MovieFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMovieBinding.inflate(inflater, container, false)
-        val view = binding.root
-        //Viewmodel
-        val factory = ViewModelFactory.getInstance(requireActivity())
-        movieViewModel = ViewModelProvider(this, factory)[MovieViewModel::class.java]
 
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,12 +64,6 @@ class MovieFragment : Fragment() {
     //onItemClick
     private fun onItemClick() {
         adapterDiscover.setOnItemCLickCallback(object : FilmAdapter.OnItemClickCallback {
-//            override fun onItemClicked(data: MovieDiscoverEntity) {
-//                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
-//                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
-//                intentDetailActivity.putExtra(DetailActivity.EXTRA_FROM, 0)
-//                startActivity(intentDetailActivity)
-//            }
 
             override fun onItemClicked(data: MovieDiscover) {
                 val intentDetailActivity = Intent(activity, DetailActivity::class.java)
@@ -91,21 +80,14 @@ class MovieFragment : Fragment() {
                 intentDetailActivity.putExtra(DetailActivity.EXTRA_FROM, 0)
                 startActivity(intentDetailActivity)
             }
-//            override fun onItemClick(data: MovieDiscoverEntity) {
-//                val intentDetailActivity = Intent(activity, DetailActivity::class.java)
-//                intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)
-//                intentDetailActivity.putExtra(DetailActivity.EXTRA_FROM, 0)
-//                startActivity(intentDetailActivity)
-//            }
-
         })
     }
 
     //getData
     private fun getData() {
         movieViewModel.movieDiscover.observe(viewLifecycleOwner, { MovieList ->
-            if (MovieList != null){
-                when(MovieList){
+            if (MovieList != null) {
+                when (MovieList) {
                     is Resource.Loading -> showDiscoverLoading(true)
                     is Resource.Success -> {
                         showDiscoverLoading(false)
@@ -121,8 +103,8 @@ class MovieFragment : Fragment() {
     //getDataTrending
     private fun getDataTrending() {
         movieViewModel.movieTrending.observe(viewLifecycleOwner, { TrendingList ->
-            if (TrendingList != null){
-                when(TrendingList){
+            if (TrendingList != null) {
+                when (TrendingList) {
                     is Resource.Loading -> showTrendingLoading(true)
                     is Resource.Success -> {
                         showTrendingLoading(false)

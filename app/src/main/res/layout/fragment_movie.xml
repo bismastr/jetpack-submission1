@@ -83,7 +83,10 @@
             android:fontFamily="@font/roboto_light"
             android:text="@string/discover_sub_movie"
             android:textColor="#A3FFFFFF" />
-
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmerDiscoverMovie"
             android:layout_width="wrap_content"

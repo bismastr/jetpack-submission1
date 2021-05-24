@@ -8,23 +8,26 @@ import androidx.room.PrimaryKey
 data class TvDetailEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    var id: Int = 0,
+    var id: Int,
 
     @ColumnInfo(name = "title")
-    var title: String? = null,
+    var title: String,
 
     @ColumnInfo(name = "numEpisode")
-    var numberEpisdoe: Int = 0,
+    var numberEpisdoe: Int,
 
     @ColumnInfo(name = "numSeasons")
-    var numberSeasons: Int = 0,
+    var numberSeasons: Int,
 
     @ColumnInfo(name = "poster")
-    var poster: String? = null,
+    var poster: String,
 
     @ColumnInfo(name = "overview")
-    var overview: String? = null,
+    var overview: String,
 
     @ColumnInfo(name = "rating")
-    var rating: Double = 0.0
+    var rating: Double,
+
+    @ColumnInfo(name = "isFavorite")
+    var isFavorite: Boolean = false
 )

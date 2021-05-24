@@ -10,6 +10,26 @@ import com.example.jetpack_submission1.domain.model.MovieDiscover
 import com.example.jetpack_submission1.domain.model.TvDetail
 
 object DataMapper {
+    fun movieDomainToEntities(input: MovieDetail) =
+        MovieDetailEntity(
+            id = input.id,
+            poster = input.poster,
+            title = input.title,
+            rating = input.rating,
+            overview = input.overview,
+            release_date = input.release_date
+        )
+
+    fun tvDomainToEntities(input: TvDetail) = TvDetailEntity(
+        id = input.id,
+        poster = input.poster,
+        title = input.title,
+        rating = input.rating,
+        numberEpisdoe = input.numberEpisode,
+        numberSeasons = input.numberSeasons,
+        overview = input.overview
+    )
+
     fun movieResponseToEntities(input: List<MovieResultsItem>): List<MovieDiscoverEntity> {
         val filmList = ArrayList<MovieDiscoverEntity>()
         input.map {
@@ -18,7 +38,7 @@ object DataMapper {
                 poster = it.posterPath,
                 title = it.title,
                 rating = it.voteAverage,
-                isTrending = false
+                isTrending = false,
             )
             filmList.add(movie)
         }
@@ -36,6 +56,35 @@ object DataMapper {
                 isTrending = it.isTrending
             )
             filmList.add(movie)
+        }
+        return filmList
+    }
+
+    fun movieDetailEntitiesToDomainDiscover(input: List<MovieDetailEntity>): List<MovieDiscover> {
+        val filmList = ArrayList<MovieDiscover>()
+
+        input.map {
+            val film = MovieDiscover(
+                id = it.id,
+                poster = it.poster,
+                title = it.title,
+                rating = it.rating
+            )
+            filmList.add(film)
+        }
+        return filmList
+    }
+
+    fun tvDetailEntitiesToDomainDiscover(input: List<TvDetailEntity>): List<MovieDiscover> {
+        val filmList = ArrayList<MovieDiscover>()
+        input.map {
+            val film = MovieDiscover(
+                id = it.id,
+                poster = it.poster,
+                title = it.title,
+                rating = it.rating
+            )
+            filmList.add(film)
         }
         return filmList
     }
@@ -106,18 +155,16 @@ object DataMapper {
         return filmList
     }
 
-    fun movieDetailResponseToEntities(input: DetailMovieResponse?): MovieDetailEntity {
-        if (input != null) {
-            return MovieDetailEntity(
-                id = input.id,
-                poster = input.posterPath,
-                title = input.title,
-                rating = input.voteAverage,
-                overview = input.overview,
-                release_date = input.releaseDate,
-                )
-        }
-        return MovieDetailEntity()
+    fun movieDetailResponseToEntities(input: DetailMovieResponse): MovieDetailEntity {
+        return MovieDetailEntity(
+            id = input.id,
+            poster = input.posterPath,
+            title = input.title,
+            rating = input.voteAverage,
+            overview = input.overview,
+            release_date = input.releaseDate,
+        )
+
     }
 
     fun movieDetailEntitiesToDomain(input: MovieDetailEntity?): MovieDetail {
@@ -129,23 +176,23 @@ object DataMapper {
                 rating = input.rating,
                 overview = input.overview,
                 release_date = input.release_date,
+                isFavorite = input.isFavorite
             )
-        } else MovieDetail()
+        } else MovieDetail(0, "Poster", "Poster", "Overview", "Release Date", 0.0, false)
 
     }
 
-    fun tvDetailResponseToEntities(response: DetailTvResponse?): TvDetailEntity {
-        return if (response != null) {
-            TvDetailEntity(
-                id = response.id,
-                numberEpisdoe = response.numberOfEpisodes,
-                numberSeasons = response.numberOfSeasons,
-                overview = response.overview,
-                poster = response.posterPath,
-                rating = response.voteAverage,
-                title = response.originalName
-            )
-        } else TvDetailEntity()
+    fun tvDetailResponseToEntities(response: DetailTvResponse): TvDetailEntity {
+        return TvDetailEntity(
+            id = response.id,
+            numberEpisdoe = response.numberOfEpisodes,
+            numberSeasons = response.numberOfSeasons,
+            overview = response.overview,
+            poster = response.posterPath,
+            rating = response.voteAverage,
+            title = response.originalName,
+        )
+
     }
 
     fun tvDetailEntitiesToDomain(response: TvDetailEntity?): TvDetail {
@@ -157,8 +204,10 @@ object DataMapper {
                 overview = response.overview,
                 poster = response.poster,
                 rating = response.rating,
-                title = response.title
+                title = response.title,
+                isFavorite = response.isFavorite
             )
-        } else TvDetail()
+        } else TvDetail(0, "None", 10, 10, "Poster", "Overview", 0.0, false)
+
     }
 }

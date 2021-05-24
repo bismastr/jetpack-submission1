@@ -1,9 +1,10 @@
 package com.example.jetpack_submission1.utils
 
-import com.example.jetpack_submission1.data.local.entity.MovieDetailEntity
 import com.example.jetpack_submission1.data.local.entity.MovieDiscoverEntity
-import com.example.jetpack_submission1.data.local.entity.TvDetailEntity
-import com.example.jetpack_submission1.data.remote.respone.*
+import com.example.jetpack_submission1.data.remote.respone.DetailMovieResponse
+import com.example.jetpack_submission1.data.remote.respone.MovieResultsItem
+import com.example.jetpack_submission1.data.remote.respone.TrendingResultItems
+import com.example.jetpack_submission1.data.remote.respone.TvResultsItem
 
 object DummyData {
 
@@ -70,18 +71,18 @@ object DummyData {
 //        return detail
 //    }
 
-    fun generateTvDummyDetail(): TvDetailEntity {
-        val detail = TvDetailEntity()
-        detail.id = 0
-        detail.numberSeasons = 10
-        detail.numberEpisdoe = 10
-        detail.title = "Movie Title"
-        detail.rating = 8.4
-        detail.poster = "poster Link"
-        detail.overview = "Overview"
-
-        return detail
-    }
+//    fun generateTvDummyDetail(): TvDetailEntity {
+//        val detail = TvDetailEntity()
+//        detail.id = 0
+//        detail.numberSeasons = 10
+//        detail.numberEpisdoe = 10
+//        detail.title = "Movie Title"
+//        detail.rating = 8.4
+//        detail.poster = "poster Link"
+//        detail.overview = "Overview"
+//
+//        return detail
+//    }
 
     fun generateRemoteTvDiscover(): ArrayList<TvResultsItem> {
         val resultItems = TvResultsItem(
@@ -160,42 +161,42 @@ object DummyData {
 
     }
 
-    fun generateRemoteTvDetail(): DetailTvResponse {
-        return DetailTvResponse(
-            "original_language",
-            10,
-            null,
-            "type",
-            "backdrop_path",
-            null,
-            100.100,
-            null,
-            0,
-            10,
-            1000,
-            "first_air_date",
-            "overview",
-            null,
-            null,
-            null,
-            null,
-            "poster_path",
-            null,
-            null,
-            null,
-            "original_name",
-            8.4,
-            "name",
-            "tagline",
-            null,
-            null,
-            false,
-            "last_air_date",
-            "homepage",
-            "status"
-
-        )
-    }
+//    fun generateRemoteTvDetail(): DetailTvResponse {
+//        return DetailTvResponse(
+//            "original_language",
+//            10,
+//            null,
+//            "type",
+//            "backdrop_path",
+//            null,
+//            100.100,
+//            null,
+//            0,
+//            10,
+//            1000,
+//            "first_air_date",
+//            "overview",
+//            null,
+//            null,
+//            null,
+//            null,
+//            "poster_path",
+//            null,
+//            null,
+//            null,
+//            "original_name",
+//            8.4,
+//            "name",
+//            "tagline",
+//            null,
+//            null,
+//            false,
+//            "last_air_date",
+//            "homepage",
+//            "status"
+//
+//        )
+//    }
 
     fun generateRemoteMovieDetail(): DetailMovieResponse {
         return DetailMovieResponse(

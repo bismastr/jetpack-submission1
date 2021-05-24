@@ -1,4 +1,4 @@
-package com.example.jetpack_submission1.ui.favorite
+package com.brillante.favorite
 
 import android.os.Bundle
 import android.view.LayoutInflater

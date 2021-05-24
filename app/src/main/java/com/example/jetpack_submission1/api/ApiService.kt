@@ -3,7 +3,6 @@ package com.example.jetpack_submission1.api
 
 import com.example.jetpack_submission1.BuildConfig
 import com.example.jetpack_submission1.data.remote.respone.*
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 
