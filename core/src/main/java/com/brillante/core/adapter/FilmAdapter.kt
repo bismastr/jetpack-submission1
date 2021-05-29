@@ -42,5 +42,6 @@ class FilmAdapter : RecyclerView.Adapter<com.brillante.core.adapter.viewholder.F
 
     interface OnItemClickCallback {
         fun onItemClicked(data: MovieDiscover)
+
     }
 }

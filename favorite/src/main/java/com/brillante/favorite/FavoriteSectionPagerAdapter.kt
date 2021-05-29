@@ -1,4 +1,4 @@
-package com.example.jetpack_submission1.ui.favorite
+package com.brillante.favorite
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -12,11 +12,11 @@ class FavoriteSectionPagerAdapter(fragment: FragmentManager, lifecycle: Lifecycl
     }
 
     override fun createFragment(position: Int): Fragment {
-        var fragment: Fragment? = null
-        when (position) {
-            0 -> fragment = MovieFavoriteFragment()
-            1 -> fragment = TvFavoriteFragment()
+       return when (position) {
+            0 -> MovieFavoriteFragment()
+            1 -> TvFavoriteFragment()
+            else -> Fragment()
         }
-        return fragment as Fragment
+
     }
 }

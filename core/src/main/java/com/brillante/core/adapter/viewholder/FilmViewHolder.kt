@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 
 class FilmViewHolder(private val binding: ItemMovieBinding) :
     RecyclerView.ViewHolder(binding.root) {
+
     fun bind(element: MovieDiscover) {
         binding.tvTitle.text = element.title
         binding.ratingMovie.rating = ((element.rating / 2).toFloat())

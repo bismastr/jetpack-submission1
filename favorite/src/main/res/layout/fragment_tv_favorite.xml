@@ -4,15 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.jetpack_submission1.ui.favorite.MovieFavoriteFragment">
+    tools:context="com.example.jetpack_submission1.com.brillante.favorite.TvFavoriteFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_movie_favorite"
+        android:id="@+id/rv_tv_favorite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         tools:listitem="@layout/item_movie" />
-
 
 </FrameLayout>

@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <!--Trending-->
-
         <TextView
             android:id="@+id/tv_whats_trending"
             style="@style/TextContent"
@@ -22,7 +21,6 @@
             android:layout_marginTop="24dp"
             android:fontFamily="@font/roboto_bold"
             android:text="@string/what_s_trending" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,7 +30,15 @@
             android:fontFamily="@font/roboto_light"
             android:text="@string/trending_sub_movie"
             android:textColor="#A3FFFFFF" />
-
+<!--        Trending Error-->
+        <ImageView
+            android:id="@+id/img_trending_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_error"
+            android:visibility="gone"
+            android:contentDescription="@string/error" />
+<!--        Trending Shimmer-->
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmerTrendingMovie"
             android:layout_width="wrap_content"
@@ -55,7 +61,7 @@
             </LinearLayout>
 
         </com.facebook.shimmer.ShimmerFrameLayout>
-
+<!--        Trending Rv-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_trending_movie"
             android:layout_width="match_parent"
@@ -83,10 +89,15 @@
             android:fontFamily="@font/roboto_light"
             android:text="@string/discover_sub_movie"
             android:textColor="#A3FFFFFF" />
+<!--        Discover Error-->
         <ImageView
+            android:id="@+id/img_discover_error"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_error"
+            android:visibility="gone"
+            android:contentDescription="@string/error" />
+<!--        Discover Shimmer-->
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmerDiscoverMovie"
             android:layout_width="wrap_content"
@@ -105,7 +116,7 @@
                 <include layout="@layout/item_movie" />
             </LinearLayout>
         </com.facebook.shimmer.ShimmerFrameLayout>
-
+<!--        Discover Rv-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_movie_discover"
             android:layout_width="match_parent"

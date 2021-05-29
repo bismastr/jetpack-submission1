@@ -2,7 +2,6 @@ package com.example.jetpack_submission1.ui.tvshow
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -91,7 +90,10 @@ class TvShowFragment : Fragment() {
                         val tvArrayList = TvList.data as ArrayList<MovieDiscover>
                         adapterDiscover.setData(tvArrayList)
                     }
-                    is Resource.Error -> Log.d("TAG", "Get data TvDiscover error")
+                    is Resource.Error -> {
+                        binding.shimmerDiscoverTV.visibility = View.GONE
+                        binding.imgTrendingError.visibility = View.VISIBLE
+                    }
                 }
             }
         })
@@ -108,7 +110,10 @@ class TvShowFragment : Fragment() {
                         val tvArrayList = TvTrending.data as ArrayList<MovieDiscover>
                         adapterTrending.setData(tvArrayList)
                     }
-                    is Resource.Error -> Log.d("TAG", "Get data TvTrending error")
+                    is Resource.Error -> {
+                        binding.shimmerTrendingTv.visibility = View.GONE
+                        binding.imgDiscoverError.visibility = View.VISIBLE
+                    }
                 }
             }
         })

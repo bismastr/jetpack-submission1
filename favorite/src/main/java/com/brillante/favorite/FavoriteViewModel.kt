@@ -1,4 +1,4 @@
-package com.example.jetpack_submission1.ui.favorite
+package com.brillante.favorite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData

@@ -1,4 +1,4 @@
-package com.example.jetpack_submission1.ui.favorite
+package com.brillante.favorite
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.brillante.core.adapter.FilmAdapter
 import com.brillante.core.domain.model.MovieDiscover
-import com.example.jetpack_submission1.databinding.FragmentMovieFavoriteBinding
+import com.brillante.favorite.databinding.FragmentMovieFavoriteBinding
 import com.example.jetpack_submission1.ui.detail.DetailActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -25,8 +24,6 @@ class MovieFavoriteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMovieFavoriteBinding.inflate(inflater, container, false)
-//        val factory = ViewModelFactory.getInstance(requireActivity())
-//        favoriteViewModel = ViewModelProvider(this, factory)[FavoriteViewModel::class.java]
         return binding.root
 
     }

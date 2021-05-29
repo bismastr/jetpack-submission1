@@ -32,7 +32,15 @@
             android:layout_height="wrap_content"
             android:text="@string/trending_sub_tv"
             android:textColor="#A3FFFFFF" />
-        <!--        Shimmer Effect -->
+<!--        Trending Error-->
+        <ImageView
+            android:id="@+id/img_trending_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_error"
+            android:visibility="gone"
+            android:contentDescription="@string/error" />
+        <!--        Trending Shimmer Effect -->
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmerTrendingTv"
             android:layout_width="wrap_content"
@@ -55,7 +63,7 @@
             </LinearLayout>
 
         </com.facebook.shimmer.ShimmerFrameLayout>
-
+<!--Trending Rv-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_trending_tvShow"
             android:layout_width="match_parent"
@@ -102,6 +110,14 @@
                 <include layout="@layout/item_movie" />
             </LinearLayout>
         </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <ImageView
+            android:id="@+id/img_discover_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_error"
+            android:visibility="gone"
+            android:contentDescription="@string/error" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_tv_discover"

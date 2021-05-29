@@ -2,7 +2,6 @@ package com.example.jetpack_submission1.ui.movie
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -92,7 +91,10 @@ class MovieFragment : Fragment() {
                         val movieArrayList = MovieList.data as ArrayList<MovieDiscover>
                         adapterDiscover.setData(movieArrayList)
                     }
-                    is Resource.Error -> Log.d("TAG", "Get data discover error")
+                    is Resource.Error -> {
+                        binding.shimmerDiscoverMovie.visibility = View.GONE
+                        binding.imgDiscoverError.visibility = View.VISIBLE
+                    }
                 }
             }
         })
@@ -109,7 +111,10 @@ class MovieFragment : Fragment() {
                         val trendingArrayList = TrendingList.data as ArrayList<MovieDiscover>
                         adapterTrending.setData(trendingArrayList)
                     }
-                    is Resource.Error -> Log.d("TAG", "GetTrending Error")
+                    is Resource.Error ->  {
+                        binding.shimmerTrendingMovie.visibility = View.GONE
+                        binding.imgTrendingError.visibility = View.VISIBLE
+                    }
                 }
             }
         })
