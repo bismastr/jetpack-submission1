@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.brillante.core.data.Resource
 import com.brillante.core.domain.model.MovieDiscover
+import com.example.jetpack_submission1.adapter.FilmAdapter
+import com.example.jetpack_submission1.adapter.TrendingAdapter
 import com.example.jetpack_submission1.databinding.FragmentMovieBinding
 import com.example.jetpack_submission1.ui.detail.DetailActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -23,8 +25,8 @@ class MovieFragment : Fragment() {
     private val movieViewModel: MovieViewModel by viewModel()
 
     //adapter
-    private lateinit var adapterDiscover: com.brillante.core.adapter.FilmAdapter
-    private lateinit var adapterTrending: com.brillante.core.adapter.TrendingAdapter
+    private lateinit var adapterDiscover: FilmAdapter
+    private lateinit var adapterTrending: TrendingAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,8 +46,8 @@ class MovieFragment : Fragment() {
 
     //setupRecyclerView
     private fun setupRecyclerView() {
-        adapterDiscover = com.brillante.core.adapter.FilmAdapter()
-        adapterTrending = com.brillante.core.adapter.TrendingAdapter()
+        adapterDiscover = FilmAdapter()
+        adapterTrending = TrendingAdapter()
         adapterDiscover.notifyDataSetChanged()
         binding.rvMovieDiscover.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -60,7 +62,7 @@ class MovieFragment : Fragment() {
 
     //onItemClick
     private fun onItemClick() {
-        adapterDiscover.setOnItemCLickCallback(object : com.brillante.core.adapter.FilmAdapter.OnItemClickCallback {
+        adapterDiscover.setOnItemCLickCallback(object : FilmAdapter.OnItemClickCallback {
 
             override fun onItemClicked(data: MovieDiscover) {
                 val intentDetailActivity = Intent(activity, DetailActivity::class.java)
@@ -70,7 +72,7 @@ class MovieFragment : Fragment() {
             }
 
         })
-        adapterTrending.setOnItemCLickCallback(object : com.brillante.core.adapter.TrendingAdapter.OnItemClickCallback {
+        adapterTrending.setOnItemCLickCallback(object : TrendingAdapter.OnItemClickCallback {
             override fun onItemClick(data: MovieDiscover) {
                 val intentDetailActivity = Intent(activity, DetailActivity::class.java)
                 intentDetailActivity.putExtra(DetailActivity.EXTRA_FILM, data)

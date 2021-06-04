@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.brillante.core.domain.model.MovieDiscover
 import com.brillante.favorite.databinding.FragmentTvFavoriteBinding
+import com.example.jetpack_submission1.adapter.FilmAdapter
 import com.example.jetpack_submission1.ui.detail.DetailActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -17,7 +18,7 @@ class TvFavoriteFragment : Fragment() {
     private var _binding: FragmentTvFavoriteBinding? = null
     private val binding get() = _binding as FragmentTvFavoriteBinding
 
-    private lateinit var adapter: com.brillante.core.adapter.FilmAdapter
+    private lateinit var adapter: FilmAdapter
 
     private val favoriteViewModel: FavoriteViewModel by viewModel()
 
@@ -38,7 +39,7 @@ class TvFavoriteFragment : Fragment() {
     }
 
     private fun onItemClick() {
-        adapter.setOnItemCLickCallback(object : com.brillante.core.adapter.FilmAdapter.OnItemClickCallback {
+        adapter.setOnItemCLickCallback(object : FilmAdapter.OnItemClickCallback {
 
             override fun onItemClicked(data: MovieDiscover) {
                 val intentDetailActivity = Intent(activity, DetailActivity::class.java)
@@ -63,7 +64,7 @@ class TvFavoriteFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = com.brillante.core.adapter.FilmAdapter()
+        adapter = FilmAdapter()
         binding.rvTvFavorite.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.rvTvFavorite.adapter = adapter

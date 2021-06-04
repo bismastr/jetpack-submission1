@@ -1,13 +1,14 @@
-package com.brillante.core.adapter
+package com.example.jetpack_submission1.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.brillante.core.databinding.ItemTrendingBinding
 import com.brillante.core.domain.model.MovieDiscover
+import com.example.jetpack_submission1.adapter.viewholder.TrendingViewHolder
 
-class TrendingAdapter : RecyclerView.Adapter<com.brillante.core.adapter.viewholder.TrendingViewHolder>() {
-    private var onItemClickCallback: com.brillante.core.adapter.TrendingAdapter.OnItemClickCallback? = null
+class TrendingAdapter : RecyclerView.Adapter<TrendingViewHolder>() {
+    private var onItemClickCallback: OnItemClickCallback? = null
     private val dataList = ArrayList<MovieDiscover>()
 
     fun setData(movie: ArrayList<MovieDiscover>) {
@@ -16,17 +17,17 @@ class TrendingAdapter : RecyclerView.Adapter<com.brillante.core.adapter.viewhold
         notifyDataSetChanged()
     }
 
-    fun setOnItemCLickCallback(onItemClickCallback: com.brillante.core.adapter.TrendingAdapter.OnItemClickCallback) {
+    fun setOnItemCLickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): com.brillante.core.adapter.viewholder.TrendingViewHolder {
-        return com.brillante.core.adapter.viewholder.TrendingViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingViewHolder {
+        return TrendingViewHolder(
             ItemTrendingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: com.brillante.core.adapter.viewholder.TrendingViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TrendingViewHolder, position: Int) {
         holder.bind(dataList[position])
         holder.itemView.setOnClickListener {
             onItemClickCallback?.onItemClick(dataList[position])

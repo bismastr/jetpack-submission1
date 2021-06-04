@@ -1,4 +1,4 @@
-package com.brillante.core.adapter.viewholder
+package com.example.jetpack_submission1.adapter.viewholder
 
 import androidx.recyclerview.widget.RecyclerView
 import com.brillante.core.databinding.ItemMovieBinding
