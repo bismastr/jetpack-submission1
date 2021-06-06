@@ -111,7 +111,7 @@ class MovieFragment : Fragment() {
                         val trendingArrayList = TrendingList.data as ArrayList<MovieDiscover>
                         adapterTrending.setData(trendingArrayList)
                     }
-                    is Resource.Error ->  {
+                    is Resource.Error -> {
                         binding.shimmerTrendingMovie.visibility = View.GONE
                         binding.imgTrendingError.visibility = View.VISIBLE
                     }
@@ -148,6 +148,8 @@ class MovieFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        binding.rvTrendingMovie.adapter = null
+        binding.rvMovieDiscover.adapter = null
         super.onDestroyView()
         _binding = null
     }

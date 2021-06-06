@@ -36,6 +36,7 @@ class MovieFavoriteFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        binding.rvMovieFavorite.adapter = null
         super.onDestroyView()
         _binding = null
     }

@@ -72,6 +72,7 @@ class TvFavoriteFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        binding.rvTvFavorite.adapter = null
         super.onDestroyView()
         _binding = null
     }
