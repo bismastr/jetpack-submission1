@@ -9,14 +9,7 @@ import com.brillante.core.data.local.filmRoom.Dao
 import kotlinx.coroutines.flow.Flow
 
 class LocalDataSource constructor(private val filmDao: Dao) {
-    companion object {
-        private var instance: LocalDataSource? = null
 
-        fun getInstance(filmDao: Dao): LocalDataSource =
-            instance ?: synchronized(this) {
-                instance ?: LocalDataSource(filmDao)
-            }
-    }
 
     fun getAllMovieDiscover(): Flow<List<MovieDiscoverEntity>> = filmDao.getAllMovieDiscover()
 
