@@ -43,6 +43,5 @@ class FilmAdapter : RecyclerView.Adapter<FilmViewHolder>() {
 
     interface OnItemClickCallback {
         fun onItemClicked(data: MovieDiscover)
-
     }
 }

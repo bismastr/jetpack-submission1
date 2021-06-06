@@ -18,7 +18,8 @@
             android:id="@+id/img_trending"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:contentDescription="TODO" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -47,7 +48,8 @@
                 android:layout_marginTop="4dp"
                 android:src="@drawable/ic_baseline_star_24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title_trending" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_title_trending"
+                android:contentDescription="TODO" />
 
             <TextView
                 android:id="@+id/tv_rating_trending"

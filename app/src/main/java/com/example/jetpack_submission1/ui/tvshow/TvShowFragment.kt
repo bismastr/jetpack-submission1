@@ -21,7 +21,6 @@ class TvShowFragment : Fragment() {
     private var _binding: FragmentTvshowBinding? = null
     private val binding get() = _binding as FragmentTvshowBinding
 
-
     //viewModel
     private val tvViewModel: TvViewModel by viewModel()
 
@@ -47,16 +46,15 @@ class TvShowFragment : Fragment() {
     private fun setupRecyclerView() {
         adapterDiscover = TvDiscoverAdapter()
         adapterTrending = TrendingAdapter()
-        adapterDiscover.notifyDataSetChanged()
         binding.rvTvDiscover.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.rvTrendingTvShow.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.rvTrendingTvShow.adapter = adapterTrending
         binding.rvTvDiscover.adapter = adapterDiscover
-        onItemClick()
         getDataTrending()
         getData()
+        onItemClick()
     }
 
     //onitemclick
@@ -82,7 +80,6 @@ class TvShowFragment : Fragment() {
 
     //getData
     private fun getData() {
-
         tvViewModel.tvDiscover.observe(viewLifecycleOwner, { TvList ->
             if (TvList !== null) {
                 when (TvList) {
@@ -150,7 +147,10 @@ class TvShowFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        binding.rvTrendingTvShow.adapter = null
+        binding.rvTvDiscover.adapter = null
         super.onDestroyView()
         _binding = null
+
     }
 }
